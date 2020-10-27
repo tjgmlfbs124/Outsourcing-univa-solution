@@ -1,0 +1,50 @@
+/* 질문 상태 테이블 생성*/
+CREATE TABLE IF NOT EXISTS `univa`.`question_state` (
+  `id` INT UNSIGNED NOT NULL,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+
+/* 질문 상태 테이블 내용 추가 */
+INSERT 
+	INTO question_state(`name`)
+	VALUES ("결제 대기"),("풀이 대기"),
+		("풀이중"),("답변 완료"),
+		("리뷰 완료"),("이의 제기 신청"),
+		("환불 신청"),("환불 완료");
+
+/* 관리자(직원) 테이블 생성 TODO: 임시 테이블 입니다 */
+CREATE TABLE IF NOT EXISTS `univa`.`manager` (
+  `id` INT UNSIGNED NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+
+/* 질문 테이블 생성 */
+CREATE TABLE IF NOT EXISTS `univa`.`question` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `visiable` INT UNSIGNED NOT NULL DEFAULT 1,
+  `title` VARCHAR(255) NOT NULL,
+  `nickname` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `content` TEXT NULL,
+  `upload_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `limit_date` DATETIME NULL,
+  `manager_id` INT UNSIGNED NULL,
+  `state` INT UNSIGNED NOT NULL DEFAULT 1,
+  `score` INT UNSIGNED NULL,
+  `review` TEXT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_question_manager1_idx` (`manager_id` ASC) VISIBLE,
+  INDEX `fk_question_question_state1_idx` (`state` ASC) VISIBLE,
+  CONSTRAINT `fk_question_manager1`
+    FOREIGN KEY (`manager_id`)
+    REFERENCES `univa`.`manager` (`id`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_question_question_state1`
+    FOREIGN KEY (`state`)
+    REFERENCES `univa`.`question_state` (`id`)
+    ON DELETE SET DEFAULT
+    ON UPDATE CASCADE
+ENGINE = InnoDB
