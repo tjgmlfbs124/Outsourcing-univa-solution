@@ -2,6 +2,8 @@ package com.tathink.univa.service;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,5 +31,15 @@ public class QuestionServiceTest {
 		Question findQuestion = qService.findOne(saveId).get();
 		assertThat(question.getTitle()).isEqualTo(findQuestion.getTitle());
 		// System.out.println(findQuestion.getNickname()); // 아무개 출력
+	}
+	
+	@Test
+	void 모든질문() {
+		List<Question> questions = qService.findAllQuestions();
+		System.out.println(questions.size());
+		
+		for(int i=0; i<questions.size(); i++) {
+			System.out.println(questions.get(i).getNickname() );
+		}
 	}
 }

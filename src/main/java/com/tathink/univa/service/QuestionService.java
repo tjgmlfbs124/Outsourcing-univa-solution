@@ -1,5 +1,6 @@
 package com.tathink.univa.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +24,16 @@ public class QuestionService {
 		return question.getId();
 	}
 	
+	/* id로 찾기 */
 	public Optional<Question> findOne(int id) {
 		Optional<Question> question = qRepository.findById(id);
 		return question;
 	}
+	
+	/* 모든 질문 찾기 */
+	public List<Question> findAllQuestions() {
+		return qRepository.findAll();
+	}
+	
+	
 }

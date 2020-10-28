@@ -27,6 +27,7 @@ public class QuestionRepository {
 	}
 	
 	public List<Question> findAll() {
-		return new ArrayList<Question>();
+		return em.createQuery("select m from question m", Question.class).getResultList();
+		//return new ArrayList<Question>();
 	}
 }
