@@ -21,7 +21,7 @@ public class QuestionRepository {
 		return question;
 	}
 	
-	public Optional<Question> findById(Long id) {
+	public Optional<Question> findById(int id) {
 		Question question = em.find(Question.class, id);
 		return Optional.ofNullable(question);
 	}

@@ -18,7 +18,7 @@ public class QuestionController {
 	}
 	
 	@PostMapping("/question/apply")
-	public String applyQuestion(Model model) {
+	public String QuestionApply(Model model) {
 		//qService.apply()
 		return "quenstion/list";
 	}
@@ -28,5 +28,10 @@ public class QuestionController {
 		
 		
 		return "question/list";
+	}
+	
+	@GetMapping("/test")
+	public String QuestionTest(Model model) {
+		return "redirect:/";
 	}
 }

@@ -4,19 +4,29 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+
 @Entity(name = "question")
+@DynamicInsert
 public class Question {
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(columnDefinition = "UNSGINED INT")
+	private int id;
 	
-	@Column(name = "visible", nullable = false)
-	private String visible;
+	@Column(name = "visible")
+	private int visible = 1;
 	
 	@Column(name = "title", nullable = false)
 	private String title;
@@ -27,93 +37,106 @@ public class Question {
 	@Column(name="password", nullable = false)
 	private String password;
 	
-	@Column(name = "content")
+	@Column(name = "content", columnDefinition = "TEXT")
 	private String content;
 	
-	@Column(name = "upload_date") @Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "upload_date")
 	private LocalDateTime upload_date;
 	
-	@Column(name ="limit_date") @Temporal(TemporalType.TIMESTAMP)
+	@Column(name ="limit_date")
 	private LocalDateTime limit_date;
 	
-	@Column(name = "manager_id")
-	private Long manager_id;
+	@ManyToOne(targetEntity=Manager.class, fetch=FetchType.EAGER)
+	@JoinColumn(name="manager_id")
+	private Manager manager_id;
 	
-	@Column(name = "state", nullable = false)
-	private int state;
+	@OneToOne
+	@JoinColumn(name = "state")
+	private QuestionState state;
 	
 	@Column(name = "score")
 	private int score;
 	
-	@Column(name = "review")
+	@Column(name = "review", columnDefinition = "TEXT")
 	private String review;
 	
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
-	public String getVisible() {
+	
+	public int getVisible() {
 		return visible;
 	}
-	public void setVisible(String visible) {
+	public void setVisible(int visible) {
 		this.visible = visible;
 	}
+	
 	public String getTitle() {
 		return title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
 	public String getNickname() {
 		return nickname;
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+	
 	public String getPassword() {
 		return password;
 	}
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	public String getContent() {
 		return content;
 	}
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
 	public LocalDateTime getUpload_date() {
 		return upload_date;
 	}
 	public void setUpload_date(LocalDateTime upload_date) {
 		this.upload_date = upload_date;
 	}
+	
 	public LocalDateTime getLimit_date() {
 		return limit_date;
 	}
 	public void setLimit_date(LocalDateTime limit_date) {
 		this.limit_date = limit_date;
 	}
-	public Long getManager_id() {
+	
+	public Manager getManager_id() {
 		return manager_id;
 	}
-	public void setManager_id(Long manager_id) {
+	public void setManager_id(Manager manager_id) {
 		this.manager_id = manager_id;
 	}
+	
 	public int getState() {
-		return state;
+		return state.getId();
 	}
 	public void setState(int state) {
-		this.state = state;
+		this.state.setId(state);
 	}
+	
 	public int getScore() {
 		return score;
 	}
 	public void setScore(int score) {
 		this.score = score;
 	}
+	
 	public String getReview() {
 		return review;
 	}

@@ -1,5 +1,7 @@
 package com.tathink.univa.service;
 
+import java.util.Optional;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tathink.univa.domain.Question;
@@ -16,8 +18,13 @@ public class QuestionService {
 	/**
 	 * 질문 등록
 	 */
-	public Long apply(Question question) {
+	public int apply(Question question) {
 		qRepository.save(question);
 		return question.getId();
+	}
+	
+	public Optional<Question> findOne(int id) {
+		Optional<Question> question = qRepository.findById(id);
+		return question;
 	}
 }

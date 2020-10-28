@@ -23,7 +23,7 @@ ENGINE = InnoDB
 /* 질문 테이블 생성 */
 CREATE TABLE IF NOT EXISTS `univa`.`question` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `visiable` INT UNSIGNED NOT NULL DEFAULT 1,
+  `visible` INT UNSIGNED NOT NULL DEFAULT 1,
   `title` VARCHAR(255) NOT NULL,
   `nickname` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
