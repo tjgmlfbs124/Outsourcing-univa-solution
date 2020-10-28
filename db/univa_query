@@ -51,3 +51,19 @@ ENGINE = InnoDB
 
 /* question.score defualt 값 변경*/
 ALTER TABLE question MODIFY COLUMN `score` INT UNSIGNED NOT NULL DEFAULT 0;
+
+/* 질문내 문제 테이블 생성*/
+CREATE TABLE IF NOT EXISTS `univa`.`problem` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `question_id` INT UNSIGNED NOT NULL,
+  `number` INT NOT NULL,
+  `text` TEXT NULL,
+  `image_url` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_problem_question1_idx` (`question_id` ASC) VISIBLE,
+  CONSTRAINT `fk_problem_question1`
+    FOREIGN KEY (`question_id`)
+    REFERENCES `univa`.`question` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
