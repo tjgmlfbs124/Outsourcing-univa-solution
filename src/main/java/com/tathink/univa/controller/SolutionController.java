@@ -27,7 +27,7 @@ public class SolutionController {
 	public String SolutionIndex(Model model) {
 		//model.addAttribute("list")
 		List<Solution> solutions = sService.findRecently(10);  
-		model.addAttribute(solutions);
+		model.addAttribute("solutions",solutions);
 		
 		return "solution/index";
 	}
