@@ -1,185 +1,137 @@
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <title>DGIST - 문제은행</title>
-    <meta name="keywords" content="HTML5 Template">
-    <meta name="description" content="Forum - Responsive HTML5 Template">
-    <meta name="author" content="Forum">
-    <link rel="shortcut icon" href="favicon/favicon.ico">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-<!-- tt-mobile menu -->
-<nav class="panel-menu" id="mobile-menu">
-    <ul>
-
-    </ul>
-    <div class="mm-navbtn-names">
-        <div class="mm-closebtn">
-            Close
-            <div class="tt-icon">
-                <svg>
-                  <use xlink:href="#icon-cancel"></use>
-                </svg>
+   <head>
+      <meta charset="utf-8">
+      <title>DGIST - 문제은행</title>
+      <meta name="keywords" content="HTML5 Template">
+      <meta name="description" content="Forum - Responsive HTML5 Template">
+      <meta name="author" content="Forum">
+      <meta name="format-detection" content="telephone=no">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <link rel="shortcut icon" th:href="@{/favicon/favicon.ico}" href="/favicon/favicon.ico">
+      <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+   </head>
+   <body>
+      <!-- tt-mobile menu -->
+      <nav class="panel-menu" id="mobile-menu">
+         <ul>
+         </ul>
+         <div class="mm-navbtn-names">
+            <div class="mm-closebtn">
+               Close
+               <div class="tt-icon">
+                  <svg>
+                     <use xlink:href="#icon-cancel"></use>
+                  </svg>
+               </div>
             </div>
-        </div>
-        <div class="mm-backbtn">Back</div>
-    </div>
-</nav>
-<header id="tt-header">
-    <div class="container">
-        <div class="row tt-row no-gutters">
-            <div class="col-auto">
-                <!-- toggle mobile menu -->
-                <a class="toggle-mobile-menu" >
-                    <svg class="tt-icon">
-                      <use xlink:href="#icon-menu_icon"></use>
-                    </svg>
-                </a>
-                <!-- /toggle mobile menu -->
-                <!-- logo -->
-                <div class="tt-logo">
-                    <a href="index.html"><img src="images/logo.png" alt=""></a>
-                </div>
-                <!-- /logo -->
-                <!-- desctop menu -->
-                  <div class="tt-desktop-menu">
-                    <nav>
-                        <ul>
-                            <li><a href="/pg/submit"><span>등록</span></a></li>
-                            <li><a href="/pg/getList"><span>목록</span></a></li>
-                            <li><a href="/pg/myAnswer"><span>내 답변</span></a></li>
-                            <li><a href="/pg/help"><span>이용방법</span></a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-            <div class="col-auto ml-auto">
-                 <div class="tt-user-info d-flex justify-content-center">
-                    <a  class="tt-btn-icon">
-                         <i class="tt-icon"><svg><use xlink:href="#icon-notification"></use></svg></i>
-                    </a>
-                    <div class="tt-avatar-icon tt-size-md">
-                        <i class="tt-icon"><svg><use xlink:href="#icon-ava-a"></use></svg></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-<main style="margin-bottom:50px;">
-    <div class="container">
-        <div class="tt-layout-404">
-           <span class="tt-icon">
-             <img src="./images/single-topic-img01.jpg"/>
-           </span>
-           <h6 class="tt-title">방문을 환영합니다.</h6>
-           <p>어렵고 힘든 문제가 있으신가요?<br>
-            <a href="index.html" class="tt-color-dark tt-underline-02">문제등록</a>을 통해 고수님들의 도움을 받아보세요.</p>
-        </div>
-        <div class="tt-topic-list tt-offset-top-55" >
-            <h1 class="tt-title-border" style="text-align:left;">
-                최근 등록된 문제
-            </h1>
-            <div class="tt-item" onclick="location.href='/pg/detail'">
-                <div class="tt-col-avatar">
-                    <svg class="tt-icon">
-                      <use xlink:href="#icon-ava-q"></use>
-                    </svg>
-                </div>
-                <div class="tt-col-description">
-                    <h6 class="tt-title"><a >
-                        <svg class="tt-icon">
-                          <use xlink:href="#icon-locked"></use>
-                        </svg>
-                      애국가 4절은 무엇인가요?
-                    </a></h6>
-                    <div class="row align-items-center no-gutters hide-desktope">
-                        <div class="col-9">
-                            <ul class="tt-list-badge">
-                                <li class="show-mobile"><a ><span class="tt-color05 tt-badge">music</span></a></li>
-                            </ul>
-                        </div>
-                        <div class="col-3 ml-auto show-mobile">
-                           <div class="tt-value">5 Jan,19</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tt-col-category tt-col-value-large hide-mobile"><span class="tt-color07 tt-badge">답변완료</span></div>
-                <div class="tt-col-category tt-col-value-large hide-mobile"><span class="tt-color07 tt-badge">후기등록</span></div>
-                <div class="tt-col-value-large hide-mobile">5 Jan,19</div>
-            </div>
-
-            <div class="tt-item" onclick="location.href='/pg/detail'">
-                <div class="tt-col-avatar">
-                    <svg class="tt-icon">
-                      <use xlink:href="#icon-ava-q"></use>
-                    </svg>
-                </div>
-                <div class="tt-col-description">
-                    <h6 class="tt-title"><a >
-                        <svg class="tt-icon">
-                          <use xlink:href="#icon-locked"></use>
-                        </svg>
-                      기울기를 구하는방법 ?
-                    </a></h6>
-                    <div class="row align-items-center no-gutters hide-desktope">
-                        <div class="col-9">
-                            <ul class="tt-list-badge">
-                                <li class="show-mobile"><a ><span class="tt-color04 tt-badge">답변대기</span></a></li>
-                            </ul>
-                        </div>
-                        <div class="col-3 ml-auto show-mobile">
-                           <div class="tt-value">5 Jan,19</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tt-col-category tt-col-value-large hide-mobile"><span class="tt-color04 tt-badge">답변대기</span></div>
-                <div class="tt-col-value-large hide-mobile">5 Jan,19</div>
-            </div>
-
-             <div class="tt-item" onclick="location.href='/pg/detail'">
-                 <div class="tt-col-avatar">
+            <div class="mm-backbtn">Back</div>
+         </div>
+      </nav>
+      <header id="tt-header">
+         <div class="container">
+            <div class="row tt-row no-gutters">
+               <div class="col-auto">
+                  <!-- toggle mobile menu -->
+                  <a class="toggle-mobile-menu" >
                      <svg class="tt-icon">
-                       <use xlink:href="#icon-ava-q"></use>
+                        <use xlink:href="#icon-menu_icon"></use>
                      </svg>
-                 </div>
-                 <div class="tt-col-description">
-                     <h6 class="tt-title"><a>
-                         <svg class="tt-icon">
-                           <use xlink:href="#icon-locked"></use>
-                         </svg>
-                       애국가 4절은 무엇인가요?
-                     </a></h6>
-                     <div class="row align-items-center no-gutters hide-desktope">
-                         <div class="col-9">
-                             <ul class="tt-list-badge">
-                                 <li class="show-mobile"><a ><span class="tt-color05 tt-badge">music</span></a></li>
-                             </ul>
-                         </div>
-                         <div class="col-3 ml-auto show-mobile">
-                            <div class="tt-value">5 Jan,19</div>
-                         </div>
+                  </a>
+                  <!-- /toggle mobile menu -->
+                  <!-- logo -->
+                  <div class="tt-logo">
+                     <a href="index.html">
+                       <img th:src="@{/images/logo.png}" src="/images/logo.png" alt="">
+                     </a>
+                  </div>
+                  <!-- /logo -->
+                  <!-- desctop menu -->
+                  <div class="tt-desktop-menu">
+                     <nav>
+                        <ul>
+                           <li><a href="/pg/submit"><span>등록</span></a></li>
+                           <li><a href="/solution/list?min=1&max=10&state=0" ><span>목록</span></a></li>
+                           <li><a href="/pg/myAnswer"><span>내 답변</span></a></li>
+                           <li><a href="/pg/help"><span>이용방법</span></a></li>
+                        </ul>
+                     </nav>
+                  </div>
+               </div>
+               <div class="col-auto ml-auto">
+                  <div class="tt-user-info d-flex justify-content-center">
+                     <a  class="tt-btn-icon">
+                        <i class="tt-icon">
+                           <svg>
+                              <use xlink:href="#icon-notification"></use>
+                           </svg>
+                        </i>
+                     </a>
+                     <div class="tt-avatar-icon tt-size-md">
+                        <i class="tt-icon">
+                           <svg>
+                              <use xlink:href="#icon-ava-a"></use>
+                           </svg>
+                        </i>
                      </div>
-                 </div>
-                 <div class="tt-col-category tt-col-value-large hide-mobile"><span class="tt-color07 tt-badge">답변완료</span></div>
-                 <div class="tt-col-value-large hide-mobile">5 Jan,19</div>
-             </div>
-
-            <div class="tt-row-btn">
-                <button type="button" class="btn-icon js-topiclist-showmore">
-                    <svg class="tt-icon">
-                      <use xlink:href="#icon-load_lore_icon"></use>
-                    </svg>
-                </button>
+                  </div>
+               </div>
             </div>
-        </div>
-        </div>
-    </div>
-</main>
-<script src="js/bundle.js"></script>
-</body>
+         </div>
+      </header>
+      <main style="margin-bottom:50px;">
+         <div class="container">
+            <div class="tt-layout-404">
+               <span class="tt-icon">
+               <img th:src="@{images/single-topic-img01.jpg}"/>
+               </span>
+               <h6 class="tt-title">방문을 환영합니다.</h6>
+               <p>어렵고 힘든 문제가 있으신가요?222<br>
+                  <a href="index.html" class="tt-color-dark tt-underline-02">문제등록</a>을 통해 고수님들의 도움을 받아보세요.
+               </p>
+            </div>
+            <div class="tt-topic-list tt-offset-top-55" >
+               <h1 class="tt-title-border" style="text-align:left;">
+                  최근 등록된 문제
+               </h1>
+
+               <!-- 질문리스트 row-->
+               <div th:each="list : ${solutions}" class="tt-item"  th:onclick="location.href='/pg/'" style="cursor:pointer;">  <!--  ' + ${list.id} + ' -->
+                  <div class="tt-col-avatar">
+                     <svg class="tt-icon">
+                        <use xlink:href="#icon-ava-q"></use>
+                     </svg>
+                  </div>
+                  <div class="tt-col-description">
+                     <h6 class="tt-title">
+                        <a >
+                           <svg class="tt-icon">
+                              <use xlink:href="#icon-locked"></use>
+                           </svg>
+                          <span th:text="${list.title}">질문제목을 불러올수 없습니다.</span>
+                        </a>
+                     </h6>
+                     <div class="row align-items-center no-gutters hide-desktope">
+                        <div class="col-9">
+                           <ul class="tt-list-badge">
+                              <li class="show-mobile"><a ><span class="tt-color04 tt-badge" th:text="${list.state}">상태</span></a></li>
+                           </ul>
+                        </div>
+                        <div class="col-3 ml-auto show-mobile">
+                           <div class="tt-value"><span th:text="${list.upload_date}">0000-00-00</span></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="tt-col-category tt-col-value-large hide-mobile"><span class="tt-color04 tt-badge" th:text="${list.state}">상태</span></div>
+                  <div class="tt-col-value-large hide-mobile"><span th:text="${list.upload_date}">0000-00-00</span></div>
+               </div>
+
+
+
+            </div>
+         </div>
+         </div>
+      </main>
+      <script src="js/bundle.js"></script>
+   </body>
 </html>
