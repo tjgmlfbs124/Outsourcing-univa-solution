@@ -10,35 +10,35 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.tathink.univa.domain.Question;
-import com.tathink.univa.service.QuestionService;
+import com.tathink.univa.domain.Solution;
+import com.tathink.univa.service.SolutionService;
 
 @Controller
-public class QuestionController {
-	private final QuestionService qService;
+public class SolutionController {
+	private final SolutionService sService;
 	
 	@Autowired
-	public QuestionController(QuestionService qService) {
-		this.qService = qService;
+	public SolutionController(SolutionService qService) {
+		this.sService = qService;
 	}
 	
 	@GetMapping("/question/")
-	public String QuestionIndex(Model model) {
+	public String SolutionIndex(Model model) {
 		//model.addAttribute("list")
-		List<Question> questions = qService.findRecently(10);  
+		List<Solution> questions = sService.findRecently(10);  
 		model.addAttribute(questions);
 		
 		return "index";
 	}
 	
 	@GetMapping("/question/list")
-	public String QuestionList(
+	public String SolutionList(
 			@RequestParam("min") int min,
 			@RequestParam("max") int max,
 			@RequestParam("state") int state,
 			Model model
 			) {
-		List<Question> questions = qService.findList(min, max, state);
+		List<Solution> questions = sService.findList(min, max, state);
 		model.addAttribute(questions);
 		
 		return "questions/list";
@@ -46,34 +46,34 @@ public class QuestionController {
 	
 	@GetMapping("/question/cnt")
 	@ResponseBody
-	public String QuestionCnt(Model model) {
-		int count = qService.length();
+	public String SolutionCnt(Model model) {
+		int count = sService.length();
 		model.addAttribute("count", count);
 		return Integer.toString(count);
 	}
 	
 	@PostMapping("/question/apply")
-	public String QuestionApply(QuestionForm form) {
-		Question question = new Question();
+	public String SolutionApply(SolutionForm form) {
+		Solution question = new Solution();
 		question.setTitle(form.getTitle());
 		question.setNickname(form.getNickname());
 		question.setPassword(form.getPassword());
 		question.setLimit_date(form.getLimit_date());
-		qService.apply(question);
+		sService.apply(question);
 		
 		return "quenstion/list";
 	}
 	
 	@GetMapping("/question/all")
-	public String QuestionAllList(Model model) {
-		List<Question> questions = qService.findAllQuestions();
+	public String SolutionAllList(Model model) {
+		List<Solution> questions = sService.findAllQuestions();
 		model.addAttribute("questions", questions);
 		
 		return "question/list";
 	}
 	
 	@GetMapping("/test")
-	public String QuestionTest(Model model) {
+	public String SolutionTest(Model model) {
 		return "redirect:/";
 	}
 	

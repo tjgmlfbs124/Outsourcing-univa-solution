@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.tathink.univa.repository.QuestionRepository;
-import com.tathink.univa.service.QuestionService;
+import com.tathink.univa.repository.SolutionRepository;
+import com.tathink.univa.service.SolutionService;
 
 @Configuration
 public class SpringConfig {
@@ -19,12 +19,12 @@ public class SpringConfig {
 	}
 	
 	@Bean
-	public QuestionService questionService() {
-		return new QuestionService(questionRepository());
+	public SolutionService questionService() {
+		return new SolutionService(questionRepository());
 	}
 	
 	@Bean
-	public QuestionRepository questionRepository() {
-		return new QuestionRepository(em);
+	public SolutionRepository questionRepository() {
+		return new SolutionRepository(em);
 	}
 }

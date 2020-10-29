@@ -2,7 +2,7 @@ package com.tathink.univa.controller;
 
 import java.time.LocalDateTime;
 
-public class QuestionForm {
+public class SolutionForm {
 	private String title;
 	private String nickname;
 	private String password;

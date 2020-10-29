@@ -19,7 +19,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 @Entity(name = "question")
 @DynamicInsert
-public class Question {
+public class Solution {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(columnDefinition = "UNSGINED INT")
@@ -52,7 +52,7 @@ public class Question {
 	
 	@OneToOne
 	@JoinColumn(name = "state")
-	private QuestionState state;
+	private SolutionState state;
 	
 	@Column(name = "score")
 	private int score;

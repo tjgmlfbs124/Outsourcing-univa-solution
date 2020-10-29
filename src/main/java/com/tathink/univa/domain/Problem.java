@@ -17,9 +17,9 @@ public class Problem {
 	@Column(columnDefinition = "UNSGINED INT")
 	private int id;
 	
-	@ManyToOne(targetEntity=Question.class, fetch=FetchType.EAGER)
+	@ManyToOne(targetEntity=Solution.class, fetch=FetchType.EAGER)
 	@JoinColumn(name="question_id")
-	private Question question_id;
+	private Solution question_id;
 	
 	@Column(name="number", nullable=false)
 	private int number;

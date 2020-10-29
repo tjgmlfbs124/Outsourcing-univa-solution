@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `univa`.`question` (
     FOREIGN KEY (`state`)
     REFERENCES `univa`.`question_state` (`id`)
     ON DELETE SET DEFAULT
-    ON UPDATE CASCADE
+    ON UPDATE CASCADE )
 ENGINE = InnoDB
 
 /* question.score defualt 값 변경*/
@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS `univa`.`problem` (
   CONSTRAINT `fk_problem_question1`
     FOREIGN KEY (`question_id`)
     REFERENCES `univa`.`question` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE )
 ENGINE = InnoDB
+

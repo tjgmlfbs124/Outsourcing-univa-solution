@@ -9,33 +9,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tathink.univa.domain.Question;
-import com.tathink.univa.repository.QuestionRepository;
+import com.tathink.univa.domain.Solution;
+import com.tathink.univa.repository.SolutionRepository;
 
 @SpringBootTest
 @Transactional
-public class QuestionServiceTest {
+public class SolutionServiceTest {
 	
-	@Autowired QuestionService qService;
-	@Autowired QuestionRepository qRepository;
+	@Autowired SolutionService sService;
+	@Autowired SolutionRepository qRepository;
 	
 	@Test
 	void 질문등록() {
-		Question question = new Question();
+		Solution question = new Solution();
 		question.setTitle("제목테스트");
 		question.setNickname("아무개");
 		question.setPassword("pwd");
 		
-		int saveId = qService.apply(question);
+		int saveId = sService.apply(question);
 		
-		Question findQuestion = qService.findOne(saveId).get();
+		Solution findQuestion = sService.findOne(saveId).get();
 		assertThat(question.getTitle()).isEqualTo(findQuestion.getTitle());
 		// System.out.println(findQuestion.getNickname()); // 아무개 출력
 	}
 	
 	@Test
 	void 모든질문() {
-		List<Question> questions = qService.findAllQuestions();
+		List<Solution> questions = sService.findAllQuestions();
 		//System.out.println(questions.size());
 		
 		for(int i=0; i<questions.size(); i++) {
@@ -46,7 +46,7 @@ public class QuestionServiceTest {
 	@Test
 	void 최근10개() {
 		int amount = 10;
-		List<Question> questions = qService.findRecently(amount);
+		List<Solution> questions = sService.findRecently(amount);
 		//System.out.println(questions.size());
 		assertThat(questions.size()).isEqualTo(amount);
 		
@@ -57,7 +57,7 @@ public class QuestionServiceTest {
 	
 	@Test
 	void 최근3번째부터5개까지() {
-		List<Question> questions = qService.findList(3, 5, 0); // 3, 4, 5, 6, 7 (5 row)
+		List<Solution> questions = sService.findList(3, 5, 0); // 3, 4, 5, 6, 7 (5 row)
 		//System.out.println(questions.size());
 		for(int i=0; i<questions.size(); i++) {
 			//System.out.println("title: "+questions.get(i).getTitle());

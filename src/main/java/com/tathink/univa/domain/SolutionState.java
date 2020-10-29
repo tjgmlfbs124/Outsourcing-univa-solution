@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity(name = "question_state")
-public class QuestionState {
+public class SolutionState {
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
