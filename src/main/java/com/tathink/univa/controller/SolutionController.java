@@ -22,29 +22,29 @@ public class SolutionController {
 		this.sService = qService;
 	}
 	
-	@GetMapping("/question/")
+	@GetMapping("/solution/")
 	public String SolutionIndex(Model model) {
 		//model.addAttribute("list")
-		List<Solution> questions = sService.findRecently(10);  
-		model.addAttribute(questions);
+		List<Solution> solutions = sService.findRecently(10);  
+		model.addAttribute(solutions);
 		
-		return "index";
+		return "solution/index";
 	}
 	
-	@GetMapping("/question/list")
+	@GetMapping("/solution/list")
 	public String SolutionList(
 			@RequestParam("min") int min,
 			@RequestParam("max") int max,
 			@RequestParam("state") int state,
 			Model model
 			) {
-		List<Solution> questions = sService.findList(min, max, state);
-		model.addAttribute(questions);
+		List<Solution> solutions = sService.findList(min, max, state);
+		model.addAttribute(solutions);
 		
-		return "questions/list";
+		return "solution/list";
 	}
 	
-	@GetMapping("/question/cnt")
+	@GetMapping("/solution/cnt")
 	@ResponseBody
 	public String SolutionCnt(Model model) {
 		int count = sService.length();
@@ -52,24 +52,24 @@ public class SolutionController {
 		return Integer.toString(count);
 	}
 	
-	@PostMapping("/question/apply")
+	@PostMapping("/solution/apply")
 	public String SolutionApply(SolutionForm form) {
-		Solution question = new Solution();
-		question.setTitle(form.getTitle());
-		question.setNickname(form.getNickname());
-		question.setPassword(form.getPassword());
-		question.setLimit_date(form.getLimit_date());
-		sService.apply(question);
+		Solution solution = new Solution();
+		solution.setTitle(form.getTitle());
+		solution.setNickname(form.getNickname());
+		solution.setPassword(form.getPassword());
+		solution.setLimit_date(form.getLimit_date());
+		sService.apply(solution);
 		
-		return "quenstion/list";
+		return "solution/list";
 	}
 	
-	@GetMapping("/question/all")
+	@GetMapping("/solution/all")
 	public String SolutionAllList(Model model) {
-		List<Solution> questions = sService.findAllQuestions();
-		model.addAttribute("questions", questions);
+		List<Solution> solutions = sService.findAllQuestions();
+		model.addAttribute("questions", solutions);
 		
-		return "question/list";
+		return "solutoin/list";
 	}
 	
 	@GetMapping("/test")
