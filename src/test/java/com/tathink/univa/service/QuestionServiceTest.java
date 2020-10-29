@@ -36,10 +36,31 @@ public class QuestionServiceTest {
 	@Test
 	void 모든질문() {
 		List<Question> questions = qService.findAllQuestions();
-		System.out.println(questions.size());
+		//System.out.println(questions.size());
 		
 		for(int i=0; i<questions.size(); i++) {
-			System.out.println(questions.get(i).getNickname() );
+			//System.out.println(questions.get(i).getNickname() );
+		}
+	}
+	
+	@Test
+	void 최근10개() {
+		int amount = 10;
+		List<Question> questions = qService.findRecently(amount);
+		//System.out.println(questions.size());
+		assertThat(questions.size()).isEqualTo(amount);
+		
+		for(int i=0; i<questions.size(); i++) {
+			//System.out.println("title: "+questions.get(i).getTitle());
+		}
+	}
+	
+	@Test
+	void 최근3번째부터5개까지() {
+		List<Question> questions = qService.findList(3, 5, 0); // 3, 4, 5, 6, 7 (5 row)
+		//System.out.println(questions.size());
+		for(int i=0; i<questions.size(); i++) {
+			//System.out.println("title: "+questions.get(i).getTitle());
 		}
 	}
 }

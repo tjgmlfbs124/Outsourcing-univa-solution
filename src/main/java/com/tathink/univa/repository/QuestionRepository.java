@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import com.tathink.univa.domain.Question;
+import com.tathink.univa.domain.QuestionState;
 
 public class QuestionRepository {
 	
@@ -27,7 +29,33 @@ public class QuestionRepository {
 	}
 	
 	public List<Question> findAll() {
-		return em.createQuery("select m from question m", Question.class).getResultList();
+		return em.createQuery("select q from question q", Question.class).getResultList();
 		//return new ArrayList<Question>();
+	}
+	
+	public List<Question> findRecently(int amount) {
+		 TypedQuery<Question> mQuery = em.createQuery(
+				 "select q from question q order by q.id desc", Question.class);
+		 mQuery.setMaxResults(amount);
+		 //mQuery.setParameter("amount", amount);
+		 
+		 return mQuery.getResultList();
+	}
+	
+	public List<Question> findLimitAndState(int lLimit, int hLimit, QuestionState state) {
+		TypedQuery<Question> mQuery;
+		mQuery = em.createQuery("select q from question q where state = :state order by q.id desc", Question.class)
+				.setParameter("state", state)
+				.setFirstResult(lLimit)
+				.setMaxResults(hLimit);
+		return mQuery.getResultList();
+	}
+	
+	public List<Question> findLimit(int lLimit, int hLimit) {
+		TypedQuery<Question> mQuery;
+		mQuery = em.createQuery("select q from question q order by q.id desc", Question.class)
+				.setFirstResult(lLimit)
+				.setMaxResults(hLimit);
+		return mQuery.getResultList();
 	}
 }
