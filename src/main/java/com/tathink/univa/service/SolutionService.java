@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.domain.SolutionState;
 import com.tathink.univa.repository.SolutionRepository;
@@ -49,17 +50,21 @@ public class SolutionService {
 	
 	/* 한계 및 상태 설정 질문 찾기 */
 	public List<Solution> findList(int lowLimit, int highLimit, int state) {
-		List<Solution> questions;
+		List<Solution> solutions;
 		if(state>0) {
 			SolutionState qstate = new SolutionState();
 			qstate.setId(state);
-			questions = qRepository.findLimitAndState(lowLimit, highLimit, qstate);
+			solutions = qRepository.findLimitAndState(lowLimit, highLimit, qstate);
 		} else {			
-			questions = qRepository.findLimit(lowLimit, highLimit);
+			solutions = qRepository.findLimit(lowLimit, highLimit);
 		}
 		
-		return questions;
+		return solutions;
 	}
 	
-	
+	/* 해당 질문의 문제받기 */
+	public List<Problem> findProblem(Solution sol) {
+		List<Problem> problems = qRepository.findByIdForProblem(sol);
+		return problems;
+	}
 }

@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.domain.SolutionState;
 
@@ -56,6 +57,13 @@ public class SolutionRepository {
 		mQuery = em.createQuery("select q from question q order by q.id desc", Solution.class)
 				.setFirstResult(lLimit)
 				.setMaxResults(hLimit);
+		return mQuery.getResultList();
+	}
+	
+	public List<Problem> findByIdForProblem(Solution sol) {
+		TypedQuery<Problem> mQuery;
+		mQuery = em.createQuery("select p from problem p where question_id = :id order by p.number", Problem.class)
+				.setParameter("id", sol);
 		return mQuery.getResultList();
 	}
 }

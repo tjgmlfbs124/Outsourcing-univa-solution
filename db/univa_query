@@ -52,13 +52,23 @@ ENGINE = InnoDB
 /* question.score defualt 값 변경*/
 ALTER TABLE question MODIFY COLUMN `score` INT UNSIGNED NOT NULL DEFAULT 0;
 
+/* 질문 테이블 제약조건 수정 */
+ALTER TABLE `question`
+DROP CONSTRAINT `fk_question_question_state1`;
+
+ALTER TABLE `question`
+ADD CONSTRAINT `fk_question_question_state2`
+FOREIGN KEY (`state`) REFERENCES `question_state`(`id`)
+ON DELETE NO ACTION
+ON UPDATE CASCADE;
+
 /* 질문내 문제 테이블 생성*/
 CREATE TABLE IF NOT EXISTS `univa`.`problem` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `question_id` INT UNSIGNED NOT NULL,
   `number` INT NOT NULL,
   `text` TEXT NULL,
-  `image_url` VARCHAR(45) NULL,
+  `image_url` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_problem_question1_idx` (`question_id` ASC) VISIBLE,
   CONSTRAINT `fk_problem_question1`

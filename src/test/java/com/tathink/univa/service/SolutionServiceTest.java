@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.repository.SolutionRepository;
 
@@ -61,6 +62,17 @@ public class SolutionServiceTest {
 		//System.out.println(questions.size());
 		for(int i=0; i<questions.size(); i++) {
 			//System.out.println("title: "+questions.get(i).getTitle());
+		}
+	}
+	
+	@Test
+	void 질문의문제받아오기() {
+		//int id = 40;
+		Solution sol = new Solution();
+		sol.setId(40);
+		List<Problem> problems = sService.findProblem(sol);
+		for(int i=0; i<problems.size(); i++) {
+			//System.out.println("content :"+ problems.get(i).getText());
 		}
 	}
 }

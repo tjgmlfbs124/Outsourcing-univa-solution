@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.service.SolutionService;
 
@@ -22,7 +23,7 @@ public class SolutionController {
 		this.sService = qService;
 	}
 	
-	@GetMapping("/solution/")
+	@GetMapping("/solution")
 	public String SolutionIndex(Model model) {
 		//model.addAttribute("list")
 		List<Solution> solutions = sService.findRecently(10);  
@@ -39,7 +40,7 @@ public class SolutionController {
 			Model model
 			) {
 		List<Solution> solutions = sService.findList(min, max, state);
-		model.addAttribute(solutions);
+		model.addAttribute("solutions",solutions);
 		
 		return "solution/list";
 	}
@@ -67,9 +68,21 @@ public class SolutionController {
 	@GetMapping("/solution/all")
 	public String SolutionAllList(Model model) {
 		List<Solution> solutions = sService.findAllQuestions();
-		model.addAttribute("questions", solutions);
+		model.addAttribute("solutions", solutions);
 		
 		return "solutoin/list";
+	}
+	
+	@GetMapping("/solution/solution")
+	public String SolutionId(
+			@RequestParam("id") int id,
+			Model model) {
+		Solution solution = sService.findOne(id).get();
+		model.addAttribute("solution", solution);
+		List<Problem> problems = sService.findProblem(solution);
+		model.addAttribute("problems", problems);
+		
+		return "solution/solution";
 	}
 	
 	@GetMapping("/test")
