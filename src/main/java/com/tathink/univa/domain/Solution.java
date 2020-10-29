@@ -123,11 +123,11 @@ public class Solution {
 		this.manager_id = manager_id;
 	}
 	
-	public int getState() {
-		return state.getId();
+	public SolutionState getState() {
+		return state;
 	}
-	public void setState(int state) {
-		this.state.setId(state);
+	public void setState(SolutionState state) {
+		this.state = state;
 	}
 	
 	public int getScore() {
