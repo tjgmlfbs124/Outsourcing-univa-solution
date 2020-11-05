@@ -49,8 +49,8 @@
                   <div class="tt-desktop-menu">
                     <nav>
                         <ul>
-                            <li><a href="/pg/submit"><span>등록</span></a></li>
-                            <li><a href="/pg/getList"><span>목록</span></a></li>
+                           	<li><a href="/solution/submit"><span>등록</span></a></li>
+                          	<li><a href="/solution/list?min=1&max=10&state=0" ><span>목록</span></a></li>
                             <li><a href="/pg/myAnswer"><span>내 답변</span></a></li>
                             <li><a href="/pg/help"><span>이용방법</span></a></li>
                         </ul>
@@ -71,8 +71,15 @@
             <h1 class="tt-title-border">
                 새 문제등록
             </h1>
-            <form class="form-default form-create-topic">
+            <div class="form-default form-create-topic">
                 <div class="form-group">
+                    <label for="inputTopicTitle">질문 제목</label>
+                    <div class="tt-value-wrapper">
+                        <input type="text" name="title" class="form-control" id="inputTopicTitle" placeholder="제목을 입력하세요">
+                        <span class="tt-value-input">99</span>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top">
                     <label for="inputTopicTitle">과목검색</label>
                     <div class="tt-value-wrapper">
                         <input type="text" name="name" class="form-control" id="inputTopicTitle" placeholder="원하는 과목을 입력하세요">
@@ -82,18 +89,28 @@
                 </div>
                 <div class="pt-editor">
                     <h5 class="pt-title">내용 등록</h5>
-                    <div class="row">
+                    <div class="row" style="border-bottom:1px solid #e2e7ea;" id="question-row">
                         <div class="col-md-3">
                             <ul class="pt-edit-btn">
-                                <li><button type="button" class="btn-icon">사진등록</button></li>
+                                <li>
+                                  <button type="button" class="btn-icon" style="cursor:"><h4>사진</h4></button>
+                                </li>
                             </ul>
                             <div class="form-group">
-                                <textarea name="message" class="form-control" rows="5" placeholder="Lets get started"></textarea>
+                                <a class="tt-button-icon">
+                                    <span class="tt-icon">
+                                      <img style="max-width:120px; max-height:120px; min-width:120px; min-height:120px;"></img>
+                                      <input type="file" name="image" id="image_01" style="display:none;"></img>
+                                    </span>
+                                </a>
                             </div>
                         </div>
                         <div class="col-md-9">
                             <div class="col-left">
                                 <ul class="pt-edit-btn">
+                                    <li>
+                                      <button type="button" class="btn-icon" style="cursor:"><h4>질문내용</h4></button>
+                                    </li>
                                     <li>
                                       <button type="button" class="btn-icon" style="cursor:"><h4>∞</h4></button>
                                     </li>
@@ -155,8 +172,13 @@
                                     </button></li>
                                 </ul>
                             </div>
-                            <textarea name="message" class="form-control" rows="5" placeholder="Lets get started"></textarea>
+                            <textarea name="message" class="form-control" rows="5" placeholder="질문내용을 입력하세요"></textarea>
                         </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-auto ml-auto">
+                          <a class="btn btn-secondary btn-custom" style="color:#fff; cursor:pointer; background:#000;" onclick="addQuestion()">+</a>
+                      </div>
                     </div>
                     <div class="row" style="margin-top:30px;">
                         <div class="col-md-5">
@@ -228,15 +250,142 @@
                     </div>
                      <div class="row">
                         <div class="col-auto ml-md-auto">
-                            <a  class="btn btn-secondary btn-width-lg">결제하기</a>
+                            <a  class="btn btn-secondary btn-width-lg" style="color:#fff; cursor:pointer;" onclick="submit()">결제하기</a>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </main>
 <script src="../js/bundle.js"></script>
+
+<script>
+  // n 길이가 width보다 아래일때, n 앞에 0을 붙혀줌
+  function numberPad(n, width) {
+      n = n + '';
+      return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+  }
+
+  function submit(){
+    var object = {
+      "title" : null,
+      "subject" : null,
+      "problem" : [],
+      "isNew" : false,
+      "isDetail" : false,
+      "language" : null,
+      "limit_date" : null,
+      "nickname" : null,
+      "password" : null
+    };
+
+    $.ajax({
+      url:'/' // 요청 할 주소
+      async:true,// false 일 경우 동기 요청으로 변경
+      type:'POST' // GET, PUT
+      data: {
+          Name:'ajax',
+          Age:'10'
+      },// 전송할 데이터
+      dataType:'text',// xml, json, script, html
+      beforeSend:function(jqXHR) {},// 서버 요청 전 호출 되는 함수 return false; 일 경우 요청 중단
+      success:function(jqXHR) {},// 요청 완료 시
+      error:function(jqXHR) {},// 요청 실패.
+      complete:function(jqXHR) {}// 요청의 실패, 성공과 상관 없이 완료 될 경우 호출
+    });
+  }
+
+  var QIndex = 2;
+  function addQuestion(){
+    $("#question-row").append(""+
+      "<div class=\"col-md-3\">"+
+          "<ul class=\"pt-edit-btn\">"+
+              "<li>"+
+                "<button type=\"button\" class=\"btn-icon\" style=\"cursor:\"><h4>사진</h4></button>"+
+              "</li>"+
+          "</ul>"+
+          "<div class=\"form-group\">"+
+              "<a href=\"#\" class=\"tt-button-icon\">"+
+                  "<span class=\"tt-icon\">"+
+                    "<img style=\"max-width:120px; max-height:120px; min-width:120px; min-height:120px;\"></img>"+
+                    "<input type=\"file\" name=\"image\" id=\"image_" + numberPad(QIndex,2) + "\" style=\"display:none;\"></img>"+
+                  "</span>"+
+              "</a>"+
+          "</div>"+
+      "</div>"+
+      "<div class=\"col-md-9\">"+
+          "<div class=\"col-left\">"+
+              "<ul class=\"pt-edit-btn\">"+
+                  "<li>"+
+                    "<button type=\"button\" class=\"btn-icon\" style=\"cursor:\"><h4>질문내용</h4></button>"+
+                  "</li>"+
+                  "<li>"+
+                    "<button type=\"button\" class=\"btn-icon\" style=\"cursor:\"><h4>∞</h4></button>"+
+                  "</li>"+
+                  "<li><button type=\"button\" class=\"btn-icon\">"+
+                      "<svg class=\"tt-icon\">"+
+                        "<use xlink:href=\"#icon-italic\"></use>"+
+                      "</svg>"+
+                  "</button></li>"+
+                  "<li><button type=\"button\" class=\"btn-icon\">"+
+                      "<svg class=\"tt-icon\">"+
+                        "<use xlink:href=\"#icon-share_topic\"></use>"+
+                      "</svg>"+
+                  "</button></li>"+
+                  "<li><button type=\"button\" class=\"btn-icon\">"+
+                      "<svg class=\"tt-icon\">"+
+                        "<use xlink:href=\"#icon-blockquote\"></use>"+
+                      "</svg>"+
+                  "</button></li>"+
+                  "<li><button type=\"button\" class=\"btn-icon\">"+
+                      "<svg class=\"tt-icon\">"+
+                        "<use xlink:href=\"#icon-performatted\"></use>"+
+                      "</svg>"+
+                  "</button></li>"+
+                  "<li class=\"hr\"></li>"+
+                  "<li><button type=\"button\" class=\"btn-icon\">"+
+                      "<svg class=\"tt-icon\">"+
+                        "<use xlink:href=\"#icon-upload_files\"></use>"+
+                      "</svg>"+
+                  "</button></li>"+
+                  "<li><button type=\"button\" class=\"btn-icon\">"+
+                      "<svg class=\"tt-icon\">"+
+                        "<use xlink:href=\"#icon-bullet_list\"></use>"+
+                      "</svg>"+
+                  "</button></li>"+
+                  "<li><button type=\"button\" class=\"btn-icon\">"+
+                      "<svg class=\"tt-icon\">"+
+                        "<use xlink:href=\"#icon-heading\"></use>"+
+                      "</svg>"+
+                  "</button></li>"+
+                  "<li><button type=\"button\" class=\"btn-icon\">"+
+                      "<svg class=\"tt-icon\">"+
+                        "<use xlink:href=\"#icon-horizontal_line\"></use>"+
+                      "</svg>"+
+                  "</button></li>"+
+                  "<li><button type=\"button\" class=\"btn-icon\">"+
+                      "<svg class=\"tt-icon\">"+
+                        "<use xlink:href=\"#icon-emoticon\"></use>"+
+                      "</svg>"+
+                  "</button></li>"+
+                  "<li><button type=\"button\" class=\"btn-icon\">"+
+                      "<svg class=\"tt-icon\">"+
+                        "<use xlink:href=\"#icon-settings\"></use>"+
+                      "</svg>"+
+                  "</button></li>"+
+                  "<li><button type=\"button\" class=\"btn-icon\">"+
+                      "<svg class=\"tt-icon\">"+
+                        "<use xlink:href=\"#icon-color_picker\"></use>"+
+                      "</svg>"+
+                  "</button></li>"+
+              "</ul>"+
+          "</div>"+
+          "<textarea name=\"message\" class=\"form-control\" rows=\"5\" placeholder=\"질문내용을 입력하세요\"></textarea>"+
+      "</div>");
+      QIndex++;
+  }
+</script>
 <svg width="0" height="0" class="hidden">
 	 <symbol aria-hidden="true" data-prefix="fab" data-icon="facebook-f" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512" id="facebook-f-brands">
     <path fill="currentColor" d="M215.8 85H264V3.6C255.7 2.5 227.1 0 193.8 0 124.3 0 76.7 42.4 76.7 120.3V192H0v91h76.7v229h94V283h73.6l11.7-91h-85.3v-62.7c0-26.3 7.3-44.3 45.1-44.3z"></path>

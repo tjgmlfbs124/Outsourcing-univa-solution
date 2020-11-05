@@ -50,7 +50,7 @@
                   <div class="tt-desktop-menu">
                      <nav>
                         <ul>
-                           <li><a href="/pg/submit"><span>등록</span></a></li>
+                           <li><a href="/solution/submit"><span>등록</span></a></li>
                            <li><a href="/solution/list?min=1&max=10&state=0" ><span>목록</span></a></li>
                            <li><a href="/pg/myAnswer"><span>내 답변</span></a></li>
                            <li><a href="/pg/help"><span>이용방법</span></a></li>
@@ -114,7 +114,7 @@
                      <div class="row align-items-center no-gutters hide-desktope">
                         <div class="col-9">
                            <ul class="tt-list-badge">
-                              <li class="show-mobile"><a ><span class="tt-color04 tt-badge" th:text="${list.state}">상태</span></a></li>
+                              <li class="show-mobile"><a ><span class="tt-color04 tt-badge" th:text="${list.state.name}">상태</span></a></li>
                            </ul>
                         </div>
                         <div class="col-3 ml-auto show-mobile">
@@ -122,12 +122,13 @@
                         </div>
                      </div>
                   </div>
-                  <div class="tt-col-category tt-col-value-large hide-mobile"><span class="tt-color04 tt-badge" th:text="${list.state}">상태</span></div>
+                  <div class="tt-col-category tt-col-value-large hide-mobile">
+					<span class="tt-color07 tt-badge" th:if="${list.state == 4}" th:text="${list.state.name}">답변완료</span>
+					<span class="tt-color04 tt-badge" th:unless="${list.state == 4}" th:text="${list.state.name}">답변대기</span> 
+                  	<!-- <span class="tt-color04 tt-badge" th:text="${list.state.name}">상태</span> -->
+                  </div>
                   <div class="tt-col-value-large hide-mobile"><span th:text="${list.upload_date}">0000-00-00</span></div>
                </div>
-
-
-
             </div>
          </div>
          </div>
