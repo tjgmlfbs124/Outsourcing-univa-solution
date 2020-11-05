@@ -54,6 +54,12 @@ public class SolutionController {
 		return Integer.toString(count);
 	}
 	
+	@GetMapping("/solution/apply")
+	public String SolutionApplyPage() {
+		
+		return "solution/apply";
+	}
+	
 	@PostMapping("/solution/apply")
 	public String SolutionApply(@RequestBody SolutionForm form) {
 		Solution solution = new Solution();
