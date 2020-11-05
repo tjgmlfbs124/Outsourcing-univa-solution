@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,9 +35,9 @@ public class SolutionController {
 	
 	@GetMapping("/solution/list")
 	public String SolutionList(
-			@RequestParam("min") int min,
-			@RequestParam("max") int max,
-			@RequestParam("state") int state,
+			@RequestParam(value="min", defaultValue="0") int min,
+			@RequestParam(value="max", defaultValue="10") int max,
+			@RequestParam(value="state", defaultValue="0") int state,
 			Model model
 			) {
 		List<Solution> solutions = sService.findList(min, max, state);
@@ -54,13 +55,25 @@ public class SolutionController {
 	}
 	
 	@PostMapping("/solution/apply")
-	public String SolutionApply(SolutionForm form) {
+	public String SolutionApply(@RequestBody SolutionForm form) {
 		Solution solution = new Solution();
 		solution.setTitle(form.getTitle());
 		solution.setNickname(form.getNickname());
+		solution.setContent(form.getContent());
 		solution.setPassword(form.getPassword());
 		solution.setLimit_date(form.getLimit_date());
+		//solution.setProblem(form.getProblems());
+		for (ProblemForm mForm : form.getProblems()) {
+			System.out.println(mForm.getNumber());
+			Problem problem = new Problem();
+			problem.setQuestion_id(solution);
+			problem.setNumber(mForm.getNumber());
+			problem.setText(mForm.getText());
+			solution.addProblem(problem);
+		}
+		
 		sService.apply(solution);
+		
 		
 		return "solution/list";
 	}
@@ -74,13 +87,12 @@ public class SolutionController {
 	}
 	
 	@GetMapping("/solution/solution")
+	@ResponseBody
 	public String SolutionId(
 			@RequestParam("id") int id,
 			Model model) {
 		Solution solution = sService.findOne(id).get();
 		model.addAttribute("solution", solution);
-		List<Problem> problems = sService.findProblem(solution);
-		model.addAttribute("problems", problems);
 		
 		return "solution/solution";
 	}

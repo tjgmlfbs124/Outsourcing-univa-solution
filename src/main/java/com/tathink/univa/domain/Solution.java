@@ -1,7 +1,10 @@
 package com.tathink.univa.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,7 +52,7 @@ public class Solution {
 	
 	@ManyToOne(targetEntity=Manager.class, fetch=FetchType.EAGER)
 	@JoinColumn(name="manager_id")
-	private Manager manager_id;
+	private Manager manager;
 	
 	@OneToOne
 	@JoinColumn(name = "state")
@@ -59,6 +63,9 @@ public class Solution {
 	
 	@Column(name = "review", columnDefinition = "TEXT")
 	private String review;
+	
+	@OneToMany(targetEntity=Problem.class, mappedBy="question_id", cascade = CascadeType.PERSIST)
+	private Collection<Problem> problem;
 	
 	public int getId() {
 		return id;
@@ -117,10 +124,10 @@ public class Solution {
 	}
 	
 	public Manager getManager_id() {
-		return manager_id;
+		return manager;
 	}
-	public void setManager_id(Manager manager_id) {
-		this.manager_id = manager_id;
+	public void setManager_id(Manager manager) {
+		this.manager = manager;
 	}
 	
 	public SolutionState getState() {
@@ -144,5 +151,18 @@ public class Solution {
 		this.review = review;
 	}
 	
+	public Collection<Problem> getProblem() {
+		if( problem == null ) {
+			problem = new ArrayList<Problem>();
+		}
+		return problem;
+	}
+	public void addProblem(Problem problem) {
+		Collection<Problem> mProblem = getProblem();
+		mProblem.add(problem);
+	}
+	public void setProblem(Collection<Problem> problem) {
+		this.problem = problem;
+	}
 	
 }

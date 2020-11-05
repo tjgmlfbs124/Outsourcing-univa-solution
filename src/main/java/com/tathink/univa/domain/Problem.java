@@ -19,7 +19,7 @@ public class Problem {
 	@Column(columnDefinition = "UNSGINED INT")
 	private int id;
 	
-	@ManyToOne(targetEntity=Solution.class, fetch=FetchType.EAGER)
+	@ManyToOne(optional = false)
 	@JoinColumn(name="question_id")
 	private Solution question_id;
 	
