@@ -50,7 +50,7 @@
                   <div class="tt-desktop-menu">
                      <nav>
                         <ul>
-                           <li><a href="/solution/submit"><span>등록</span></a></li>
+                           <li><a href="/solution/apply"><span>등록</span></a></li>
                            <li><a href="/solution/list?min=1&max=10&state=0" ><span>목록</span></a></li>
                            <li><a href="/pg/myAnswer"><span>내 답변</span></a></li>
                            <li><a href="/pg/help"><span>이용방법</span></a></li>
@@ -124,7 +124,7 @@
                   </div>
                   <div class="tt-col-category tt-col-value-large hide-mobile">
 					<span class="tt-color07 tt-badge" th:if="${list.state == 4}" th:text="${list.state.name}">답변완료</span>
-					<span class="tt-color04 tt-badge" th:unless="${list.state == 4}" th:text="${list.state.name}">답변대기</span> 
+					<span class="tt-color04 tt-badge" th:unless="${list.state == 4}" th:text="${list.state.name}">답변대기</span>
                   	<!-- <span class="tt-color04 tt-badge" th:text="${list.state.name}">상태</span> -->
                   </div>
                   <div class="tt-col-value-large hide-mobile"><span th:text="${list.upload_date}">0000-00-00</span></div>
