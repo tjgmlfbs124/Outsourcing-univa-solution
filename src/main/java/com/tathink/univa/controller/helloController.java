@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
 
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -27,9 +28,9 @@ import com.tathink.univa.utils.FileUtil;
 @Controller
 public class helloController {
 	
+	@ResponseBody
 	@GetMapping("hello")
-	public String hello(Model model) {
-		model.addAttribute("data", "hello!!");
+	public String hello() {
 		return "hello";
 	}
 	
@@ -72,10 +73,36 @@ public class helloController {
 	}
 	
 	@ResponseBody
-	@PostMapping("hello/obj")
-	public String objectReceive(@RequestBody helloForm form) {
-		System.out.println(form.getLimit_date());
+	@PostMapping("hello/file")
+	public String objectReceive(helloForm form) {
+		System.out.println(form.getName());
+		String path = "uploads/imgs/"+StringUtil.RandomString(20);
+		String savePath = path+"/img"+StringUtil.getExtension(form.getFile().getOriginalFilename());
+		if(!new File(path).exists()) { // 폴더가 없을 경우 생성
+			try {
+				File mFile = new File(path);
+				mFile.mkdirs();
+			}
+			catch(Exception e) {
+				e.getStackTrace();
+			}
+		}
 		
-		return "object";
+		FileUtil.FileWrite(form.getFile(), savePath);
+		System.out.println("hello/file...");
+		return "hello";
+	}
+	
+	@ResponseBody
+	@PostMapping("hello/files")
+	public String helloReceive(helloFileForm form) {
+		//System.out.println(form.getName());
+		for(MultipartFile file : form.getFile()) {
+			System.out.println(file.getName());
+		}
+		//String path = "Uploads/imgs/"+StringUtil.RandomString(20);
+
+		System.out.println("hello/files...");
+		return "hello";
 	}
 }

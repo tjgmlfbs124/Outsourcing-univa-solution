@@ -288,7 +288,7 @@
                     </div>
                      <div class="row">
                         <div class="col-auto ml-md-auto">
-                            <a  class="btn btn-secondary btn-width-lg" style="color:#fff; cursor:pointer;" onclick="submit()">결제하기</a>
+                            <a  class="btn btn-secondary btn-width-lg" style="color:#fff; cursor:pointer;" onclick="myApply2()">결제하기</a>
                         </div>
                     </div>
                 </div>
@@ -312,6 +312,152 @@
 	function ajaxFileUpload(mIndex) {
     console.log("mIndex : " , mIndex)
     $("#imageFile_" + numberPad(mIndex,2)).click();
+  }
+
+  // ckw
+  function oneFile() {
+    var file = document.querySelector("#imageFile_"+numberPad(1,2));
+    var fileList = file.files;
+    var reader = new FileReader();
+
+    if(fileList && fileList[0]) {
+      reader.readAsDataURL(fileList[0]);
+      reader.onload = function(e) {
+        var formData = new FormData();
+        formData.append('name', "hi spring?");
+        formData.append('file', fileList[0])
+
+        $.ajax({
+          url:'/hello/file',
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          dataType: 'json', 
+          enctype: 'multipart/form-data',
+          success: function(html){
+            console.log('success');
+          },
+          error: function(error){}
+        });
+      
+      }
+    
+    }
+
+  }
+  // ckw
+  function myApply() {
+    var nodeLength = $("#question-row").children().length;
+    for(var i = 1; i < nodeLength; i++) {
+      var file = document.querySelector("#imageFile_"+numberPad(i,2));
+      var fileList = file.files;
+      var reader = new FileReader();
+
+      if(fileList && fileList[0]) {
+        reader.readAsDataURL(fileList[0]);
+        reader.onload = callbackFunc(fileList[0]);
+      }
+    }
+
+  }
+
+  
+  //ckw
+  var len = $("#question-row").children().length;
+  var curNum = 0;
+  var mfileList = [];
+  var mFormData = new FormData();
+  function callbackFunc(file) {
+    curNum++;
+    console.log(curNum);
+    console.log(file);
+    mfileList.push(file)
+    if(curNum >= len) {
+      formData.append('name', "hi spring?");
+      formData.append('file', mfileList)
+
+      $.ajax({
+        url:'/hello/files',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json', 
+        enctype: 'multipart/form-data',
+        success: function(html){
+          console.log('success');
+        },
+        error: function(error){}
+      });
+    }
+  };
+
+  //ckw
+  function formApply() {
+    var form = $("#imageFile_"+numberPad(1,2))[0];
+    console.log(form);
+    var data = new FormData(form);
+    data.append("name","hello spring");
+
+    $.ajax({
+      type: "POST",
+      enctype: 'multipart/form-data',
+      url: "/hello/file",
+      data: data,
+      processData: false, //prevent jQuery from automatically transforming the data into a query string
+      contentType: false,
+      cache: false,
+      timeout: 600000,
+      success: function (data) {
+
+          //$("#result").text(data);
+          console.log("SUCCESS : ", data);
+          //$("#btnSubmit").prop("disabled", false);
+
+      },
+      error: function (e) {
+
+          //$("#result").text(e.responseText);
+          console.log("ERROR : ", e);
+          //$("#btnSubmit").prop("disabled", false);
+      }
+    });
+  }
+
+  // ckw
+  function myApply2() {
+    var formData = new FormData();
+      //formData란 <form> 태그를 객체화한 것을 의미한다.
+      //formData.append(key, value)를 이용해 데이터를 삽입할 수 있다.
+      //form 태그 내에 input 태그를 사용한 것과 동일하다.
+      
+      var nodeLength = $("#question-row").children().length;
+
+      //var files = $("#files")[0].files; //선택한 파일리스트를 가져온다.
+      for (var index = 1; index < nodeLength; index++) {
+        var files = $("#imageFile_"+numberPad(index,2))[0].files[0];
+        console.log(files);
+        formData.append(`file[${index}]`, files);
+        //formData.append(`file[${index}].id`, index + 1);
+      }
+      //formData의 file key값을 files[0,1..].file 형식으로 지정한다.
+
+      $.ajax({
+        type: "POST",
+        data: formData,
+        enctype: 'multipart/form-data',
+        url: "/hello/files",
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            alert("completed!");
+        },
+        error : function(){
+            alert("failed! ")
+        }
+      });
   }
 
   function submit(){

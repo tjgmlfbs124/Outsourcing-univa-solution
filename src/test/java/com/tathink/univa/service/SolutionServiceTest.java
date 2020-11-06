@@ -20,17 +20,17 @@ public class SolutionServiceTest {
 	@Autowired SolutionService sService;
 	@Autowired SolutionRepository qRepository;
 	
-	@Test
+	@Test	
 	void 질문등록() {
 		Solution question = new Solution();
 		question.setTitle("제목테스트");
 		question.setNickname("아무개");
 		question.setPassword("pwd");
 		
-		int saveId = sService.apply(question);
+		Solution mSolution = qRepository.save(question);
 		
-		Solution findQuestion = sService.findOne(saveId).get();
-		assertThat(question.getTitle()).isEqualTo(findQuestion.getTitle());
+		//Solution findQuestion = sService.findOne(saveId).get();
+		assertThat(question.getTitle()).isEqualTo(mSolution.getTitle());
 		// System.out.println(findQuestion.getNickname()); // 아무개 출력
 	}
 	
