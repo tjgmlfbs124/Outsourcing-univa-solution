@@ -71,7 +71,7 @@
             <h1 class="tt-title-border">
                 새 문제등록
             </h1>
-            <div class="form-default form-create-topic">
+            <form class="form-default form-create-topic" method="POST" action="/solution/apply" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-4">
                       <div class="form-group">
@@ -136,7 +136,8 @@
                                 <a class="tt-button-icon" style="cursor:pointer;" >
                                     <span class="tt-icon" >
                                       <img style="max-width:120px; max-height:120px; min-width:120px; min-height:120px;" id="image_01" onclick="ajaxFileUpload('1')"></img>
-                                      <input type="file" name="image" id="imageFile_01" style="display:none;"></img>
+                                      <input type="file" name="problems[0].file" id="imageFile_01" style="display:none;"/>
+                                      <input type="text" name="problems[0].number" style="display:none;" value="0"/>
                                     </span>
                                 </a>
                             </div>
@@ -208,7 +209,7 @@
                                     </button></li> -->
                                 </ul>
                             </div>
-                            <textarea name="text_01" class="form-control" rows="5" placeholder="사진에 대한 설명 및 질문을 입력하세요."></textarea>
+                            <textarea name="problems[0].text" class="form-control" rows="5" placeholder="사진에 대한 설명 및 질문을 입력하세요."></textarea>
                         </div>
                     </div>
                   </div>
@@ -288,17 +289,18 @@
                     </div>
                      <div class="row">
                         <div class="col-auto ml-md-auto">
-                            <a  class="btn btn-secondary btn-width-lg" style="color:#fff; cursor:pointer;" onclick="myApply2()">결제하기</a>
+                            <input type="submit" class="btn btn-secondary btn-width-lg" style="color:#fff; cursor:pointer;" value="결제하기"/>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </main>
 <script src="../js/bundle.js"></script>
 
 <script>
+  // 미리보기 이미지등록
   imagePreView(document.getElementById("imageFile_01"));
 
   // n 길이가 width보다 아래일때, n 앞에 0을 붙혀줌
@@ -307,220 +309,12 @@
       return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
   }
 
-
  	// 파일업로드
 	function ajaxFileUpload(mIndex) {
-    console.log("mIndex : " , mIndex)
     $("#imageFile_" + numberPad(mIndex,2)).click();
   }
 
-  // ckw
-  function oneFile() {
-    var file = document.querySelector("#imageFile_"+numberPad(1,2));
-    var fileList = file.files;
-    var reader = new FileReader();
-
-    if(fileList && fileList[0]) {
-      reader.readAsDataURL(fileList[0]);
-      reader.onload = function(e) {
-        var formData = new FormData();
-        formData.append('name', "hi spring?");
-        formData.append('file', fileList[0])
-
-        $.ajax({
-          url:'/hello/file',
-          type: 'POST',
-          data: formData,
-          processData: false,
-          contentType: false,
-          dataType: 'json', 
-          enctype: 'multipart/form-data',
-          success: function(html){
-            console.log('success');
-          },
-          error: function(error){}
-        });
-      
-      }
-    
-    }
-
-  }
-  // ckw
-  function myApply() {
-    var nodeLength = $("#question-row").children().length;
-    for(var i = 1; i < nodeLength; i++) {
-      var file = document.querySelector("#imageFile_"+numberPad(i,2));
-      var fileList = file.files;
-      var reader = new FileReader();
-
-      if(fileList && fileList[0]) {
-        reader.readAsDataURL(fileList[0]);
-        reader.onload = callbackFunc(fileList[0]);
-      }
-    }
-
-  }
-
-  
-  //ckw
-  var len = $("#question-row").children().length;
-  var curNum = 0;
-  var mfileList = [];
-  var mFormData = new FormData();
-  function callbackFunc(file) {
-    curNum++;
-    console.log(curNum);
-    console.log(file);
-    mfileList.push(file)
-    if(curNum >= len) {
-      formData.append('name', "hi spring?");
-      formData.append('file', mfileList)
-
-      $.ajax({
-        url:'/hello/files',
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: 'json', 
-        enctype: 'multipart/form-data',
-        success: function(html){
-          console.log('success');
-        },
-        error: function(error){}
-      });
-    }
-  };
-
-  //ckw
-  function formApply() {
-    var form = $("#imageFile_"+numberPad(1,2))[0];
-    console.log(form);
-    var data = new FormData(form);
-    data.append("name","hello spring");
-
-    $.ajax({
-      type: "POST",
-      enctype: 'multipart/form-data',
-      url: "/hello/file",
-      data: data,
-      processData: false, //prevent jQuery from automatically transforming the data into a query string
-      contentType: false,
-      cache: false,
-      timeout: 600000,
-      success: function (data) {
-
-          //$("#result").text(data);
-          console.log("SUCCESS : ", data);
-          //$("#btnSubmit").prop("disabled", false);
-
-      },
-      error: function (e) {
-
-          //$("#result").text(e.responseText);
-          console.log("ERROR : ", e);
-          //$("#btnSubmit").prop("disabled", false);
-      }
-    });
-  }
-
-  // ckw
-  function myApply2() {
-    var formData = new FormData();
-      //formData란 <form> 태그를 객체화한 것을 의미한다.
-      //formData.append(key, value)를 이용해 데이터를 삽입할 수 있다.
-      //form 태그 내에 input 태그를 사용한 것과 동일하다.
-      
-      var nodeLength = $("#question-row").children().length;
-
-      //var files = $("#files")[0].files; //선택한 파일리스트를 가져온다.
-      for (var index = 1; index < nodeLength; index++) {
-        var files = $("#imageFile_"+numberPad(index,2))[0].files[0];
-        console.log(files);
-        formData.append(`file[${index}]`, files);
-        //formData.append(`file[${index}].id`, index + 1);
-      }
-      //formData의 file key값을 files[0,1..].file 형식으로 지정한다.
-
-      $.ajax({
-        type: "POST",
-        data: formData,
-        enctype: 'multipart/form-data',
-        url: "/hello/files",
-        dataType: 'json',
-        processData: false,
-        contentType: false,
-        success: function (data) {
-            alert("completed!");
-        },
-        error : function(){
-            alert("failed! ")
-        }
-      });
-  }
-
-  function submit(){
-    var object = {
-      "title" : "",
-      "content" : "",
-      "subject" : "",
-      "problems" : [],
-      "isNew" : false,
-      "isDetail" : false,
-      "language" : "",
-      "limit_date" : "",
-      "nickname" : "",
-      "password" : ""
-    };
-
-    $.ajax({
-      url : '/solution/apply',
-      async: false,
-      contentType: "application/json",
-      enctype: 'multipart/form-data',
-      type : 'POST',
-      data : JSON.stringify(object),
-      dataType:'json',
-      beforeSend:function(jqXHR) {
-        object.title = $("input[name=nickname]").val();
-        object.nickname = $("input[name=nickname]").val();
-        object.password = $("input[name=password]").val();
-        object.subject = $("input[name=subject]").val();
-        object.content = $("textarea[name=content]").val();
-        object.isNew = $("input[name=isNew]").is(":checked");
-        object.isDetail = $("input[name=isDetail]").is(":checked");
-        object.language = $("select[name=language] option:selected").text();
-        object.limit_date = $("select[name=year] option:selected").text() + "-" + $("select[name=month] option:selected").text() + "-" + $("select[name=day] option:selected").text() +"T23:59:59";
-
-        // console.log("object : " , object);
-        // console.log("row : " , $("#question-row").children());
-
-        var nodeLength = $("#question-row").children().length;
-        for(var idx=1; idx<nodeLength; idx++){
-          (object.problems).push({
-            "number" : idx,
-            "file" : $("#imageFile_"+numberPad(idx,2)),
-            "text" : $("textarea[name=text_" + numberPad(idx,2) + "]").val()
-          });
-        }
-        console.log("object : " , object);
-      },
-      success:function(res) { // 요청 완료 시
-        console.log("res : " + res)
-      },
-      error:function(jqXHR) { // 요청 실패.
-        // for(i in jqXHR) {
-        //   console.log("no is " + [i] + ", value is " + jqXHR[i]);
-        // }
-      },
-      complete:function(jqXHR) {
-        // console.log("jqXHR : " + jqXHR)
-      }// 요청의 실패, 성공과 상관 없이 완료 될 경우 호출
-    });
-  }
-
-
+  // 이미지 미리보기 지원하는 함수
 	function imagePreView(target, callback){
     var num = (target.id).split("_")[1];
     var img = new Image();
@@ -539,8 +333,9 @@
     };
   }
 
-  var QIndex = 2;
+  // 질문 row 추가
   function addQuestion(){
+    var length = $("#question-row").children().length;
     $("#question-row").append(""+
       "<div class=\"row\" style=\"border-bottom:1px solid #e2e7ea;\">"+
       "<div class=\"col-md-3\">"+
@@ -552,8 +347,9 @@
           "<div class=\"form-group\">"+
               "<a href=\"#\" class=\"tt-button-icon\">"+
                   "<span class=\"tt-icon\">"+
-                    "<img style=\"max-width:120px; max-height:120px; min-width:120px; min-height:120px;\" id=image_"+numberPad(QIndex,2)+" onclick=\"ajaxFileUpload('"+QIndex+"')\"></img>"+
-                    "<input type=\"file\" name=\"image\" id=\"imageFile_" + numberPad(QIndex,2) + "\" style=\"display:none;\"></img>"+
+                    "<img style=\"max-width:120px; max-height:120px; min-width:120px; min-height:120px;\" id=\"image_"+numberPad(length,2)+"\" onclick=\"ajaxFileUpload('"+length+"')\"></img>"+
+                    "<input type=\"file\" name=\"problems[" + (length-1) +"].file\" id=\"imageFile_" + numberPad(length,2) + "\" style=\"display:none;\"></img>"+
+                    "<input type=\"text\" name=\"problems[" + (length-1) + "].number\" style=\"display:none;\" value=\"" + (length-1) + "\"/>"+
                   "</span>"+
               "</a>"+
           "</div>"+
@@ -625,11 +421,10 @@
                   // "</button></li>"+
               "</ul>"+
           "</div>"+
-          "<textarea name=\"text_" + numberPad(QIndex,2) + "\" class=\"form-control\" rows=\"5\" placeholder=\"질문내용을 입력하세요\"></textarea>"+
+          "<textarea name=\"problems[" + (length-1) + "].text\" class=\"form-control\" rows=\"5\" placeholder=\"질문내용을 입력하세요\"></textarea>"+
       "</div>"+
       "</div>");
-      imagePreView(document.getElementById("imageFile_"+numberPad(QIndex,2)));
-      QIndex++;
+      imagePreView(document.getElementById("imageFile_"+numberPad(length,2)));
   }
 </script>
 <svg width="0" height="0" class="hidden">
