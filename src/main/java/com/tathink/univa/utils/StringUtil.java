@@ -19,8 +19,10 @@ public final class StringUtil {
 			switch(rIndex) {
 			case 0: // a-z
 				buffer.append((char)((int)(rnd.nextInt(26)) + 97));
+				break;
 			case 1: // A-Z
 				buffer.append((char)((int)(rnd.nextInt(26)) + 65));
+				break;
 			case 2: // 0-9
 				buffer.append(rnd.nextInt(10));
 				break;

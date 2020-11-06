@@ -1,8 +1,18 @@
 package com.tathink.univa.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,27 +71,11 @@ public class SolutionController {
 	}
 	
 	@PostMapping("/solution/apply")
-	public String SolutionApply(@RequestBody SolutionForm form) {
-		Solution solution = new Solution();
-		solution.setTitle(form.getTitle());
-		solution.setNickname(form.getNickname());
-		solution.setContent(form.getContent());
-		solution.setPassword(form.getPassword());
-		solution.setLimit_date(form.getLimit_date());
-		//solution.setProblem(form.getProblems());
-		for (ProblemForm mForm : form.getProblems()) {
-			System.out.println(mForm.getNumber());
-			Problem problem = new Problem();
-			problem.setQuestion_id(solution);
-			problem.setNumber(mForm.getNumber());
-			problem.setText(mForm.getText());
-			solution.addProblem(problem);
-		}
+	public String SolutionApply(SolutionForm form) {
+		sService.apply(form);
+		System.out.println(form.getTitle());
 		
-		sService.apply(solution);
-		
-		
-		return "solution/list";
+		return "redirect:/solution/list";
 	}
 	
 	@GetMapping("/solution/all")
@@ -102,6 +96,19 @@ public class SolutionController {
 		
 		return "solution/solution";
 	}
+	
+	@GetMapping("/img")
+	public ResponseEntity<Resource> imageView(@RequestParam("id") String img) throws IOException {
+		Path path = Paths.get("uploads/imgs/"+img+"/img.png");
+		String contentType = Files.probeContentType(path);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_TYPE, contentType);
+		
+		Resource resource = new InputStreamResource(Files.newInputStream(path));
+		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+	}
+	
 	
 	@GetMapping("/test")
 	public String SolutionTest(Model model) {

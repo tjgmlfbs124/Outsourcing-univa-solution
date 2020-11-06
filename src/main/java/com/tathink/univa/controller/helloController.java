@@ -96,7 +96,7 @@ public class helloController {
 	@ResponseBody
 	@PostMapping("hello/files")
 	public String helloReceive(helloFileForm form) {
-		//System.out.println(form.getName());
+		System.out.println(form.getName());
 		for(MultipartFile file : form.getFile()) {
 			System.out.println(file.getName());
 		}
