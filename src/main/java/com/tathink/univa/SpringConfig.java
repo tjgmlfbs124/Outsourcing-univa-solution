@@ -7,7 +7,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.tathink.univa.repository.SolutionRepository;
+import com.tathink.univa.repository.UserRepository;
 import com.tathink.univa.service.SolutionService;
+import com.tathink.univa.service.UserService;
 
 @Configuration
 public class SpringConfig {
@@ -26,5 +28,15 @@ public class SpringConfig {
 	@Bean
 	public SolutionRepository questionRepository() {
 		return new SolutionRepository(em);
+	}
+	
+	@Bean
+	public UserService userService() {
+		return new UserService(userRepository());
+	}
+	
+	@Bean
+	public UserRepository userRepository() {
+		return new UserRepository(em);
 	}
 }

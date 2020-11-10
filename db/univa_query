@@ -81,3 +81,79 @@ ENGINE = InnoDB
 /* 문제 테이블 타입 변경 */
 ALTER TABLE problem
 MODIFY COLUMN `number` int unsigned NOT NULL;
+
+
+/* 매니저에 컬럼 추가 */
+ALTER TABLE `manager`
+ADD `username` VARCHAR(45) NOT NULL;
+ALTER TABLE `manager`
+ADD `password` VARCHAR(45) NOT NULL;
+
+/* 답변 테이블 생성 */
+CREATE TABLE IF NOT EXISTS `univa`.`answer` (
+  `id` INT UNSIGNED NOT NULL,
+  `question_id` INT UNSIGNED NOT NULL,
+  `content` TEXT NULL,
+  `answer_date` DATETIME NULL,
+  INDEX `fk_answer_question1_idx` (`question_id` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_answer_question1`
+    FOREIGN KEY (`question_id`)
+    REFERENCES `univa`.`question` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+
+/* 매니저 칼럼 ON DELTE, ON UPDATE 수정*/
+ALTER TABLE `answer`
+DROP FOREIGN KEY `fk_answer_question1`;
+
+ALTER TABLE `answer`
+ADD CONSTRAINT `fk_answer_question2`
+FOREIGN KEY(`question_id`) REFERENCES `question`(`id`)
+ON DELETE NO ACTION
+ON UPDATE CASCADE;
+
+/* 문제 답변 테이블 생성 */
+CREATE TABLE IF NOT EXISTS `univa`.`problem_answer` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `answer_id` INT UNSIGNED NOT NULL,
+  `number` INT NOT NULL,
+  `text` TEXT NULL,
+  `image_url` VARCHAR(255) NULL,
+  INDEX `fk_problem_answer_answer1_idx` (`answer_id` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_problem_answer_answer1`
+    FOREIGN KEY (`answer_id`)
+    REFERENCES `univa`.`answer` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+
+/* 답변 테이블 id(pk) 타입 변경 */
+ALTER TABLE `problem_answer` drop foreign key `fk_problem_answer_answer1`;
+
+ALTER TABLE `answer`
+MODIFY `id` INT UNSIGNED AUTO_INCREMENT NOT NULL;
+
+ALTER TABLE `problem_answer`
+ADD CONSTRAINT `fk_problem_answer_answer2`
+FOREIGN KEY(`answer_id`) REFERENCES `answer`(`id`)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
+
+/* 매니저 테이블 id(pk) 타입 변경 */
+ALTER TABLE `question` DROP FOREIGN KEY `fk_question_manager1`;
+
+ALTER TABLE `manager`
+MODIFY `id` INT UNSIGNED AUTO_INCREMENT NOT NULL;
+
+ALTER TABLE `question` 
+ADD CONSTRAINT `fk_question_manager2`
+FOREIGN KEY(`manager_id`) REFERENCES `manager`(`id`)
+ON DELETE SET NULL
+ON UPDATE CASCADE;
+
+/* 메니저 테이블 username(로그인 아이디) 유니크화 */
+ALTER TABLE `univa`.`manager` 
+ADD UNIQUE INDEX `username_UNIQUE` (`username`);

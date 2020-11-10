@@ -26,7 +26,7 @@ import org.hibernate.annotations.DynamicInsert;
 public class Solution {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(columnDefinition = "UNSGINED INT")
+	@Column(columnDefinition = "UNSIGNED INT")
 	private int id;
 	
 	@Column(name = "visible")
