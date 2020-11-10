@@ -45,18 +45,19 @@ public class SolutionService {
 				System.out.println("file is null");
 			}
 			if(mForm.getFile() != null) {
+				String dirPath = "uploads/imgs/";
 				String randomStr = StringUtil.RandomString(20)+"/";
-				String randomPath = "uploads/imgs/"+randomStr;
-				String imagePath = randomPath+"img"+StringUtil.getExtension(mForm.getFile().getOriginalFilename()).get();
+				String imageUrl = randomStr+"img"+StringUtil.getExtension(mForm.getFile().getOriginalFilename()).get();
+				String savePath = dirPath+imageUrl;
 				try {
-					File mFile = new File(randomPath);
+					File mFile = new File(dirPath+randomStr);
 					mFile.mkdirs();
 				} catch (Exception e) {
 					e.getStackTrace();
 				}
 				
-				FileUtil.FileWrite(mForm.getFile(), imagePath);
-				problem.setImage_url(imagePath);
+				FileUtil.FileWrite(mForm.getFile(), savePath);
+				problem.setImage_url(imageUrl);
 			}
 			
 			solution.addProblem(problem);

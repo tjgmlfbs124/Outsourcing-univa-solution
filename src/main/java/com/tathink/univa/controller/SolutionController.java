@@ -99,7 +99,7 @@ public class SolutionController {
 	
 	@GetMapping("/img")
 	public ResponseEntity<Resource> imageView(@RequestParam("id") String img) throws IOException {
-		Path path = Paths.get("uploads/imgs/"+img+"/img.png");
+		Path path = Paths.get("uploads/imgs/"+img);
 		String contentType = Files.probeContentType(path);
 		
 		HttpHeaders headers = new HttpHeaders();
