@@ -8,33 +8,48 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tathink.univa.domain.Manager;
 import com.tathink.univa.service.UserService;
 
 @Controller
 public class UserController {
+	private final UserService userService;
 	
 	@Autowired
-	UserService userService;
+	public UserController(UserService uService) {
+		this.userService = uService;
+	}
 	
-	@PostMapping("/mamager/login")
-	public void login(ManagerForm form, HttpSession session, Model model) {
-		Manager manager = userService.login(form).get();
+	@GetMapping("/user/login")
+	public String loginPage() {
+		return "login";
+	}
+	
+	@PostMapping("/user/login")
+	public void login(LoginForm form, HttpSession session, Model model) {
+		Manager manager = userService.login(form, session);
 		if(manager != null) {
-			ManagerForm mManager = new ManagerForm();
-			mManager.setName(manager.getName());
-			mManager.setUsername(manager.getUsername());
-			mManager.setPassword(manager.getPassword());
-			model.addAttribute(mManager);
+			//model.addAttribute("",manager);
+			//System.out.println(manager.getName());
+		} else {
+			
 		}
-		
+		return;
 	}
 	
-	@PostMapping("/manager/logout")
+	@PostMapping("/user/logout")
 	public void doLogout(HttpSession session, Model model) {
-		//userService.doLogout(session);
+		session.removeAttribute("user");
 	}
 	
+	@GetMapping("/user/test")
+	@ResponseBody
+	public String test(HttpSession session) {
+		Manager manager = (Manager)session.getAttribute("user");
+		return manager.getName();
+	}
 }

@@ -1,6 +1,6 @@
 package com.tathink.univa.controller;
 
-public class ManagerForm {
+public class LoginForm {
 	private String name;
 	private String username;
 	private String password;

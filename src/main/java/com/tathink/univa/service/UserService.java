@@ -1,14 +1,12 @@
 package com.tathink.univa.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
-import com.tathink.univa.controller.ManagerForm;
+import com.tathink.univa.controller.LoginForm;
 import com.tathink.univa.domain.Manager;
 import com.tathink.univa.repository.UserRepository;
 
@@ -21,12 +19,17 @@ public class UserService {
 		this.uRepository = uRepository;
 	}
 	
-	public Optional<Manager> login(ManagerForm form) {
+	public Manager login(LoginForm form, HttpSession session) {
 		Manager manager = new Manager();
 		manager.setUsername(form.getUsername());
 		manager.setPassword(form.getPassword());
 		
-		return uRepository.findByManagerObj(manager);
+		Manager managerResult = uRepository.findByManagerObj(manager).get(); 
+		if(managerResult != null) {
+			session.setAttribute("user", managerResult);
+		}
+		return managerResult;
+		
 		//session.setAttribute("user", value);
 	}
 	
