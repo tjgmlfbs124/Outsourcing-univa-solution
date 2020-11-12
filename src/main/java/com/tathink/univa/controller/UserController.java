@@ -24,21 +24,19 @@ public class UserController {
 		this.userService = uService;
 	}
 	
-	@GetMapping("/user/login")
+	@GetMapping("/solution/user/login")
 	public String loginPage() {
-		return "login";
+		return "/user/login/index";
 	}
 	
-	@PostMapping("/user/login")
-	public void login(LoginForm form, HttpSession session, Model model) {
+	@PostMapping("/solution/user/login")
+	public Boolean login(UserLoginForm form, HttpSession session, Model model) {
 		Manager manager = userService.login(form, session);
 		if(manager != null) {
-			//model.addAttribute("",manager);
-			//System.out.println(manager.getName());
+			return true;
 		} else {
-			
+			return false;
 		}
-		return;
 	}
 	
 	@PostMapping("/user/logout")

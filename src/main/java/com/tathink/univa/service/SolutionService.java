@@ -106,4 +106,14 @@ public class SolutionService {
 		List<Problem> problems = qRepository.findByIdForProblem(sol);
 		return problems;
 	}
+	
+	/* 질문 로그인 */
+	public Boolean vaildatePassword(int idx, String password) {
+		Solution solution = qRepository.findById(idx).get();
+		if(solution.getPassword() == password) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

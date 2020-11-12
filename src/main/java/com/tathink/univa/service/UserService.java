@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tathink.univa.controller.LoginForm;
+import com.tathink.univa.controller.UserLoginForm;
 import com.tathink.univa.domain.Manager;
 import com.tathink.univa.repository.UserRepository;
 
@@ -19,7 +19,7 @@ public class UserService {
 		this.uRepository = uRepository;
 	}
 	
-	public Manager login(LoginForm form, HttpSession session) {
+	public Manager login(UserLoginForm form, HttpSession session) {
 		Manager manager = new Manager();
 		manager.setUsername(form.getUsername());
 		manager.setPassword(form.getPassword());
