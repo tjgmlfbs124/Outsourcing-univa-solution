@@ -33,7 +33,10 @@ public class UserController {
 	
 	@PostMapping("/solution/user/login")
 	@ResponseBody
-	public Boolean login(@RequestBody UserLoginForm form, HttpSession session, Model model) {
+	public Boolean login(
+			@RequestBody UserLoginForm form, 
+			HttpSession session, 
+			Model model) {
 		Manager manager = userService.login(form, session);
 		if(manager != null) {
 			return true;
@@ -42,9 +45,10 @@ public class UserController {
 		}
 	}
 	
-	@PostMapping("/user/logout")
-	public void doLogout(HttpSession session, Model model) {
+	@GetMapping("/user/logout")
+	public String doLogout(HttpSession session, Model model) {
 		session.removeAttribute("user");
+		return "redirect:/solution";
 	}
 	
 	@GetMapping("/user/test")

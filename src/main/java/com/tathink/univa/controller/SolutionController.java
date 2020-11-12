@@ -27,6 +27,7 @@ import com.tathink.univa.controller.form.SolutionForm;
 import com.tathink.univa.controller.form.SolutionLoginForm;
 import com.tathink.univa.domain.Answer;
 import com.tathink.univa.domain.AnswerSub;
+import com.tathink.univa.domain.Manager;
 import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.service.SolutionService;
@@ -117,7 +118,8 @@ public class SolutionController {
 			Model model,
 			HttpSession session) {
 		SolutionLoginForm solutionInfo = (SolutionLoginForm)session.getAttribute("solution_user");
-		if(solutionInfo != null && solutionInfo.getId() == id) {
+		Manager userInfo = (Manager)session.getAttribute("user");
+		if( (solutionInfo != null && solutionInfo.getId() == id) || userInfo != null) {
 			Solution solution = sService.findOne(id).get();
 			model.addAttribute("solution", solution);
 			return "/solution/detail";
