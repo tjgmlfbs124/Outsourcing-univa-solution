@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tathink.univa.controller.form.UserLoginForm;
@@ -31,7 +32,8 @@ public class UserController {
 	}
 	
 	@PostMapping("/solution/user/login")
-	public Boolean login(UserLoginForm form, HttpSession session, Model model) {
+	@ResponseBody
+	public Boolean login(@RequestBody UserLoginForm form, HttpSession session, Model model) {
 		Manager manager = userService.login(form, session);
 		if(manager != null) {
 			return true;
