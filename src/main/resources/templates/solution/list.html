@@ -77,36 +77,23 @@
         </div>
     </div>
 </main>
-<script src="../js/bundle.js"></script>
+<script th:src="@{/js/bundle.js}"></script>
+<script th:src="@{/js/ajaxApi.js}"></script>
 <script>
   function onClickList(id){
     var prompt = window.prompt('패스워드를 입력하세요. ');
-    console.log("id : " , id);
-    console.log("prompt : " , prompt);
-    $.ajax({
-        type : 'POST',
-        url : '/solution/login',
-        dataType : 'json',
-        data : JSON.stringify({
-          "id" : id,
-          "password" : prompt
-        }),
-	      contentType : "application/json; charset=UTF-8",
-        processData: false,
-        success : function(result) {
-          // TODO: result
-          window.location.href="/solution/detail?id="+id;
-        },
-        error: function(request, status, error) {
-          console.log("result : " ,status);
-          console.log("error : " ,error);
-        }
-    }) // End Ajax Request
-
-
+    if(prompt){
+      postAPI("/solution/login", JSON.stringify({
+        "id" : id,
+        "password" : prompt
+      }), function(result){
+        console.log("result : " , result);
+        if(result) window.location.href="/solution/detail?id="+id
+        else window.alert("정보가 일치하지 않습니다.");
+      })
+    }
   }
 </script>
-
 <svg th:replace="solution/svg/svg :: svg"></svg>
 </body>
 </html>

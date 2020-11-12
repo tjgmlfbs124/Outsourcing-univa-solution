@@ -2,7 +2,6 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="solution/widget/head :: head"></head>
 <body>
-<!-- tt-mobile menu -->
 <nav th:replace="solution/widget/mobile-menu :: m-menu"></nav>
 <header th:replace="solution/widget/pc-menu :: p-menu"></header>
 <main id="tt-pageContent"  class="tt-offset-small">
@@ -101,7 +100,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-9"><div class="container">
+                <div class="col-md-9">
+                  <div class="container">
                     <div class="tt-single-topic-list">
                         <div class="tt-item">
                              <div class="tt-single-topic">
@@ -111,28 +111,32 @@
                                             <i class="tt-icon"><svg><use xlink:href="#icon-ava-q"></use></svg></i>
                                         </div>
                                         <div class="tt-avatar-title">
-                                           <a >서**님</a>
+                                           <a th:text="${solution.nickname} + '님'">닉네임</a>
                                         </div>
                                         <a  class="tt-info-time">
-                                            <i class="tt-icon"><svg><use xlink:href="#icon-time"></use></svg></i>23 Oct,2020
+                                            <i class="tt-icon"><svg><use xlink:href="#icon-time"></use></svg></i>
+                                            <span th:text="${solution.upload_date}">날짜</span>
                                         </a>
                                     </div>
                                     <h3 class="tt-item-title">
-                                        <a >애국가 4절이 무엇인가요?</a>
+                                        <a th:text="${solution.title}">질문제목</a>
                                     </h3>
                                     <div class="tt-item-tag">
                                         <ul class="tt-list-badge">
                                             <li><a ><span class="tt-badge">과목이름</span></a></li>
                                         </ul>
                                     </div>
+                                    <div class="tt-item-description" th:text="${solution.content}">
+                                      <p th:text="${problems.text}">문제내용</p>
+                                      <p>
+                                          <img class="tt-offset-11" th:src="'/solution/img?id=' + ${problems.image_url}" alt="">
+                                      </p>
+                                    </div>
                                 </div>
-                                <div class="tt-item-description">
+                                <div class="tt-item-description" th:each="problems : ${solution.problem}">
+                                  <p th:text="${problems.text}">문제내용</p>
                                   <p>
-                                      안녕하세요 문제은행님,<br>
-                                      애국가 4절을 알려주세요.
-                                  </p>
-                                  <p>
-                                      <img class="tt-offset-11" src="../images/single-topic-img01.jpg" alt="">
+                                      <img class="tt-offset-11" th:src="'/solution/img?id=' + ${problems.image_url}" alt="">
                                   </p>
                                 </div>
                             </div>
@@ -149,18 +153,16 @@
                                            <span class="tt-color07 tt-badge">답변완료</span>
                                         </div>
                                         <a  class="tt-info-time">
-                                            <i class="tt-icon"><svg><use xlink:href="#icon-time"></use></svg></i>6 Jan,2019
+                                            <i class="tt-icon"><svg><use xlink:href="#icon-time"></use></svg></i>
+                                            <span th:text="${solution.answer.answer_date}">대답 날짜</span>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="tt-item-description">
-                                    <h6 class="tt-title">안녕하세요! 서**님 질문에 대한 답변입니다.</h6>
-                                    <p>
-                                        이 기상과 이 맘으로 충성을 다하여<br>
-                                        괴로우나 즐거우나 나라 사랑하세.<br>
-                                        무궁화 삼천리 화려강산<br>
-                                        대한 사람, 대한으로 길이 보전하세<br>
-                                    </p>
+                                    <h6 class="tt-title" th:text="${solution.answer.content}">대답 내용</h6>
+                                </div>
+                                <div class="tt-item-description" th:each="answers : ${solution.answer.answer_sub}">
+                                    <p th:text="${answers.text}">대답 내용</p>
                                     <p>
                                         <img class="tt-offset-11" src="../images/single-topic-img01.jpg" alt="">
                                     </p>
@@ -169,7 +171,45 @@
                         </div>
                     </div>
                     <h4 class="tt-title-separator"><span>You’ve reached the end of replies</span></h4>
-
+                    <div class="pt-editor form-default">
+                        <h6 class="pt-title">질문에 대한 답변을 입력해주세요.</h6>
+                        <div class="row" style="border-bottom:1px solid #e2e7ea;">
+                          <div class="col-md-3">
+                              <ul class="pt-edit-btn">
+                                  <li>
+                                    <button type="button" class="btn-icon" style="cursor:"><h4>사진</h4></button>
+                                  </li>
+                              </ul>
+                              <div class="form-group">
+                                  <a class="tt-button-icon" style="cursor:pointer;">
+                                      <span class="tt-icon">
+                                        <img style="max-width:120px; max-height:120px; min-width:120px; min-height:120px;" id="image_01" onclick="ajaxFileUpload('1')">
+                                        <input type="file" name="problems[0].file" id="imageFile_01" style="display:none;">
+                                        <input type="text" name="problems[0].number" style="display:none;" value="0">
+                                      </span>
+                                  </a>
+                              </div>
+                          </div>
+                          <div class="col-md-9">
+                              <div class="col-left">
+                                  <ul class="pt-edit-btn">
+                                      <li>
+                                        <button type="button" class="btn-icon"><h4>답변내용</h4></button>
+                                      </li>
+                                  </ul>
+                              </div>
+                              <textarea name="problems[0].text" class="form-control" rows="5" placeholder="사진에 대한 설명 및 질문을 입력하세요."></textarea>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="pt-editor">
+                      <div class="row">
+                        <div class="col-auto ml-auto">
+                            <a class="btn btn-secondary btn-custom" style="color:#fff; cursor:pointer; background:#000;" onclick="addQuestion()">+</a>
+                            <a class="btn btn-secondary btn-width-lg" style="color:#fff;" onclick="addQuestion()">답변 등록</a>
+                        </div>
+                      </div>
+                    </div>
                     <div class="pt-editor form-default">
                         <h6 class="pt-title">만족하셨다면 리뷰를 작성해주세요.</h6>
                         <div class="form-group">
@@ -187,7 +227,7 @@
                               </div>
                           </div>
                           <div class="col-auto">
-                              <a  class="btn btn-secondary btn-width-lg">등록하기</a>
+                              <a class="btn btn-secondary btn-width-lg" style="color:#fff;">등록하기</a>
                           </div>
                       </div>
                     </div>
@@ -197,7 +237,7 @@
         </div>
     </div>
 </main>
-<script src="../js/bundle.js"></script>
+<script th:src="@{/js/bundle.js}"></script>
 <svg th:replace="solution/svg/svg :: svg"></svg>
 </body>
 </html>

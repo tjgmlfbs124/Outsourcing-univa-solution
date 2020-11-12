@@ -3,14 +3,12 @@
    <head th:replace="solution/widget/head :: head"></head>
    <body>
       <!-- tt-mobile menu -->
-      <!-- <nav th:replace="solution/widget/mobile-menu :: m-menu"></nav>
-      <header th:replace="solution/widget/pc-menu :: p-menu"></header> -->
       <main id="tt-pageContent" class="tt-offset-none">
           <div class="container">
               <div class="tt-loginpages-wrapper">
                   <div class="tt-loginpages">
-                      <a href="index.html" class="tt-block-title">
-                          <img src="images/logo.png" alt="">
+                      <a href="/solution" class="tt-block-title">
+                          <img th:src="@{/images/logo.png}" alt="">
                           <div class="tt-title">
                               Univa에 오신것을 환영합니다.
                           </div>
@@ -18,34 +16,24 @@
                             Univa의 도움으로 어려운 문제를 해결해보세요!
                           </div>
                       </a>
-                      <form class="form-default">
+                      <div class="form-default">
                           <div class="form-group">
                               <label for="loginUserName">ID</label>
-                              <input type="text" name="name" class="form-control" id="id" placeholder="ID 입력">
+                              <input type="text" name="username" class="form-control" placeholder="ID 입력" required>
                           </div>
                           <div class="form-group">
                               <label for="loginUserPassword">Password</label>
-                              <input type="password" name="name" class="form-control" id="loginUserPassword" placeholder="****">
+                              <input type="password" name="password" class="form-control" placeholder="****" required>
                           </div>
+                          <p>아직 회원이 아니신가요?<a href="#" class="tt-underline" style="float:right;">회원가입</a></p>
                           <div class="row">
                               <div class="col">
                                   <div class="form-group">
-                                      <div class="checkbox-group">
-                                          <input type="checkbox" id="settingsCheckBox01" name="checkbox">
-                                          <label for="settingsCheckBox01">
-                                              <span class="check"></span>
-                                              <span class="box"></span>
-                                              <span class="tt-text">자동로그인</span>
-                                          </label>
-                                      </div>
                                   </div>
-                              </div>
-                              <div class="col ml-auto text-right">
-                                  <a href="#" class="tt-underline">회원가입</a>
                               </div>
                           </div>
                           <div class="form-group">
-                              <a href="/solution" class="btn btn-secondary btn-block">Log in</a>
+                              <a class="btn btn-secondary btn-block" onclick="onClickLogin()" style="color:#fff;">Log in</a>
                           </div>
                           <p>간편로그인</p>
                           <div class="row">
@@ -68,12 +56,26 @@
                           <div class="tt-notes">
                               copyright(c) 2020 All rights reserved by Univa.
                           </div>
-                      </form>
+                      </div>
                   </div>
               </div>
           </div>
       </main>
-      <script src="js/bundle.js"></script>
+      <script th:src="@{/js/bundle.js}"></script>
+      <script th:src="@{/js/ajaxApi.js}"></script>
       <svg th:replace="solution/svg/svg :: svg"></svg>
    </body>
+
+   <script>
+    function onClickLogin(){
+      postAPI("/solution/user/login", JSON.stringify({
+        "username" : $("input[name=username]").val(),
+        "password" : $("input[name=password]").val()
+      }), function(result){
+        console.log("result : " , result);
+        // if(result) window.location.href="/solution";
+        // else window.alert("정보가 일치하지 않습니다.");
+      })
+    }
+  </script>
 </html>

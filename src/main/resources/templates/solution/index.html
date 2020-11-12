@@ -2,7 +2,6 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
    <head th:replace="solution/widget/head :: head"></head>
    <body>
-      <!-- tt-mobile menu -->
       <nav th:replace="solution/widget/mobile-menu :: m-menu"></nav>
       <header th:replace="solution/widget/pc-menu :: p-menu"></header>
       <main style="margin-bottom:50px;">
@@ -59,7 +58,7 @@
          </div>
          </div>
       </main>
-      <script src="js/bundle.js"></script>
+      <script th:src="@{/js/bundle.js}"></script>
       <svg th:replace="solution/svg/svg :: svg"></svg>
    </body>
 </html>
