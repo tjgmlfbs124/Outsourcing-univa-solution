@@ -115,7 +115,7 @@ public class SolutionController {
 			Model model,
 			HttpSession session) {
 		SolutionLoginForm solutionInfo = (SolutionLoginForm)session.getAttribute("solution_user");
-		if(solutionInfo != null) {
+		if(solutionInfo != null && solutionInfo.getId() == id) {
 			Solution solution = sService.findOne(id).get();
 			model.addAttribute("solution", solution);
 			return "/solution/detail";
