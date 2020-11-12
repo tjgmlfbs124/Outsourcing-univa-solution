@@ -7,8 +7,12 @@ import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tathink.univa.controller.ProblemForm;
-import com.tathink.univa.controller.SolutionForm;
+import com.tathink.univa.controller.form.AnswerForm;
+import com.tathink.univa.controller.form.AnswerSubForm;
+import com.tathink.univa.controller.form.ProblemForm;
+import com.tathink.univa.controller.form.SolutionForm;
+import com.tathink.univa.domain.Answer;
+import com.tathink.univa.domain.AnswerSub;
 import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.domain.SolutionState;
@@ -24,6 +28,7 @@ public class SolutionService {
 	public SolutionService(SolutionRepository qRepository) {
 		this.qRepository = qRepository;
 	}
+	
 	/**
 	 * 질문 등록
 	 */
@@ -36,13 +41,12 @@ public class SolutionService {
 		solution.setPassword(form.getPassword());
 		solution.setLimit_date(form.getLimit_date());
 		for (ProblemForm mForm : form.getProblems()) {
-			System.out.println(mForm.getNumber());
 			Problem problem = new Problem();
 			problem.setQuestion_id(solution);
 			problem.setNumber(mForm.getNumber());
 			problem.setText(mForm.getText());
 			if(mForm.getFile() == null) {
-				System.out.println("file is null");
+				//System.out.println("file is null");
 			}
 			if(mForm.getFile() != null) {
 				String dirPath = "uploads/imgs/";
@@ -65,6 +69,39 @@ public class SolutionService {
 		
 		return qRepository.save(solution).getId();
 	}
+	
+	public int answerApply(AnswerForm form) {
+		Answer answer = new Answer();
+		answer.setQuestion( qRepository.findById(form.getSolution_id()).get());
+		answer.setContent(form.getContent());
+		
+		for(AnswerSubForm mForm : form.getAnswerSub()) {
+			AnswerSub answerSub = new AnswerSub();
+			answerSub.setAnswer(answer);
+			answerSub.setNumber(mForm.getNumber());
+			answerSub.setText(mForm.getText());
+			
+			//answerSub.setImage_ur(image_url);
+			if(mForm.getFile() != null) {
+				String dirPath = "uploads/imgs/";
+				String randomStr = StringUtil.RandomString(20)+"/";
+				String imageUrl = randomStr+"img"+StringUtil.getExtension(mForm.getFile().getOriginalFilename()).get();
+				String savePath = dirPath+imageUrl;
+				try {
+					File mFile = new File(dirPath+randomStr);
+					mFile.mkdirs();
+				} catch (Exception e) {
+					e.getStackTrace();
+				}
+				FileUtil.FileWrite(mForm.getFile(), savePath);
+				answerSub.setImage_ur(imageUrl);
+			}
+			answer.addAnsser_sub(answerSub);
+		}
+		return qRepository.save(answer).getId();
+	}
+	
+	//
 	
 	/* id로 찾기 */
 	public Optional<Solution> findOne(int id) {
@@ -108,7 +145,7 @@ public class SolutionService {
 	}
 	
 	/* 질문 로그인 */
-	public Boolean vaildatePassword(int idx, String password) {
+	public Boolean loginSolutionUser(int idx, String password) {
 		Solution solution = qRepository.findById(idx).get();
 		if(solution.getPassword().equals(password)) {
 			return true;
@@ -116,4 +153,5 @@ public class SolutionService {
 			return false;
 		}
 	}
+	
 }

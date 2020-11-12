@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tathink.univa.controller.form.UserLoginForm;
 import com.tathink.univa.domain.Manager;
 import com.tathink.univa.service.UserService;
 

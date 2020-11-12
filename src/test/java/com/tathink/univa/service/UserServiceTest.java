@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tathink.univa.controller.UserLoginForm;
+import com.tathink.univa.controller.form.UserLoginForm;
 import com.tathink.univa.domain.Manager;
 import com.tathink.univa.repository.UserRepository;
 

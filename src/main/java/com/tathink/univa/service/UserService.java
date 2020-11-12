@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tathink.univa.controller.UserLoginForm;
+import com.tathink.univa.controller.form.UserLoginForm;
 import com.tathink.univa.domain.Manager;
 import com.tathink.univa.repository.UserRepository;
 

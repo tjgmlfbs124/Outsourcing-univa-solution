@@ -66,4 +66,7 @@ public class Answer {
 	public void setAnswer_sub(List<AnswerSub> answer_sub) {
 		this.answer_sub = answer_sub;
 	}
+	public void addAnsser_sub(AnswerSub answerSub) {
+		this.answer_sub.add(answerSub);
+	}
 }

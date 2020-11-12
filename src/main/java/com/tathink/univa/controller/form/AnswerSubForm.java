@@ -1,8 +1,8 @@
-package com.tathink.univa.controller;
+package com.tathink.univa.controller.form;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class ProblemForm {
+public class AnswerSubForm {
 	private int number;
 	private String text;
 	private MultipartFile file;
@@ -25,5 +25,4 @@ public class ProblemForm {
 	public void setFile(MultipartFile file) {
 		this.file = file;
 	}
-	
 }

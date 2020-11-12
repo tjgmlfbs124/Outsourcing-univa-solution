@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import com.tathink.univa.domain.Answer;
 import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.domain.SolutionState;
@@ -22,6 +23,11 @@ public class SolutionRepository {
 	public Solution save(Solution solution) {
 		em.persist(solution);
 		return solution;
+	}
+	
+	public Answer save(Answer answer) {
+		em.persist(answer);
+		return answer;
 	}
 	
 	public Optional<Solution> findById(int id) {
