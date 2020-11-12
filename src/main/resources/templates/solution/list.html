@@ -81,16 +81,23 @@
 <script th:src="@{/js/ajaxApi.js}"></script>
 <script>
   function onClickList(id){
-    var prompt = window.prompt('패스워드를 입력하세요. ');
-    if(prompt){
-      postAPI("/solution/login", JSON.stringify({
-        "id" : id,
-        "password" : prompt
-      }), function(result){
-        console.log("result : " , result);
-        if(result) window.location.href="/solution/detail?id="+id
-        else window.alert("정보가 일치하지 않습니다.");
-      })
+    var userid = "[[${session.user.username}]]";
+    // console.log("id : " , id)
+    if(userid){
+      window.location.href="/solution/detail?id="+id;
+    }
+    else{
+      var prompt = window.prompt('패스워드를 입력하세요. ');
+      if(prompt){
+        postAPI("/solution/login", JSON.stringify({
+          "id" : id,
+          "password" : prompt
+        }), function(result){
+          console.log("result : " , result);
+          if(result) window.location.href="/solution/detail?id="+id
+          else window.alert("정보가 일치하지 않습니다.");
+        })
+      }
     }
   }
 </script>

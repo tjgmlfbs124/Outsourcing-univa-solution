@@ -72,9 +72,8 @@
         "username" : $("input[name=username]").val(),
         "password" : $("input[name=password]").val()
       }), function(result){
-        console.log("result : " , result);
-        // if(result) window.location.href="/solution";
-        // else window.alert("정보가 일치하지 않습니다.");
+        if(result) window.location.href="/solution";
+        else window.alert("정보가 일치하지 않습니다.");
       })
     }
   </script>
