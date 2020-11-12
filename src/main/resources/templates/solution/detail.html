@@ -1,243 +1,391 @@
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="solution/widget/head :: head"></head>
-<body>
-<nav th:replace="solution/widget/mobile-menu :: m-menu"></nav>
-<header th:replace="solution/widget/pc-menu :: p-menu"></header>
-<main id="tt-pageContent"  class="tt-offset-small">
-    <div class="container" style="max-width:1600px;">
-        <div class="tt-messages-layout">
-            <div class="row no-gutters">
-                <div class="col-md-3 tt-aside" id="js-aside">
-                    <a  class="tt-title-aside">
+   <head th:replace="solution/widget/head :: head"></head>
+   <body>
+      <nav th:replace="solution/widget/mobile-menu :: m-menu"></nav>
+      <header th:replace="solution/widget/pc-menu :: p-menu"></header>
+      <main id="tt-pageContent"  class="tt-offset-small">
+         <div class="container" style="max-width:1600px;">
+            <div class="tt-messages-layout">
+               <div class="row no-gutters">
+                  <div class="col-md-3 tt-aside" id="js-aside">
+                     <a  class="tt-title-aside">
                         <h2 class="tt-title">
-                            Messages
+                           Messages
                         </h2>
-                    </a>
-                    <div class="tt-all-avatar">
+                     </a>
+                     <div class="tt-all-avatar">
                         <div class="tt-list-avatar js-init-scroll">
-                            <a  class="tt-item">
-                                <div class="tt-col-avatar">
-                                    <svg class="tt-icon">
-                                      <use xlink:href="#icon-ava-a"></use>
-                                    </svg>
-                                </div>
-                                <div class="tt-col-description">
-                                    <h4 class="tt-title"><span>운영자</span> <span class="time">Oct 23 11:13</span></h4>
-                                    <div class="tt-message">답변이 등록되었습니다.<br>이용해주셔서 감사합니다.</div>
-                                </div>
-                            </a>
-                            <a  class="tt-item">
-                                <div class="tt-col-avatar">
-                                    <svg class="tt-icon">
-                                      <use xlink:href="#icon-ava-q"></use>
-                                    </svg>
-                                </div>
-                                <div class="tt-col-description">
-                                    <h4 class="tt-title"><span>서**</span> <span class="time">23 Oct 11:15</span></h4>
-                                    <div class="tt-message">궁금한게 있는데요</div>
-                                    <div class="tt-message">
+                           <a  class="tt-item">
+                              <div class="tt-col-avatar">
+                                 <svg class="tt-icon">
+                                    <use xlink:href="#icon-ava-a"></use>
+                                 </svg>
+                              </div>
+                              <div class="tt-col-description">
+                                 <h4 class="tt-title"><span>운영자</span> <span class="time">Oct 23 11:13</span></h4>
+                                 <div class="tt-message">답변이 등록되었습니다.<br>이용해주셔서 감사합니다.</div>
+                              </div>
+                           </a>
+                           <a  class="tt-item">
+                              <div class="tt-col-avatar">
+                                 <svg class="tt-icon">
+                                    <use xlink:href="#icon-ava-q"></use>
+                                 </svg>
+                              </div>
+                              <div class="tt-col-description">
+                                 <h4 class="tt-title"><span>서**</span> <span class="time">23 Oct 11:15</span></h4>
+                                 <div class="tt-message">궁금한게 있는데요</div>
+                                 <div class="tt-message">
                                     <p>
-                                        <img class="tt-offset-11" src="../images/single-topic-img01.jpg" alt="" style="max-width:200px;">
+                                       <img class="tt-offset-11" src="../images/single-topic-img01.jpg" alt="" style="max-width:200px;">
                                     </p>
-
-                                    </div>
-                                </div>
-                            </a>
-                            <a  class="tt-item">
-                                <div class="tt-col-avatar">
-                                    <svg class="tt-icon">
-                                      <use xlink:href="#icon-ava-a"></use>
-                                    </svg>
-                                </div>
-                                <div class="tt-col-description">
-                                    <h4 class="tt-title"><span>운영자</span> <span class="time">23 Oct 11:20</span></h4>
-                                   <div class="tt-message">네 말씀해주세요.</div>
-                                </div>
-                            </a>
-                            <a  class="tt-item">
-                                <div class="tt-col-avatar">
-                                    <svg class="tt-icon">
-                                      <use xlink:href="#icon-ava-q"></use>
-                                    </svg>
-                                </div>
-                                <div class="tt-col-description">
-                                    <h4 class="tt-title"><span>서**</span> <span class="time">Jan 24 11:30</span></h4>
-                                   <div class="tt-message">애국가 3절은 무엇인가요?</div>
-                                </div>
-                            </a>
-                            <a  class="tt-item">
-                                <div class="tt-col-avatar">
-                                    <svg class="tt-icon">
-                                      <use xlink:href="#icon-ava-a"></use>
-                                    </svg>
-                                </div>
-                                <div class="tt-col-description">
-                                  <h4 class="tt-title"><span>운영자</span> <span class="time">Jan 24 11:32</span></h4>
-                                  <div class="tt-message">
-                                  가을 하늘 공활한데 높고 구름 없이<br>
-                                  밝은 달은 우리 가슴 일편단심일세.<br>
-                                  무궁화 삼천리 화려강산<br>
-                                  대한 사람, 대한으로 길이 보전하세<br>
-                                  <p>
-                                      <img class="tt-offset-11" src="../images/single-topic-img01.jpg" alt="" style="max-width:200px;">
-                                  </p>
-
-                                  </div>
-                                </div>
-                            </a>
+                                 </div>
+                              </div>
+                           </a>
+                           <a  class="tt-item">
+                              <div class="tt-col-avatar">
+                                 <svg class="tt-icon">
+                                    <use xlink:href="#icon-ava-a"></use>
+                                 </svg>
+                              </div>
+                              <div class="tt-col-description">
+                                 <h4 class="tt-title"><span>운영자</span> <span class="time">23 Oct 11:20</span></h4>
+                                 <div class="tt-message">네 말씀해주세요.</div>
+                              </div>
+                           </a>
+                           <a  class="tt-item">
+                              <div class="tt-col-avatar">
+                                 <svg class="tt-icon">
+                                    <use xlink:href="#icon-ava-q"></use>
+                                 </svg>
+                              </div>
+                              <div class="tt-col-description">
+                                 <h4 class="tt-title"><span>서**</span> <span class="time">Jan 24 11:30</span></h4>
+                                 <div class="tt-message">애국가 3절은 무엇인가요?</div>
+                              </div>
+                           </a>
+                           <a  class="tt-item">
+                              <div class="tt-col-avatar">
+                                 <svg class="tt-icon">
+                                    <use xlink:href="#icon-ava-a"></use>
+                                 </svg>
+                              </div>
+                              <div class="tt-col-description">
+                                 <h4 class="tt-title"><span>운영자</span> <span class="time">Jan 24 11:32</span></h4>
+                                 <div class="tt-message">
+                                    가을 하늘 공활한데 높고 구름 없이<br>
+                                    밝은 달은 우리 가슴 일편단심일세.<br>
+                                    무궁화 삼천리 화려강산<br>
+                                    대한 사람, 대한으로 길이 보전하세<br>
+                                    <p>
+                                       <img class="tt-offset-11" src="../images/single-topic-img01.jpg" alt="" style="max-width:200px;">
+                                    </p>
+                                 </div>
+                              </div>
+                           </a>
                         </div>
                         <div class="pt-editor form-default">
-                            <h6 class="pt-title">답변에 대해 궁금한점을 물어보세요.</h6>
-                            <div class="form-group">
-                                <textarea name="message" class="form-control" rows="5" placeholder="Lets get started"></textarea>
-                            </div>
-                            <div class="pt-row">
-                                <div class="col-auto">
-                                    <a  class="btn btn-secondary btn-width-lg">Reply</a>
-                                </div>
-                            </div>
+                           <h6 class="pt-title">답변에 대해 궁금한점을 물어보세요.</h6>
+                           <div class="form-group">
+                              <textarea name="message" class="form-control" rows="5" placeholder="Lets get started"></textarea>
+                           </div>
+                           <div class="pt-row">
+                              <div class="col-auto">
+                                 <a  class="btn btn-secondary btn-width-lg">Reply</a>
+                              </div>
+                           </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-9">
-                  <div class="container">
-                    <div class="tt-single-topic-list">
-                        <div class="tt-item">
-                             <div class="tt-single-topic">
-                                <div class="tt-item-header">
+                     </div>
+                  </div>
+                  <div class="col-md-9">
+                     <div class="container">
+                        <div class="tt-single-topic-list">
+                           <div class="tt-item">
+                              <div class="tt-single-topic">
+                                 <div class="tt-item-header">
                                     <div class="tt-item-info info-top">
-                                        <div class="tt-avatar-icon">
-                                            <i class="tt-icon"><svg><use xlink:href="#icon-ava-q"></use></svg></i>
-                                        </div>
-                                        <div class="tt-avatar-title">
-                                           <a th:text="${solution.nickname} + '님'">닉네임</a>
-                                        </div>
-                                        <a  class="tt-info-time">
-                                            <i class="tt-icon"><svg><use xlink:href="#icon-time"></use></svg></i>
-                                            <span th:text="${solution.upload_date}">날짜</span>
-                                        </a>
+                                       <div class="tt-avatar-icon">
+                                          <i class="tt-icon">
+                                             <svg>
+                                                <use xlink:href="#icon-ava-q"></use>
+                                             </svg>
+                                          </i>
+                                       </div>
+                                       <div class="tt-avatar-title">
+                                          <a th:text="${solution.nickname} + '님'">닉네임</a>
+                                       </div>
+                                       <a  class="tt-info-time">
+                                          <i class="tt-icon">
+                                             <svg>
+                                                <use xlink:href="#icon-time"></use>
+                                             </svg>
+                                          </i>
+                                          <span th:text="${solution.upload_date}">날짜</span>
+                                       </a>
                                     </div>
                                     <h3 class="tt-item-title">
-                                        <a th:text="${solution.title}">질문제목</a>
+                                       <a th:text="${solution.title}">질문제목</a>
                                     </h3>
                                     <div class="tt-item-tag">
-                                        <ul class="tt-list-badge">
-                                            <li><a ><span class="tt-badge">과목이름</span></a></li>
-                                        </ul>
+                                       <ul class="tt-list-badge">
+                                          <li><a ><span class="tt-badge">과목이름</span></a></li>
+                                       </ul>
                                     </div>
                                     <div class="tt-item-description" th:text="${solution.content}">
-                                      <p th:text="${problems.text}">문제내용</p>
-                                      <p>
+                                       <p th:text="${problems.text}">문제내용</p>
+                                       <p>
                                           <img class="tt-offset-11" th:src="'/solution/img?id=' + ${problems.image_url}" alt="">
-                                      </p>
+                                       </p>
                                     </div>
-                                </div>
-                                <div class="tt-item-description" th:each="problems : ${solution.problem}">
-                                  <p th:text="${problems.text}">문제내용</p>
-                                  <p>
-                                      <img class="tt-offset-11" th:src="'/solution/img?id=' + ${problems.image_url}" alt="">
-                                  </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tt-item tt-wrapper-success">
-                             <div class="tt-single-topic">
-                                <div class="tt-item-header pt-noborder">
+                                 </div>
+                                 <div class="tt-item-description" th:each="problems : ${solution.problem}">
+                                    <p th:text="${problems.text}">문제내용</p>
+                                    <p>
+                                       <img class="tt-offset-11" th:src="'/solution/img?id=' + ${problems.image_url}" alt="">
+                                    </p>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="tt-item tt-wrapper-success">
+                              <div class="tt-single-topic">
+                                 <div class="tt-item-header pt-noborder">
                                     <div class="tt-item-info info-top">
-                                        <div class="tt-avatar-icon">
-                                            <i class="tt-icon"><svg><use xlink:href="#icon-ava-a"></use></svg></i>
-                                        </div>
-                                        <div class="tt-avatar-title">
-                                           <a >문제은행</a>
-                                           <span class="tt-color07 tt-badge">답변완료</span>
-                                        </div>
-                                        <a  class="tt-info-time">
-                                            <i class="tt-icon"><svg><use xlink:href="#icon-time"></use></svg></i>
-                                            <span th:text="${solution.answer.answer_date}">대답 날짜</span>
-                                        </a>
+                                       <div class="tt-avatar-icon">
+                                          <i class="tt-icon">
+                                             <svg>
+                                                <use xlink:href="#icon-ava-a"></use>
+                                             </svg>
+                                          </i>
+                                       </div>
+                                       <div class="tt-avatar-title">
+                                          <a >문제은행</a>
+                                          <span class="tt-color07 tt-badge">답변완료</span>
+                                       </div>
+                                       <a  class="tt-info-time">
+                                          <i class="tt-icon">
+                                             <svg>
+                                                <use xlink:href="#icon-time"></use>
+                                             </svg>
+                                          </i>
+                                          <span th:text="${solution.answer.answer_date}">대답 날짜</span>
+                                       </a>
                                     </div>
-                                </div>
-                                <div class="tt-item-description">
+                                 </div>
+                                 <div class="tt-item-description">
                                     <h6 class="tt-title" th:text="${solution.answer.content}">대답 내용</h6>
-                                </div>
-                                <div class="tt-item-description" th:each="answers : ${solution.answer.answer_sub}">
+                                 </div>
+                                 <div class="tt-item-description" th:each="answers : ${solution.answer.answer_sub}">
                                     <p th:text="${answers.text}">대답 내용</p>
                                     <p>
-                                        <img class="tt-offset-11" src="../images/single-topic-img01.jpg" alt="">
+                                       <img class="tt-offset-11" src="../images/single-topic-img01.jpg" alt="">
                                     </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <h4 class="tt-title-separator"><span>You’ve reached the end of replies</span></h4>
-                    <div class="pt-editor form-default">
-                        <h6 class="pt-title">질문에 대한 답변을 입력해주세요.</h6>
-                        <div class="row" style="border-bottom:1px solid #e2e7ea;">
-                          <div class="col-md-3">
-                              <ul class="pt-edit-btn">
-                                  <li>
-                                    <button type="button" class="btn-icon" style="cursor:"><h4>사진</h4></button>
-                                  </li>
-                              </ul>
-                              <div class="form-group">
-                                  <a class="tt-button-icon" style="cursor:pointer;">
-                                      <span class="tt-icon">
-                                        <img style="max-width:120px; max-height:120px; min-width:120px; min-height:120px;" id="image_01" onclick="ajaxFileUpload('1')">
-                                        <input type="file" name="problems[0].file" id="imageFile_01" style="display:none;">
-                                        <input type="text" name="problems[0].number" style="display:none;" value="0">
-                                      </span>
-                                  </a>
+                                 </div>
                               </div>
-                          </div>
-                          <div class="col-md-9">
-                              <div class="col-left">
-                                  <ul class="pt-edit-btn">
-                                      <li>
-                                        <button type="button" class="btn-icon"><h4>답변내용</h4></button>
-                                      </li>
-                                  </ul>
-                              </div>
-                              <textarea name="problems[0].text" class="form-control" rows="5" placeholder="사진에 대한 설명 및 질문을 입력하세요."></textarea>
-                          </div>
-                      </div>
-                    </div>
-                    <div class="pt-editor">
-                      <div class="row">
-                        <div class="col-auto ml-auto">
-                            <a class="btn btn-secondary btn-custom" style="color:#fff; cursor:pointer; background:#000;" onclick="addQuestion()">+</a>
-                            <a class="btn btn-secondary btn-width-lg" style="color:#fff;" onclick="addQuestion()">답변 등록</a>
+                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div class="pt-editor form-default">
-                        <h6 class="pt-title">만족하셨다면 리뷰를 작성해주세요.</h6>
-                        <div class="form-group">
-                            <textarea name="message" class="form-control" rows="5" placeholder="Lets get started"></textarea>
-                        </div>
-                        <div class="pt-row">
-                          <div class="col-auto">
-                              <div class="checkbox-group">
-                                  <input type="checkbox" id="checkBox21" name="checkbox" checked="">
-                                  <label for="checkBox21">
-                                      <span class="check"></span>
-                                      <span class="box"></span>
-                                      <span class="tt-text">리뷰 전체공개</span>
-                                  </label>
+                        <form th:if="${session.user?.username != null and solution.state.id < 4}" action>
+                           <h4 class="tt-title-separator">
+                             <span>You’ve reached the end of replies</span>
+                           </h4>
+                           <div class="pt-editor form-default" id="answer-row">
+                              <h6 class="pt-title">질문에 대한 답변을 입력해주세요.</h6>
+                              <div class="row" style="border-bottom:1px solid #e2e7ea;">
+                                 <div class="col-md-3">
+                                    <ul class="pt-edit-btn">
+                                       <li>
+                                          <button type="button" class="btn-icon" style="cursor:">
+                                             <h4>사진</h4>
+                                          </button>
+                                       </li>
+                                    </ul>
+                                    <div class="form-group">
+                                       <a class="tt-button-icon" style="cursor:pointer;">
+                                       <span class="tt-icon">
+                                       <img style="max-width:120px; max-height:120px; min-width:120px; min-height:120px;" id="image_01" onclick="ajaxFileUpload('1')">
+                                       <input type="file" name="answerSub[0].file" id="imageFile_01" style="display:none;">
+                                       <input type="text" name="answerSub[0].number" style="display:none;" value="0">
+                                       </span>
+                                       </a>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-9">
+                                    <div class="col-left">
+                                       <ul class="pt-edit-btn">
+                                          <li>
+                                             <button type="button" class="btn-icon">
+                                                <h4>답변내용</h4>
+                                             </button>
+                                          </li>
+                                       </ul>
+                                    </div>
+                                    <textarea name="answerSub[0].text" class="form-control" rows="5" placeholder="사진에 대한 설명 및 답변을 입력하세요."></textarea>
+                                 </div>
                               </div>
-                          </div>
-                          <div class="col-auto">
-                              <a class="btn btn-secondary btn-width-lg" style="color:#fff;">등록하기</a>
-                          </div>
-                      </div>
-                    </div>
-                </div>
-                </div>
+                           </div>
+                           <div class="pt-editor">
+                              <div class="row">
+                                 <div class="col-auto ml-auto">
+                                    <a class="btn btn-secondary btn-custom" style="color:#fff; cursor:pointer; background:#000;" onclick="addQuestion()">+</a>
+                                    <a class="btn btn-secondary btn-width-lg" style="color:#fff;" onclick="addQuestion()">답변 등록</a>
+                                 </div>
+                              </div>
+                           </div>
+                        </form>
+                        <div class="pt-editor form-default">
+                           <h6 class="pt-title">만족하셨다면 리뷰를 작성해주세요.</h6>
+                           <div class="form-group">
+                              <textarea name="message" class="form-control" rows="5" placeholder="Lets get started"></textarea>
+                           </div>
+                           <div class="pt-row">
+                              <div class="col-auto">
+                                 <div class="checkbox-group">
+                                    <input type="checkbox" id="checkBox21" name="checkbox" checked="">
+                                    <label for="checkBox21">
+                                    <span class="check"></span>
+                                    <span class="box"></span>
+                                    <span class="tt-text">리뷰 전체공개</span>
+                                    </label>
+                                 </div>
+                              </div>
+                              <div class="col-auto">
+                                 <a class="btn btn-secondary btn-width-lg" style="color:#fff;">등록하기</a>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-        </div>
-    </div>
-</main>
-<script th:src="@{/js/bundle.js}"></script>
-<svg th:replace="solution/svg/svg :: svg"></svg>
+         </div>
+      </main>
+      <script th:src="@{/js/bundle.js}"></script>
+      <svg th:replace="solution/svg/svg :: svg"></svg>
+      <script>
+      imagePreView(document.getElementById("imageFile_01"));
+
+      // n 길이가 width보다 아래일때, n 앞에 0을 붙혀줌
+      function numberPad(n, width) {
+          n = n + '';
+          return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+      }
+
+      // 파일업로드
+      function ajaxFileUpload(mIndex) {
+        $("#imageFile_" + numberPad(mIndex,2)).click();
+      }
+
+      // 이미지 미리보기 지원하는 함수
+      function imagePreView(target, callback){
+        var num = (target.id).split("_")[1];
+        var img = new Image();
+        target.onchange = function (e) {
+          e.preventDefault();
+          var file = target.files[0], reader = new FileReader();
+          reader.onload = function (event) {
+            img.src = event.target.result;
+            img.width = 150;
+            img.height = 220;
+            img.id=target.id;
+            $("#image_"+num).attr("src", img.src);
+          };
+          reader.readAsDataURL(file);
+          $(target.id).css("cursor","pointer");
+        };
+      }
+      function addQuestion(){
+        var length = $("#answer-row").children().length;
+        $("#answer-row").append(""+
+          "<div class=\"row\" style=\"border-bottom:1px solid #e2e7ea;\">"+
+          "<div class=\"col-md-3\">"+
+              "<ul class=\"pt-edit-btn\">"+
+                  "<li>"+
+                    "<button type=\"button\" class=\"btn-icon\" style=\"cursor:\"><h4>사진</h4></button>"+
+                  "</li>"+
+              "</ul>"+
+              "<div class=\"form-group\">"+
+                  "<a href=\"#\" class=\"tt-button-icon\">"+
+                      "<span class=\"tt-icon\">"+
+                        "<img style=\"max-width:120px; max-height:120px; min-width:120px; min-height:120px;\" id=\"image_"+numberPad(length,2)+"\" onclick=\"ajaxFileUpload('"+length+"')\"></img>"+
+                        "<input type=\"file\" name=\"answerSub[" + (length-1) +"].file\" id=\"imageFile_" + numberPad(length,2) + "\" style=\"display:none;\"></img>"+
+                        "<input type=\"text\" name=\"answerSub[" + (length-1) + "].number\" style=\"display:none;\" value=\"" + (length-1) + "\"/>"+
+                      "</span>"+
+                  "</a>"+
+              "</div>"+
+          "</div>"+
+          "<div class=\"col-md-9\">"+
+              "<div class=\"col-left\">"+
+                  "<ul class=\"pt-edit-btn\">"+
+                      "<li>"+
+                        "<button type=\"button\" class=\"btn-icon\" style=\"cursor:\"><h4>질문내용</h4></button>"+
+                      "</li>"+
+                      // "<li>"+
+                      //   "<button type=\"button\" class=\"btn-icon\" style=\"cursor:\"><h4>∞</h4></button>"+
+                      // "</li>"+
+                      // "<li><button type=\"button\" class=\"btn-icon\">"+
+                      //     "<svg class=\"tt-icon\">"+
+                      //       "<use xlink:href=\"#icon-italic\"></use>"+
+                      //     "</svg>"+
+                      // "</button></li>"+
+                      // "<li><button type=\"button\" class=\"btn-icon\">"+
+                      //     "<svg class=\"tt-icon\">"+
+                      //       "<use xlink:href=\"#icon-share_topic\"></use>"+
+                      //     "</svg>"+
+                      // "</button></li>"+
+                      // "<li><button type=\"button\" class=\"btn-icon\">"+
+                      //     "<svg class=\"tt-icon\">"+
+                      //       "<use xlink:href=\"#icon-blockquote\"></use>"+
+                      //     "</svg>"+
+                      // "</button></li>"+
+                      // "<li><button type=\"button\" class=\"btn-icon\">"+
+                      //     "<svg class=\"tt-icon\">"+
+                      //       "<use xlink:href=\"#icon-performatted\"></use>"+
+                      //     "</svg>"+
+                      // "</button></li>"+
+                      // "<li class=\"hr\"></li>"+
+                      // "<li><button type=\"button\" class=\"btn-icon\">"+
+                      //     "<svg class=\"tt-icon\">"+
+                      //       "<use xlink:href=\"#icon-upload_files\"></use>"+
+                      //     "</svg>"+
+                      // "</button></li>"+
+                      // "<li><button type=\"button\" class=\"btn-icon\">"+
+                      //     "<svg class=\"tt-icon\">"+
+                      //       "<use xlink:href=\"#icon-bullet_list\"></use>"+
+                      //     "</svg>"+
+                      // "</button></li>"+
+                      // "<li><button type=\"button\" class=\"btn-icon\">"+
+                      //     "<svg class=\"tt-icon\">"+
+                      //       "<use xlink:href=\"#icon-heading\"></use>"+
+                      //     "</svg>"+
+                      // "</button></li>"+
+                      // "<li><button type=\"button\" class=\"btn-icon\">"+
+                      //     "<svg class=\"tt-icon\">"+
+                      //       "<use xlink:href=\"#icon-horizontal_line\"></use>"+
+                      //     "</svg>"+
+                      // "</button></li>"+
+                      // "<li><button type=\"button\" class=\"btn-icon\">"+
+                      //     "<svg class=\"tt-icon\">"+
+                      //       "<use xlink:href=\"#icon-emoticon\"></use>"+
+                      //     "</svg>"+
+                      // "</button></li>"+
+                      // "<li><button type=\"button\" class=\"btn-icon\">"+
+                      //     "<svg class=\"tt-icon\">"+
+                      //       "<use xlink:href=\"#icon-settings\"></use>"+
+                      //     "</svg>"+
+                      // "</button></li>"+
+                      // "<li><button type=\"button\" class=\"btn-icon\">"+
+                      //     "<svg class=\"tt-icon\">"+
+                      //       "<use xlink:href=\"#icon-color_picker\"></use>"+
+                      //     "</svg>"+
+                      // "</button></li>"+
+                  "</ul>"+
+              "</div>"+
+              "<textarea name=\"answerSub[" + (length-1) + "].text\" class=\"form-control\" rows=\"5\" placeholder=\"질문내용을 입력하세요\"></textarea>"+
+          "</div>"+
+          "</div>");
+          imagePreView(document.getElementById("imageFile_"+numberPad(length,2)));
+      }
+
+      </script>
 </body>
 </html>
