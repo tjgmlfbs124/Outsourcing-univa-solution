@@ -1,72 +1,10 @@
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <title>DGIST - 문제은행</title>
-    <meta name="keywords" content="HTML5 Template">
-    <meta name="description" content="Forum - Responsive HTML5 Template">
-    <meta name="author" content="Forum">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" th:href="@{/favicon/favicon.ico}">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+   <head th:replace="solution/widget/head :: head"></head>
 <body>
 <!-- tt-mobile menu -->
-<nav class="panel-menu" id="mobile-menu">
-    <ul>
-
-    </ul>
-    <div class="mm-navbtn-names">
-        <div class="mm-closebtn">
-            Close
-            <div class="tt-icon">
-                <svg>
-                  <use xlink:href="#icon-cancel"></use>
-                </svg>
-            </div>
-        </div>
-        <div class="mm-backbtn">Back</div>
-    </div>
-</nav>
-<header id="tt-header">
-    <div class="container">
-        <div class="row tt-row no-gutters">
-            <div class="col-auto">
-                <!-- toggle mobile menu -->
-                <a class="toggle-mobile-menu" >
-                    <svg class="tt-icon">
-                      <use xlink:href="#icon-menu_icon"></use>
-                    </svg>
-                </a>
-                <!-- /toggle mobile menu -->
-                <!-- logo -->
-                <div class="tt-logo">
-                    <a href="/solution">
-                      <img th:src="@{/images/logo.png}" src="/images/logo.png" alt="">
-                    </a>
-                </div>
-                <!-- /logo -->
-                <!-- desctop menu -->
-                  <div class="tt-desktop-menu">
-                    <nav>
-                        <ul>
-                           <li><a href="/solution/apply"><span>등록</span></a></li>
-                          	<li><a href="/solution/list?min=1&max=10&state=0" ><span>목록</span></a></li>
-                            <li><a href="/pg/myAnswer"><span>내 답변</span></a></li>
-                            <li><a href="/pg/help"><span>이용방법</span></a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-            <div class="col-auto ml-auto">
-               <div class="tt-user-info d-flex justify-content-center">
-                  <a class="tt-btn-icon"> 로그아웃 </a>
-              </div>
-            </div>
-        </div>
-    </div>
-</header>
+<nav th:replace="solution/widget/mobile-menu :: m-menu"></nav>
+<header th:replace="solution/widget/pc-menu :: p-menu"></header>
 
 <main id="tt-pageContent" class="tt-offset-small">
     <div class="container">
@@ -87,7 +25,7 @@
             <div class="tab-content">
                 <div class="tab-pane tt-indent-none  show active" role="tabpanel" >
                    <div class="tt-topic-list">
-                        <div class="tt-item" onclick="location.href='/pg/detail'" th:each="list : ${solutions}">
+                        <div class="tt-item" th:onclick="onClickList([[${list.id}]]);" th:each="list : ${solutions}">
                             <div class="tt-col-avatar">
                                 <svg class="tt-icon">
                                   <use xlink:href="#icon-ava-q"></use>
@@ -140,6 +78,33 @@
     </div>
 </main>
 <script src="../js/bundle.js"></script>
+<script>
+  function onClickList(id){
+    console.log("id : " , id);
+    var prompt = window.prompt('패스워드를 입력하세요. ');
+    console.log("prompt : " , prompt);
 
+
+    $.ajax({
+        type : 'POST',
+        url : '/solution/login',
+        dataType : 'json',
+        data : {
+            "id" : id,
+            "password" : password
+        },
+        success : function(result) {
+          // TODO: result
+        },
+        error: function(request, status, error) {
+
+        }
+    }) // End Ajax Request
+
+
+  }
+</script>
+
+<svg th:replace="solution/svg/svg :: svg"></svg>
 </body>
 </html>
