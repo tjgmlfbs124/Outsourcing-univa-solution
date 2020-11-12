@@ -81,8 +81,7 @@
 <script th:src="@{/js/ajaxApi.js}"></script>
 <script>
   function onClickList(id){
-    var userid = "[[${session.user.username}]]";
-    // console.log("id : " , id)
+    var userid = "[[${session.user?.username}]]";
     if(userid){
       window.location.href="/solution/detail?id="+id;
     }
@@ -101,6 +100,7 @@
     }
   }
 </script>
+<script th:src="@{/js/bundle.js}"></script>
 <svg th:replace="solution/svg/svg :: svg"></svg>
 </body>
 </html>

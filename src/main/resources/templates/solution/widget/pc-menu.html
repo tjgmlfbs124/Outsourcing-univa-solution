@@ -24,7 +24,7 @@
                   <ul>
                      <li><a href="/solution/apply"><span>등록</span></a></li>
                      <li><a href="/solution/list?min=1&max=10&state=0" ><span>목록</span></a></li>
-                     <li><a href="/pg/myAnswer" th:if="${session.user.username != null}"><span>내 답변</span></a></li>
+                     <li><a href="/pg/myAnswer" th:if="${session.user?.username != null}"><span>내 답변</span></a></li>
                      <li><a href="/pg/help"><span>이용방법</span></a></li>
                   </ul>
                </nav>
@@ -111,9 +111,9 @@
          </div>
         <div class="col-auto ml-auto">
           <div class="tt-account-btn">
-              <a href="/solution/user/login" class="btn btn-primary" th:if="${session.user.username == null}">Log in</a>
-              <a href="page-signup.html" class="btn btn-secondary" th:if="${session.user.username == null}">Sign up</a>
-              <a href="/solution/user/logout" class="btn btn-secondary" th:if="${session.user.username != null}">Log out</a>
+              <a href="/solution/user/login" class="btn btn-primary" th:if="${session.user?.username == null}">Log in</a>
+              <a href="page-signup.html" class="btn btn-secondary" th:if="${session.user?.username == null}">Sign up</a>
+              <a href="/solution/user/logout" class="btn btn-secondary" th:if="${session.user?.username != null}">Log out</a>
           </div>
         </div>
       </div>
