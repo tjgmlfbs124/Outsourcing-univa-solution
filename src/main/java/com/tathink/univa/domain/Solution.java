@@ -67,6 +67,9 @@ public class Solution {
 	@OneToMany(targetEntity=Problem.class, mappedBy="question_id", cascade = CascadeType.PERSIST)
 	private Collection<Problem> problem;
 	
+	@OneToOne(targetEntity=Answer.class, mappedBy="question", cascade = CascadeType.PERSIST)
+	private Answer answer;
+	
 	public int getId() {
 		return id;
 	}
@@ -163,6 +166,20 @@ public class Solution {
 	}
 	public void setProblem(Collection<Problem> problem) {
 		this.problem = problem;
+	}
+	
+	public Manager getManager() {
+		return manager;
+	}
+	public void setManager(Manager manager) {
+		this.manager = manager;
+	}
+	
+	public Answer getAnswer() {
+		return answer;
+	}
+	public void setAnswer(Answer answer) {
+		this.answer = answer;
 	}
 	
 }

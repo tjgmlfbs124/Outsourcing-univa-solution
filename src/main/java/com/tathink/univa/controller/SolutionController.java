@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tathink.univa.domain.Answer;
+import com.tathink.univa.domain.AnswerSub;
 import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.service.SolutionService;
@@ -116,7 +118,7 @@ public class SolutionController {
 		if(solutionInfo != null) {
 			Solution solution = sService.findOne(id).get();
 			model.addAttribute("solution", solution);
-			return "/solutoin/detail";
+			return "/solution/detail";
 		} else {
 			return "redirect:/solution/";
 		}
@@ -148,10 +150,16 @@ public class SolutionController {
 	}
 	
 	
-	@GetMapping("/test")
+	@PostMapping("/solution/test")
+	@ResponseBody
 	public String SolutionTest(Model model) {
-		System.out.println(model.getAttribute("test"));
-		return "redirect:/";
+		List<AnswerSub> answers = sService.findOne(190).get().getAnswer().getAnswer_sub();
+		Answer answer = sService.findOne(190).get().getAnswer();
+		for(AnswerSub val : answers) {
+			System.out.println(val.getText());
+		}
+		System.out.println(answer.getQuestion().getNickname());
+		return "hello";
 	}
 	
 }
