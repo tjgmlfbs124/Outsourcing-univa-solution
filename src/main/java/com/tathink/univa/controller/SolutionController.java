@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -86,18 +88,54 @@ public class SolutionController {
 		return "solutoin/list";
 	}
 	
-	@GetMapping("/solution/solution")
+	/*@GetMapping("/solution/solution")
 	@ResponseBody
 	public String SolutionId(
 			@RequestParam("id") int id,
 			Model model) {
-		Solution solution = sService.findOne(id).get();
-		model.addAttribute("solution", solution);
+		Boolean solution_pass = (Boolean)model.getAttribute("solution_pass");
+		model.addAttribute("solution_pass", false);
 		
-		return "solution/solution";
+		if(solution_pass) {
+			Solution solution = sService.findOne(id).get();
+			model.addAttribute("solution", solution);
+			
+			return "solution/solution";
+		} else {
+			//
+			return "stop!";
+		}
+	}*/
+	
+	@GetMapping("/solution/detail")
+	public String SolutionDetail(
+			@RequestParam("id") int id,
+			Model model,
+			HttpSession session) {
+		SolutionLoginForm solutionInfo = (SolutionLoginForm)session.getAttribute("solution_user");
+		if(solutionInfo != null) {
+			Solution solution = sService.findOne(id).get();
+			model.addAttribute("solution", solution);
+			return "/solutoin/detail";
+		} else {
+			return "redirect:/solution/";
+		}
 	}
 	
-	@GetMapping("/img")
+	@PostMapping("/solution/login")
+	@ResponseBody
+	public Boolean SolutionLoginViaAjax(
+			@RequestBody SolutionLoginForm form, 
+			HttpSession session) {
+		if(sService.vaildatePassword(form.getId(), form.getPassword()) ) {
+			session.setAttribute("solution_user", form);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@GetMapping("/solution/img")
 	public ResponseEntity<Resource> imageView(@RequestParam("id") String img) throws IOException {
 		Path path = Paths.get("uploads/imgs/"+img);
 		String contentType = Files.probeContentType(path);
@@ -112,6 +150,7 @@ public class SolutionController {
 	
 	@GetMapping("/test")
 	public String SolutionTest(Model model) {
+		System.out.println(model.getAttribute("test"));
 		return "redirect:/";
 	}
 	

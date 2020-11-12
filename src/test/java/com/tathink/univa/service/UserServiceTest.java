@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tathink.univa.controller.LoginForm;
+import com.tathink.univa.controller.UserLoginForm;
 import com.tathink.univa.domain.Manager;
 import com.tathink.univa.repository.UserRepository;
 
@@ -20,7 +20,7 @@ public class UserServiceTest {
 	
 	@Test
 	void 유저로그인() {
-		LoginForm form = new LoginForm();
+		UserLoginForm form = new UserLoginForm();
 		form.setUsername("test");
 		form.setPassword("testpass");
 		
@@ -31,7 +31,7 @@ public class UserServiceTest {
 	
 	@Test
 	void 없는유저로그인() {
-		LoginForm form = new LoginForm();
+		UserLoginForm form = new UserLoginForm();
 		form.setUsername("test1");
 		form.setPassword("testpass");
 		
