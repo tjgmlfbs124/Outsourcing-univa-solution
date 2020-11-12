@@ -110,7 +110,7 @@ public class SolutionService {
 	/* 질문 로그인 */
 	public Boolean vaildatePassword(int idx, String password) {
 		Solution solution = qRepository.findById(idx).get();
-		if(solution.getPassword() == password) {
+		if(solution.getPassword().equals(password)) {
 			return true;
 		} else {
 			return false;
