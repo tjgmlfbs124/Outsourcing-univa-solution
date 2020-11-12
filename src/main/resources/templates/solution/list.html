@@ -80,24 +80,27 @@
 <script src="../js/bundle.js"></script>
 <script>
   function onClickList(id){
-    console.log("id : " , id);
     var prompt = window.prompt('패스워드를 입력하세요. ');
+    console.log("id : " , id);
     console.log("prompt : " , prompt);
-
-
+    location.href="/solution/detail/index.html?id="+id;
     $.ajax({
         type : 'POST',
         url : '/solution/login',
         dataType : 'json',
-        data : {
-            "id" : id,
-            "password" : password
-        },
+        data : JSON.stringify({
+          "id" : id,
+          "password" : prompt
+        }),
+	      contentType : "application/json; charset=UTF-8",
+        processData: false,
         success : function(result) {
           // TODO: result
+          console.log("result : " ,result);
         },
         error: function(request, status, error) {
-
+          console.log("result : " ,status);
+          console.log("error : " ,error);
         }
     }) // End Ajax Request
 
