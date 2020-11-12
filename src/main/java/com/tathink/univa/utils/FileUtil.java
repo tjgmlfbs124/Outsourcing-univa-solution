@@ -13,6 +13,8 @@ import java.nio.file.Paths;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileUtil {
+	
+	
 	public static void FileWrite(MultipartFile file, String savePath) {
 		try {
 			InputStream fileStream = file.getInputStream();

@@ -1,4 +1,4 @@
-package com.tathink.univa.controller;
+package com.tathink.univa.controller.form;
 
 public class UserLoginForm {
 	private String name;

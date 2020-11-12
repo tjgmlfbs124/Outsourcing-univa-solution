@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tathink.univa.controller.form.SolutionForm;
+import com.tathink.univa.controller.form.SolutionLoginForm;
 import com.tathink.univa.domain.Answer;
 import com.tathink.univa.domain.AnswerSub;
 import com.tathink.univa.domain.Problem;
@@ -115,7 +117,7 @@ public class SolutionController {
 			Model model,
 			HttpSession session) {
 		SolutionLoginForm solutionInfo = (SolutionLoginForm)session.getAttribute("solution_user");
-		if(solutionInfo != null) {
+		if(solutionInfo != null && solutionInfo.getId() == id) {
 			Solution solution = sService.findOne(id).get();
 			model.addAttribute("solution", solution);
 			return "/solution/detail";
@@ -129,7 +131,7 @@ public class SolutionController {
 	public Boolean SolutionLoginViaAjax(
 			@RequestBody SolutionLoginForm form, 
 			HttpSession session) {
-		if(sService.vaildatePassword(form.getId(), form.getPassword()) ) {
+		if(sService.loginSolutionUser(form.getId(), form.getPassword()) ) {
 			session.setAttribute("solution_user", form);
 			return true;
 		} else {

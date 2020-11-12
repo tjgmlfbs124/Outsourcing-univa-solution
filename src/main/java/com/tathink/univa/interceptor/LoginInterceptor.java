@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.tathink.univa.controller.UserLoginForm;
+import com.tathink.univa.controller.form.UserLoginForm;
 import com.tathink.univa.domain.Manager;
 
 @Component
