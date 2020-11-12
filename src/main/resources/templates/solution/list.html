@@ -83,7 +83,6 @@
     var prompt = window.prompt('패스워드를 입력하세요. ');
     console.log("id : " , id);
     console.log("prompt : " , prompt);
-    location.href="/solution/detail/index.html?id="+id;
     $.ajax({
         type : 'POST',
         url : '/solution/login',
@@ -96,7 +95,7 @@
         processData: false,
         success : function(result) {
           // TODO: result
-          console.log("result : " ,result);
+          window.location.href="/solution/detail?id="+id;
         },
         error: function(request, status, error) {
           console.log("result : " ,status);
