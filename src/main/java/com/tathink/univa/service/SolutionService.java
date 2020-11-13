@@ -116,6 +116,7 @@ public class SolutionService {
 		Solution solution = qRepository.findById(form.getSolution_id()).get();
 		solution.setReview(form.getText());
 		solution.setScore(form.getScore());
+		solution.setState(qRepository.findStateById(5).get());
 		qRepository.save(solution);
 		
 		return solution.getId();
