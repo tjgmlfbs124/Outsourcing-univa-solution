@@ -45,7 +45,7 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/logout")
+	@GetMapping("/solution/user/logout")
 	public String doLogout(HttpSession session, Model model) {
 		session.removeAttribute("user");
 		return "redirect:/solution";
