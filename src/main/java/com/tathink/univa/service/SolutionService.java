@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tathink.univa.controller.form.AnswerForm;
 import com.tathink.univa.controller.form.AnswerSubForm;
 import com.tathink.univa.controller.form.ProblemForm;
+import com.tathink.univa.controller.form.ReviewForm;
 import com.tathink.univa.controller.form.SolutionForm;
 import com.tathink.univa.domain.Answer;
 import com.tathink.univa.domain.AnswerSub;
@@ -70,7 +71,7 @@ public class SolutionService {
 		return qRepository.save(solution).getId();
 	}
 	
-	/* 답변 업로드 */
+	/** 답변 업로드 */
 	public int answerApply(AnswerForm form) {
 		Answer answer = new Answer();
 		answer.setQuestion( qRepository.findById(form.getSolution_id()).get());
@@ -103,9 +104,21 @@ public class SolutionService {
 		return qRepository.save(answer).getId();
 	}
 	
+	/** 상태 업로드 */
 	public void updateState(Solution solution, SolutionState state) {
 		solution.setState(state);
 		qRepository.save(solution);
+	}
+	
+	/** 리뷰 등록 */
+	public int reviewApply(ReviewForm form) {
+		System.out.println(form.getSolution_id());
+		Solution solution = qRepository.findById(form.getSolution_id()).get();
+		solution.setReview(form.getText());
+		solution.setScore(form.getScore());
+		qRepository.save(solution);
+		
+		return solution.getId();
 	}
 	
 	//

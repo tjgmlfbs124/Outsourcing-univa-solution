@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tathink.univa.controller.form.ReviewForm;
 import com.tathink.univa.controller.form.SolutionForm;
 import com.tathink.univa.controller.form.SolutionLoginForm;
 import com.tathink.univa.domain.Answer;
@@ -142,6 +143,15 @@ public class SolutionController {
 		}
 	}
 	
+	@PostMapping("/solution/review")
+	public String SolutionReviewApply(
+			ReviewForm form) {
+		int idx = sService.reviewApply(form);
+		
+		String redirectUrl = "redirect:/solution/detail?id="+idx; 
+		return redirectUrl;
+	}
+	
 	@GetMapping("/solution/img")
 	public ResponseEntity<Resource> imageView(@RequestParam("id") String img) throws IOException {
 		Path path = Paths.get("uploads/imgs/"+img);
@@ -153,7 +163,6 @@ public class SolutionController {
 		Resource resource = new InputStreamResource(Files.newInputStream(path));
 		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}
-	
 	
 	@PostMapping("/solution/test")
 	@ResponseBody
