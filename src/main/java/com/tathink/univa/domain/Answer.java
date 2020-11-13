@@ -1,6 +1,7 @@
 package com.tathink.univa.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -61,12 +62,16 @@ public class Answer {
 	}
 
 	public List<AnswerSub> getAnswer_sub() {
+		if( this.answer_sub == null) {
+			this.answer_sub = new ArrayList<AnswerSub>();
+		}
 		return answer_sub;
 	}
 	public void setAnswer_sub(List<AnswerSub> answer_sub) {
 		this.answer_sub = answer_sub;
 	}
 	public void addAnsser_sub(AnswerSub answerSub) {
-		this.answer_sub.add(answerSub);
+		List<AnswerSub> mAnswer = getAnswer_sub();
+		mAnswer.add(answerSub);
 	}
 }
