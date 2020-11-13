@@ -19,7 +19,9 @@ public class SolutionAnswerController {
 	@PostMapping("/solution/answer")
 	public String SolutionAnswerApply(AnswerForm form) {
 		
-		String redirectUrl = "redirect:/solution/detail"+form.getSolution_id(); 
+		sService.answerApply(form);
+		
+		String redirectUrl = "redirect:/solution/detail?id="+form.getSolution_id(); 
 		return redirectUrl;
 	}
 }
