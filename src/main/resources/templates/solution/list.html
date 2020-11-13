@@ -11,14 +11,14 @@
         <div class="tt-tab-wrapper" style="cursor:pointer;">
             <div class="tt-wrapper-inner">
                 <ul class="nav nav-tabs pt-tabs-default" role="tablist">
-                    <li class="nav-item show" onclick="location.href='/solution/list?min=1&max=10&state=0'">
-                        <a class="nav-link active" data-toggle="tab" role="tab"><span>전체</span></a>
+                    <li class="nav-item show" onclick="location.href='/solution/list?min=0&max=10&state=0'">
+                        <a th:classappend="${#strings.equals(param.state, 0)} ? active" class="nav-link" data-toggle="tab" role="tab"><span>전체</span></a>
                     </li>
-                    <li class="nav-item" onclick="location.href='/solution/list?min=1&max=10&state=4'">
-                        <a class="nav-link" data-toggle="tab" role="tab"><span>답변완료</span></a>
+                    <li class="nav-item" onclick="location.href='/solution/list?min=0&max=10&state=4'">
+                        <a th:classappend="${#strings.equals(param.state, 4)} ? active" class="nav-link" data-toggle="tab" role="tab"><span>답변완료</span></a>
                     </li>
-                    <li class="nav-item" onclick="location.href='/solution/list?min=1&max=10&state=1'">
-                        <a class="nav-link" data-toggle="tab" role="tab"><span>답변대기중</span></a>
+                    <li class="nav-item" onclick="location.href='/solution/list?min=0&max=10&state=1'">
+                        <a th:classappend="${#strings.equals(param.state, 1)} ? active" class="nav-link" data-toggle="tab" role="tab"><span>답변대기중</span></a>
                     </li>
                 </ul>
             </div>
@@ -100,7 +100,6 @@
     }
   }
 </script>
-<script th:src="@{/js/bundle.js}"></script>
 <svg th:replace="solution/svg/svg :: svg"></svg>
 </body>
 </html>
