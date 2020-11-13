@@ -178,16 +178,16 @@
                                  <div class="tt-item-description" th:each="answers : ${solution.answer.answer_sub}">
                                     <p th:text="${answers.text}">대답 내용</p>
                                     <p>
-                                       <img class="tt-offset-11" src="../images/single-topic-img01.jpg" alt="">
+                                       <img class="tt-offset-11" th:src="'/solution/img?id=' + ${answers.image_ur}" alt="">
                                     </p>
                                  </div>
                               </div>
                            </div>
-                        </div>
-                        <form th:if="${session.user?.username != null and solution.state.id < 4}" action="/solution/answer" enctype="multipart/form-data" method="POST">
                            <h4 class="tt-title-separator">
                              <span>You’ve reached the end of replies</span>
                            </h4>
+                        </div>
+                        <form th:if="${session.user?.username != null and solution.state.id < 4}" action="/solution/answer" enctype="multipart/form-data" method="POST">
                            <div class="pt-editor form-default" id="answer-row">
                               <h6 class="pt-title">질문에 대한 답변을 입력해주세요.</h6>
                               <div class="row" style="border-bottom:1px solid #e2e7ea;">
@@ -242,29 +242,59 @@
                            </div>
                         </form>
 
-                        <form th:if="${session.user?.username == null and solution.state.id > 3}">
+                        <form th:if="${session.user?.username == null and solution.state.id == 4}" action="/solution/review" enctype="multipart/form-data" method="POST">
                           <div class="pt-editor form-default">
                              <h6 class="pt-title">만족하셨다면 리뷰를 작성해주세요.</h6>
+                             <div class="form-group" style="float:right;">
+                                <h6 class="pt-title" style="float:left;">평점&nbsp&nbsp:&nbsp&nbsp</h6>
+            										<div id="star-list" class="star-rating" style="float:left;">
+            											<i class="zmdi zmdi-star" style="cursor:pointer; color:#d81159;" onclick="onStar(1);"></i>
+            											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(2);"></i>
+            											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(3);"></i>
+            											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(4);"></i>
+            											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(5);"></i>
+            										</div>
+            									</div>
                              <div class="form-group">
-                                <textarea name="message" class="form-control" rows="5" placeholder="Lets get started"></textarea>
+                                <textarea name="text" class="form-control" rows="5" placeholder="Lets get started"></textarea>
                              </div>
                              <div class="pt-row">
+                                <div class="col-auto"></div>
                                 <div class="col-auto">
-                                   <div class="checkbox-group">
-                                      <input type="checkbox" id="checkBox21" name="checkbox" checked="">
-                                      <label for="checkBox21">
-                                      <span class="check"></span>
-                                      <span class="box"></span>
-                                      <span class="tt-text">리뷰 전체공개</span>
-                                      </label>
-                                   </div>
-                                </div>
-                                <div class="col-auto">
-                                   <a class="btn btn-secondary btn-width-lg" style="color:#fff;">등록하기</a>
+                                  <input type="text" name="score" value="1" style="display:none;"/>
+                                  <input type="text" name="solution_id" style="display:none;" value="0" th:value="${param.id}">
+                                  <a class="btn btn-secondary btn-width-lg" style="color:#fff;" type="submit" value="리뷰 등록">리뷰등록</a>
                                 </div>
                              </div>
                           </div>
                         </form>
+
+                        <div th:if="${solution.state.id > 4}">
+                            <div class="pt-editor form-default">
+                               <h6 class="pt-title" th:text="${solution.nickname} + '님'" style="float:left; margin-right:10px;">Review</h6>
+                               <input type="text" name="score" value="1" style="display:none;"/>
+                               <div class="form-group">
+              										<div id="star-list" class="star-rating">
+                                    <span>(</span>
+              											<i class="zmdi zmdi-star" style="cursor:pointer; color:#d81159;" onclick="onStar(1);"></i>
+              											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(2);"></i>
+              											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(3);"></i>
+              											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(4);"></i>
+              											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(5);"></i>
+                                    <span>)</span>
+              										</div>
+              									</div>
+                                <div class="form-group">
+                                  <p style="padding:20px;" th:text="${solution.review}">
+
+                                  </p>
+                                </div>
+                               <div class="pt-row">
+                                  <div class="col-auto"></div>
+                                  <div class="col-auto"></div>
+                               </div>
+                            </div>
+                        </div>
                      </div>
                   </div>
                </div>
@@ -276,6 +306,15 @@
 
       <script>
       imagePreView(document.getElementById("imageFile_01"));
+
+      function onStar(score){
+        $("input[name=score]").val(score);
+        var list = $("#star-list").children();
+        for (var i = 0; i < list.length; i++) {
+          if(i < score) list[i].style.color = "#d81159";
+          else list[i].style.color = "#666f74";
+        }
+      }
 
       // n 길이가 width보다 아래일때, n 앞에 0을 붙혀줌
       function numberPad(n, width) {
@@ -332,65 +371,6 @@
                       "<li>"+
                         "<button type=\"button\" class=\"btn-icon\" style=\"cursor:\"><h4>질문내용</h4></button>"+
                       "</li>"+
-                      // "<li>"+
-                      //   "<button type=\"button\" class=\"btn-icon\" style=\"cursor:\"><h4>∞</h4></button>"+
-                      // "</li>"+
-                      // "<li><button type=\"button\" class=\"btn-icon\">"+
-                      //     "<svg class=\"tt-icon\">"+
-                      //       "<use xlink:href=\"#icon-italic\"></use>"+
-                      //     "</svg>"+
-                      // "</button></li>"+
-                      // "<li><button type=\"button\" class=\"btn-icon\">"+
-                      //     "<svg class=\"tt-icon\">"+
-                      //       "<use xlink:href=\"#icon-share_topic\"></use>"+
-                      //     "</svg>"+
-                      // "</button></li>"+
-                      // "<li><button type=\"button\" class=\"btn-icon\">"+
-                      //     "<svg class=\"tt-icon\">"+
-                      //       "<use xlink:href=\"#icon-blockquote\"></use>"+
-                      //     "</svg>"+
-                      // "</button></li>"+
-                      // "<li><button type=\"button\" class=\"btn-icon\">"+
-                      //     "<svg class=\"tt-icon\">"+
-                      //       "<use xlink:href=\"#icon-performatted\"></use>"+
-                      //     "</svg>"+
-                      // "</button></li>"+
-                      // "<li class=\"hr\"></li>"+
-                      // "<li><button type=\"button\" class=\"btn-icon\">"+
-                      //     "<svg class=\"tt-icon\">"+
-                      //       "<use xlink:href=\"#icon-upload_files\"></use>"+
-                      //     "</svg>"+
-                      // "</button></li>"+
-                      // "<li><button type=\"button\" class=\"btn-icon\">"+
-                      //     "<svg class=\"tt-icon\">"+
-                      //       "<use xlink:href=\"#icon-bullet_list\"></use>"+
-                      //     "</svg>"+
-                      // "</button></li>"+
-                      // "<li><button type=\"button\" class=\"btn-icon\">"+
-                      //     "<svg class=\"tt-icon\">"+
-                      //       "<use xlink:href=\"#icon-heading\"></use>"+
-                      //     "</svg>"+
-                      // "</button></li>"+
-                      // "<li><button type=\"button\" class=\"btn-icon\">"+
-                      //     "<svg class=\"tt-icon\">"+
-                      //       "<use xlink:href=\"#icon-horizontal_line\"></use>"+
-                      //     "</svg>"+
-                      // "</button></li>"+
-                      // "<li><button type=\"button\" class=\"btn-icon\">"+
-                      //     "<svg class=\"tt-icon\">"+
-                      //       "<use xlink:href=\"#icon-emoticon\"></use>"+
-                      //     "</svg>"+
-                      // "</button></li>"+
-                      // "<li><button type=\"button\" class=\"btn-icon\">"+
-                      //     "<svg class=\"tt-icon\">"+
-                      //       "<use xlink:href=\"#icon-settings\"></use>"+
-                      //     "</svg>"+
-                      // "</button></li>"+
-                      // "<li><button type=\"button\" class=\"btn-icon\">"+
-                      //     "<svg class=\"tt-icon\">"+
-                      //       "<use xlink:href=\"#icon-color_picker\"></use>"+
-                      //     "</svg>"+
-                      // "</button></li>"+
                   "</ul>"+
               "</div>"+
               "<textarea name=\"answerSub[" + (length-1) + "].text\" class=\"form-control\" rows=\"5\" placeholder=\"사진에 대한 설명 및 답변을 입력하세요.\"></textarea>"+
