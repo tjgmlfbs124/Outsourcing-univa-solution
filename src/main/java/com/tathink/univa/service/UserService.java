@@ -24,7 +24,7 @@ public class UserService {
 		manager.setUsername(form.getUsername());
 		manager.setPassword(form.getPassword());
 		
-		Manager managerResult = uRepository.findByManagerObj(manager).get(); 
+		Manager managerResult = uRepository.findByManagerObj(manager).orElse(null); 
 		if(managerResult != null) {
 			session.setAttribute("user", managerResult);
 		}
