@@ -147,7 +147,7 @@
                                  </div>
                               </div>
                            </div>
-                           <div class="tt-item tt-wrapper-success" th:if="${solution.state.id > 4}">
+                           <div class="tt-item tt-wrapper-success" th:if="${solution.state.id > 3}">
                               <div class="tt-single-topic">
                                  <div class="tt-item-header pt-noborder">
                                     <div class="tt-item-info info-top">
@@ -184,13 +184,21 @@
                               </div>
                            </div>
                         </div>
-                        <form th:if="${session.user?.username != null and solution.state.id < 4}">
+                        <form th:if="${session.user?.username != null and solution.state.id < 4}" action="/solution/answer" enctype="multipart/form-data" method="POST">
                            <h4 class="tt-title-separator">
                              <span>You’ve reached the end of replies</span>
                            </h4>
                            <div class="pt-editor form-default" id="answer-row">
                               <h6 class="pt-title">질문에 대한 답변을 입력해주세요.</h6>
                               <div class="row" style="border-bottom:1px solid #e2e7ea;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="inputTopicTitle">대표 답변</label>
+                                        <div class="tt-value-wrapper">
+                                          <textarea name="content" class="form-control" rows="5" placeholder="답변의 대표내용을 입력해주세요."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                                  <div class="col-md-3">
                                     <ul class="pt-edit-btn">
                                        <li>
@@ -205,6 +213,7 @@
                                        <img style="max-width:120px; max-height:120px; min-width:120px; min-height:120px;" id="image_01" onclick="ajaxFileUpload('1')">
                                        <input type="file" name="answerSub[0].file" id="imageFile_01" style="display:none;">
                                        <input type="text" name="answerSub[0].number" style="display:none;" value="0">
+                                       <input type="text" name="solution_id" style="display:none;" value="0" th:value="${param.id}">
                                        </span>
                                        </a>
                                     </div>
@@ -227,13 +236,13 @@
                               <div class="row">
                                  <div class="col-auto ml-auto">
                                     <a class="btn btn-secondary btn-custom" style="color:#fff; cursor:pointer; background:#000;" onclick="addQuestion()">+</a>
-                                    <a class="btn btn-secondary btn-width-lg" style="color:#fff;" onclick="addQuestion()">답변 등록</a>
+                                    <input class="btn btn-secondary btn-width-lg" style="color:#fff;" type="submit" value="답변등록"/>
                                  </div>
                               </div>
                            </div>
                         </form>
 
-                        <form th:if="${session.user?.username == null and solution.state.id > 4}">
+                        <form th:if="${session.user?.username == null and solution.state.id > 3}">
                           <div class="pt-editor form-default">
                              <h6 class="pt-title">만족하셨다면 리뷰를 작성해주세요.</h6>
                              <div class="form-group">
@@ -384,7 +393,7 @@
                       // "</button></li>"+
                   "</ul>"+
               "</div>"+
-              "<textarea name=\"answerSub[" + (length-1) + "].text\" class=\"form-control\" rows=\"5\" placeholder=\"질문내용을 입력하세요\"></textarea>"+
+              "<textarea name=\"answerSub[" + (length-1) + "].text\" class=\"form-control\" rows=\"5\" placeholder=\"사진에 대한 설명 및 답변을 입력하세요.\"></textarea>"+
           "</div>"+
           "</div>");
           imagePreView(document.getElementById("imageFile_"+numberPad(length,2)));
