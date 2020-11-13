@@ -3,6 +3,7 @@ package com.tathink.univa.domain;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -69,6 +70,9 @@ public class Solution {
 	
 	@OneToOne(targetEntity=Answer.class, mappedBy="question", cascade = CascadeType.PERSIST)
 	private Answer answer;
+	
+	@OneToMany(mappedBy = "solution") // 오브젝트의 프로퍼티 명!
+	private Set<QuestionSubject> subjects;
 	
 	public int getId() {
 		return id;
@@ -180,6 +184,13 @@ public class Solution {
 	}
 	public void setAnswer(Answer answer) {
 		this.answer = answer;
+	}
+	
+	public Set<QuestionSubject> getSubjects() {
+		return subjects;
+	}
+	public void setSubjects(Set<QuestionSubject> subjects) {
+		this.subjects = subjects;
 	}
 	
 }

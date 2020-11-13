@@ -161,3 +161,33 @@ ADD UNIQUE INDEX `username_UNIQUE` (`username`);
 /* 엔서 테이블 answer_date 를 자동으로 생성되도록 변경 */
 ALTER TABLE `univa`.`answer`
 MODIFY `answer_date` datetime DEFAULT CURRENT_TIMESTAMP; 
+
+/* 주제 테이블 생성 */
+CREATE TABLE IF NOT EXISTS `univa`.`subject` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+
+/* 질문주제 연결 테이블 생성 */
+CREATE TABLE IF NOT EXISTS `univa`.`question_subject` (
+  `subject_id` INT UNSIGNED NOT NULL,
+  `question_id` INT UNSIGNED NOT NULL,
+  INDEX `fk_question_subject_subject1_idx` (`subject_id` ASC) VISIBLE,
+  INDEX `fk_question_subject_question1_idx` (`question_id` ASC) VISIBLE,
+  CONSTRAINT `fk_question_subject_subject1`
+    FOREIGN KEY (`subject_id`)
+    REFERENCES `univa`.`subject` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_question_subject_question1`
+    FOREIGN KEY (`question_id`)
+    REFERENCES `univa`.`question` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+
+/* 다대다 중간 테이블 pk컬럼 생성 */
+ALTER TABLE `univa`.`question_subject` 
+ADD COLUMN `id` INT UNSIGNED NOT NULL AUTO_INCREMENT FIRST,
+ADD PRIMARY KEY (`id`);

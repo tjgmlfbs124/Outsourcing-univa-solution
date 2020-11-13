@@ -29,6 +29,7 @@ import com.tathink.univa.domain.Answer;
 import com.tathink.univa.domain.AnswerSub;
 import com.tathink.univa.domain.Manager;
 import com.tathink.univa.domain.Problem;
+import com.tathink.univa.domain.QuestionSubject;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.service.SolutionService;
 
@@ -157,12 +158,20 @@ public class SolutionController {
 	@PostMapping("/solution/test")
 	@ResponseBody
 	public String SolutionTest(Model model) {
+		Solution solution = sService.findOne(190).get();
+		for( QuestionSubject data : solution.getSubjects() ) {
+			System.out.println("name: "+data.getSubject().getName());
+		}
+		
+		
+		/* 답변의 보조답변들 출력
 		List<AnswerSub> answers = sService.findOne(190).get().getAnswer().getAnswer_sub();
 		Answer answer = sService.findOne(190).get().getAnswer();
 		for(AnswerSub val : answers) {
 			System.out.println(val.getText());
 		}
 		System.out.println(answer.getQuestion().getNickname());
+		*/
 		return "hello";
 	}
 	
