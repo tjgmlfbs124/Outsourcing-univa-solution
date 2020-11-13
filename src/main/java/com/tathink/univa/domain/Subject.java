@@ -20,7 +20,7 @@ public class Subject {
 	private String name;
 	
 	@OneToMany(mappedBy = "subject")
-	private Set<QuestionSubject> questions;
+	private Set<QuestionSubject> soluions;
 
 	public int getId() {
 		return id;
@@ -36,7 +36,7 @@ public class Subject {
 		this.name = name;
 	}
 
-	public Set<QuestionSubject> getQuestions() {
-		return questions;
+	public Set<QuestionSubject> getSoluions() {
+		return soluions;
 	}
 }
