@@ -70,6 +70,7 @@ public class SolutionService {
 		return qRepository.save(solution).getId();
 	}
 	
+	/* 답변 업로드 */
 	public int answerApply(AnswerForm form) {
 		Answer answer = new Answer();
 		answer.setQuestion( qRepository.findById(form.getSolution_id()).get());
@@ -98,7 +99,13 @@ public class SolutionService {
 			}
 			answer.addAnsser_sub(answerSub);
 		}
+		updateState(answer.getQuestion(), qRepository.findStateById(4).get());
 		return qRepository.save(answer).getId();
+	}
+	
+	public void updateState(Solution solution, SolutionState state) {
+		solution.setState(state);
+		qRepository.save(solution);
 	}
 	
 	//

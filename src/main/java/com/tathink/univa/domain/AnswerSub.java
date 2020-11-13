@@ -8,7 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.DynamicInsert;
+
 @Entity(name="problem_answer")
+@DynamicInsert
 public class AnswerSub {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

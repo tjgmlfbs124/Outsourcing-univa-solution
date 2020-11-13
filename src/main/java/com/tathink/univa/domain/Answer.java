@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.DynamicInsert;
+
 @Entity(name = "answer")
+@DynamicInsert
 public class Answer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +34,7 @@ public class Answer {
 	@Column(name="answer_date")
 	private LocalDateTime answer_date;
 	
-	@OneToMany(targetEntity=AnswerSub.class, mappedBy="answer")
+	@OneToMany(targetEntity=AnswerSub.class, mappedBy="answer", cascade = CascadeType.PERSIST)
 	private List<AnswerSub> answer_sub;
 
 	public int getId() {

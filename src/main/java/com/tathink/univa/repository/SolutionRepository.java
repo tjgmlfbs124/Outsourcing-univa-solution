@@ -35,6 +35,11 @@ public class SolutionRepository {
 		return Optional.ofNullable(question);
 	}
 	
+	public Optional<SolutionState> findStateById(int id) {
+		SolutionState state = em.find(SolutionState.class, id);
+		return Optional.ofNullable(state);
+	}
+	
 	public List<Solution> findAll() {
 		return em.createQuery("select q from question q", Solution.class).getResultList();
 		//return new ArrayList<Question>();
