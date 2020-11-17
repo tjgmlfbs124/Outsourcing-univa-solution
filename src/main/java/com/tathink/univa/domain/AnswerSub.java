@@ -29,7 +29,7 @@ public class AnswerSub {
 	private String text;
 	
 	@Column(name="image_url")
-	private String image_ur;
+	private String image_url;
 
 	public int getId() {
 		return id;
@@ -60,9 +60,9 @@ public class AnswerSub {
 	}
 
 	public String getImage_ur() {
-		return image_ur;
+		return image_url;
 	}
 	public void setImage_ur(String image_ur) {
-		this.image_ur = image_ur;
+		this.image_url = image_ur;
 	}
 }

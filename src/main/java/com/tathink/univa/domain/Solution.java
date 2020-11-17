@@ -3,6 +3,7 @@ package com.tathink.univa.domain;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -72,7 +73,10 @@ public class Solution {
 	private Answer answer;
 	
 	@OneToMany(mappedBy = "solution") // 오브젝트의 프로퍼티 명!
-	private Set<QuestionSubject> subjects;
+	private Set<SolutionSubject> subjects;
+	
+	@OneToMany(targetEntity=SolutionChat.class, mappedBy = "solution", cascade = CascadeType.PERSIST)
+	private Set<SolutionChat> chats;
 	
 	public int getId() {
 		return id;
@@ -186,11 +190,30 @@ public class Solution {
 		this.answer = answer;
 	}
 	
-	public Set<QuestionSubject> getSubjects() {
+	public Set<SolutionSubject> getSubjects() {
+		if( this.subjects == null ) {
+			subjects = new HashSet<SolutionSubject>();
+		}
 		return subjects;
 	}
-	public void setSubjects(Set<QuestionSubject> subjects) {
+	public void setSubjects(Set<SolutionSubject> subjects) {
 		this.subjects = subjects;
+	}
+	public void addSubject(SolutionSubject subject) {
+		this.subjects.add(subject);
+	}
+	
+	public Set<SolutionChat> getChats() {
+		if( this.chats == null) {
+			this.chats = new HashSet<SolutionChat>();
+		}
+		return chats;
+	}
+	public void setChats(Set<SolutionChat> chats) {
+		this.chats = chats;
+	}
+	public void addChat(SolutionChat chat) {
+		this.chats.add(chat);
 	}
 	
 }
