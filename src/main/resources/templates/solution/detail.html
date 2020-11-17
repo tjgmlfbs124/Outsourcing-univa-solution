@@ -6,6 +6,7 @@
       <header th:replace="solution/widget/pc-menu :: p-menu"></header>
       <main id="tt-pageContent"  class="tt-offset-small">
         <input type="text" name="grade" style="display:none;" value="0" th:value="${session.user?.username}">
+        <input type="text" name="solution_id" style="display:none;" value="0" th:value="${param.id}">
          <div class="container" style="max-width:1600px;">
             <div class="tt-messages-layout">
                <div class="row no-gutters">
@@ -324,6 +325,7 @@
          </div>
       </main>
       <script th:src="@{/js/bundle.js}"></script>
+      <script th:src="@{/js/ajaxApi.js}"></script>
       <svg th:replace="solution/svg/svg :: svg"></svg>
 
       <script>
@@ -344,21 +346,29 @@
       function onChat(){
         var user = $("input[name=grade]").val();
         var solution_id = $("input[name=solution_id]").val();
-        var content = $("input[name=chat-message]").val();
+        var content = $("textarea[name=chat-message]").val();
         var image_url = document.getElementById('chat-image-form').files[0];
         var writer = 0;
-
-        var formData = new FormData();
-        formData.append("id", solution_id);
-        formData.append("writer", writer);
-        formData.append("image_url", image_url);
         // 로그인이 된 상태라면 => 관리자라면
         if(user) writer = 1;
         else writer = 0;
-        postAPI("/solution/chat",formData),
+
+        var formData = new FormData();
+        console.log("formData : " , formData);
+        formData.append("solution_id", solution_id);
+        formData.append("writer", writer);
+        formData.append("file", image_url);
+        formData.append("content", content);
+
+        for (var key of formData.entries()) {
+         console.log(key[0] + ': ' + key[1]);
+       }
+
+        postAPI("/solution/chat",
+        JSON.stringify(formData),
         function(result){
           console.log("result : " , result);
-          if(result) window.location.href="/solution/detail?id="+id
+          if(result) window.location.href="/solution/detail?id="+id;
           else window.alert("정보가 일치하지 않습니다.");
         });
       }
