@@ -17,7 +17,7 @@
                         </h2>
                      </a>
                      <div class="tt-all-avatar">
-                        <div class="tt-list-avatar js-init-scroll">
+                        <div class="tt-list-avatar js-init-scroll" id="chat-row">
                            <a class="tt-item">
                               <div class="tt-col-avatar">
                                  <svg class="tt-icon">
@@ -27,63 +27,6 @@
                               <div class="tt-col-description">
                                  <h4 class="tt-title"><span>운영자</span> <span class="time">Oct 23 11:13</span></h4>
                                  <div class="tt-message">답변이 등록되었습니다.<br>이용해주셔서 감사합니다.</div>
-                              </div>
-                           </a>
-                           <a class="tt-item">
-                              <div class="tt-col-avatar">
-                                 <svg class="tt-icon">
-                                    <use xlink:href="#icon-ava-q"></use>
-                                 </svg>
-                              </div>
-                              <div class="tt-col-description">
-                                 <h4 class="tt-title"><span>서**</span> <span class="time">23 Oct 11:15</span></h4>
-                                 <div class="tt-message">궁금한게 있는데요</div>
-                                 <div class="tt-message">
-                                    <p>
-                                       <img class="tt-offset-11" src="../images/single-topic-img01.jpg" alt="" style="max-width:200px;">
-                                    </p>
-                                 </div>
-                              </div>
-                           </a>
-                           <a class="tt-item">
-                              <div class="tt-col-avatar">
-                                 <svg class="tt-icon">
-                                    <use xlink:href="#icon-ava-a"></use>
-                                 </svg>
-                              </div>
-                              <div class="tt-col-description">
-                                 <h4 class="tt-title"><span>운영자</span> <span class="time">23 Oct 11:20</span></h4>
-                                 <div class="tt-message">네 말씀해주세요.</div>
-                              </div>
-                           </a>
-                           <a class="tt-item">
-                              <div class="tt-col-avatar">
-                                 <svg class="tt-icon">
-                                    <use xlink:href="#icon-ava-q"></use>
-                                 </svg>
-                              </div>
-                              <div class="tt-col-description">
-                                 <h4 class="tt-title"><span>서**</span> <span class="time">Jan 24 11:30</span></h4>
-                                 <div class="tt-message">애국가 3절은 무엇인가요?</div>
-                              </div>
-                           </a>
-                           <a class="tt-item">
-                              <div class="tt-col-avatar">
-                                 <svg class="tt-icon">
-                                    <use xlink:href="#icon-ava-a"></use>
-                                 </svg>
-                              </div>
-                              <div class="tt-col-description">
-                                 <h4 class="tt-title"><span>운영자</span> <span class="time">Jan 24 11:32</span></h4>
-                                 <div class="tt-message">
-                                    가을 하늘 공활한데 높고 구름 없이<br>
-                                    밝은 달은 우리 가슴 일편단심일세.<br>
-                                    무궁화 삼천리 화려강산<br>
-                                    대한 사람, 대한으로 길이 보전하세<br>
-                                    <p>
-                                       <img class="tt-offset-11" src="../images/single-topic-img01.jpg" alt="" style="max-width:200px;">
-                                    </p>
-                                 </div>
                               </div>
                            </a>
                         </div>
@@ -357,14 +300,16 @@
         console.log("formData : " , formData);
         formData.append("solution_id", solution_id);
         formData.append("writer", writer);
-        formData.append("file", image_url);
+        // formData.append("file", image_url);
         formData.append("content", content);
 
         postAPI("/solution/chat",
         formData,
         function(result){
-          var a = sortBy(result, { prop: "date" });
-          console.log("a : " , a);
+          // 날짜순 정렬
+          result = sortBy(result, { prop: "date" });
+          for(var idx=0; idx<result.length; idx++)
+            addChatRow(result[idx].writer, result[idx].date, result[idx].content);
         });
       }
 
@@ -374,12 +319,12 @@
           return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
       }
 
-      // 파일업로드
+      // 답변쪽 이미지 파일 업로드
       function ajaxFileUpload(mIndex) {
         $("#imageFile_" + numberPad(mIndex,2)).click();
       }
 
-      // 파일업로드
+      // 채팅쪽 이미지 파일 업로드
       function chatImageUpload() {
         $("#chat-image-form").click();
       }
@@ -454,6 +399,39 @@
           "</div>");
           imagePreView(document.getElementById("imageFile_"+numberPad(length,2)));
       }
+
+      function addChatRow(writer, date, content){
+        $("#chat-row").append(""+
+        "<a class=\"tt-item\">"+
+          "<div class=\"tt-col-avatar\">"+
+             "<svg class=\"tt-icon\">"+
+                writerToicon(writer)+
+             "</svg>"+
+          "</div>"+
+          "<div class=\"tt-col-description\">"+
+             "<h4 class=\"tt-title\"><span>"+writerToname(writer)+"</span> <span class=\"time\">"+date+"</span></h4>"+
+             "<div class=\"tt-message\">"+content+"</div>"+
+             "<div class=\"tt-message\">"+
+                "<p>"+
+                   "<img class=\"tt-offset-11\" src=\"../images/single-topic-img01.jpg\" alt=\"\" style=\"max-width:200px;\">"+
+                "</p>"+
+             "</div>"+
+          "</div>"+
+        "</a>")
+      }
+
+      function writerToicon(writer){
+        if(writer == 0)
+          return "<use xlink:href=\"#icon-ava-q\"></use>";
+        else
+          return "<use xlink:href=\"#icon-ava-a\"></use>";
+      }
+
+      function writerToname(writer){
+        if(writer == 0 ) return "질문자";
+        else return "관리자";
+      }
+
 
       </script>
 </body>
