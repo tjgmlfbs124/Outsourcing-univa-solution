@@ -12,6 +12,7 @@ import com.tathink.univa.domain.Manager;
 import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.domain.SolutionState;
+import com.tathink.univa.domain.User;
 
 public class SolutionRepository {
 	
@@ -64,9 +65,28 @@ public class SolutionRepository {
 		return mQuery.getResultList();
 	}
 	
+	public List<Solution> findLimitAndStateAndUser(int firstResult, int maxNumber, SolutionState state, User user) {
+		TypedQuery<Solution> mQuery;
+		mQuery = em.createQuery("select q from question q where state = :state and user = :user order by q.id desc", Solution.class)
+				.setParameter("state", state)
+				.setParameter("user", user)
+				.setFirstResult(firstResult)
+				.setMaxResults(maxNumber);
+		return mQuery.getResultList();
+	}
+	
 	public List<Solution> findLimit(int firstResult, int maxNumber) {
 		TypedQuery<Solution> mQuery;
 		mQuery = em.createQuery("select q from question q order by q.id desc", Solution.class)
+				.setFirstResult(firstResult)
+				.setMaxResults(maxNumber);
+		return mQuery.getResultList();
+	}
+	
+	public List<Solution> findLimitAndUser(int firstResult, int maxNumber, User user) {
+		TypedQuery<Solution> mQuery;
+		mQuery = em.createQuery("select q from question q where user_id = :user order by q.id desc", Solution.class)
+				.setParameter("user", user)
 				.setFirstResult(firstResult)
 				.setMaxResults(maxNumber);
 		return mQuery.getResultList();
@@ -81,8 +101,17 @@ public class SolutionRepository {
 
 	public List<Solution> findByManager(int firstResult, int maxNumber, Manager manager) {
 		TypedQuery<Solution> mQuery;
-		mQuery = em.createQuery("select q from question q where manager = :manager order by q.id desc", Solution.class)
+		mQuery = em.createQuery("select q from question q where manager_id = :manager order by q.id desc", Solution.class)
 				.setParameter("manager", manager)
+				.setFirstResult(firstResult)
+				.setMaxResults(maxNumber);
+		return mQuery.getResultList();
+	}
+	
+	public List<Solution> findByUser(int firstResult, int maxNumber, User user) {
+		TypedQuery<Solution> mQuery;
+		mQuery = em.createQuery("select q from question q where user_id = :user order by q.id desc", Solution.class)
+				.setParameter("user", user)
 				.setFirstResult(firstResult)
 				.setMaxResults(maxNumber);
 		return mQuery.getResultList();

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tathink.univa.controller.form.AnswerForm;
@@ -13,6 +15,7 @@ import com.tathink.univa.controller.form.ChatJsonForm;
 import com.tathink.univa.controller.form.ProblemForm;
 import com.tathink.univa.controller.form.ReviewForm;
 import com.tathink.univa.controller.form.SolutionForm;
+import com.tathink.univa.controller.form.UserLoginForm;
 import com.tathink.univa.domain.Answer;
 import com.tathink.univa.domain.AnswerSub;
 import com.tathink.univa.domain.Manager;
@@ -20,6 +23,7 @@ import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.domain.SolutionChat;
 import com.tathink.univa.domain.SolutionState;
+import com.tathink.univa.domain.User;
 import com.tathink.univa.repository.SolutionRepository;
 import com.tathink.univa.repository.UserRepository;
 import com.tathink.univa.utils.FileUtil;
@@ -41,9 +45,7 @@ public class SolutionService {
 		
 		Solution solution = new Solution();
 		solution.setTitle(form.getTitle());
-		solution.setNickname(form.getNickname());
 		solution.setContent(form.getContent());
-		solution.setPassword(form.getPassword());
 		solution.setLimit_date(form.getLimit_date());
 		for (ProblemForm mForm : form.getProblems()) {
 			Problem problem = new Problem();
@@ -147,15 +149,31 @@ public class SolutionService {
 		return qRepository.findRecently(amount);
 	}
 	
-	/** 한계 및 상태 설정 질문 찾기 */
-	public List<Solution> findList(int lowLimit, int highLimit, int state) {
+	/** 한계 및 상태 설정 및 유저의 질문 찾기 */
+	public List<Solution> findList(int lowLimit, int highLimit, int state, HttpSession session) {
 		List<Solution> solutions;
-		if(state>0) {
-			SolutionState qstate = new SolutionState();
-			qstate.setId(state);
-			solutions = qRepository.findLimitAndState(lowLimit, highLimit, qstate);
-		} else {			
-			solutions = qRepository.findLimit(lowLimit, highLimit);
+		
+		UserLoginForm userInfo = (UserLoginForm)session.getAttribute("user");
+		if(userInfo.getType() == 1) {
+			User tempUser = new User();
+			tempUser.setUsername(userInfo.getUsername());
+			tempUser.setPassword(userInfo.getPassword());
+			User mUser = uRepository.findByUserObj(tempUser).get();
+			if(state>0) {
+				SolutionState qstate = new SolutionState();
+				qstate.setId(state);
+				solutions = qRepository.findLimitAndStateAndUser(lowLimit, highLimit, qstate, mUser);
+			} else {			
+				solutions = qRepository.findLimitAndUser(lowLimit, highLimit, mUser);
+			}
+		} else {
+			if(state>0) {
+				SolutionState qstate = new SolutionState();
+				qstate.setId(state);
+				solutions = qRepository.findLimitAndState(lowLimit, highLimit, qstate);
+			} else {			
+				solutions = qRepository.findLimit(lowLimit, highLimit);
+			}
 		}
 		
 		return solutions;
@@ -168,14 +186,14 @@ public class SolutionService {
 	}
 	
 	/** 질문 로그인 */
-	public Boolean loginSolutionUser(int idx, String password) {
-		Solution solution = qRepository.findById(idx).get();
-		if(solution.getPassword().equals(password)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+//	public Boolean loginSolutionUser(int idx, String password) {
+//		Solution solution = qRepository.findById(idx).get();
+//		if(solution.getPassword().equals(password)) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
 	
 	/** 채팅 등록 */
 	public Solution SolutionChatSave(ChatJsonForm form) {
@@ -222,7 +240,7 @@ public class SolutionService {
 	
 	/** 내질문 리스트 받기 */
 	public List<Solution> findMyAnswer(int firstResult, int number, int manager_id) {
-		Manager manager = uRepository.findById(manager_id).orElse(null);
+		Manager manager = uRepository.findByMangerId(manager_id).orElse(null);
 		if(manager == null) {
 			//
 		}

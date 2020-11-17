@@ -37,12 +37,6 @@ public class Solution {
 	@Column(name = "title", nullable = false)
 	private String title;
 	
-	@Column(name="nickname", nullable = false)
-	private String nickname;
-	
-	@Column(name="password", nullable = false)
-	private String password;
-	
 	@Column(name = "content", columnDefinition = "TEXT")
 	private String content;
 	
@@ -78,6 +72,10 @@ public class Solution {
 	@OneToMany(targetEntity=SolutionChat.class, mappedBy = "solution", cascade = CascadeType.PERSIST)
 	private Set<SolutionChat> chats;
 	
+	@ManyToOne(targetEntity=User.class, fetch=FetchType.EAGER)
+	@JoinColumn(name="user_id")
+	private User user;
+	
 	public int getId() {
 		return id;
 	}
@@ -97,20 +95,6 @@ public class Solution {
 	}
 	public void setTitle(String title) {
 		this.title = title;
-	}
-	
-	public String getNickname() {
-		return nickname;
-	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-	
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	
 	public String getContent() {
@@ -214,6 +198,12 @@ public class Solution {
 	}
 	public void addChat(SolutionChat chat) {
 		this.chats.add(chat);
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 }

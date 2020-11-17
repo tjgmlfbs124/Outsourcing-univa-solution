@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.tathink.univa.controller.form.ReviewForm;
 import com.tathink.univa.controller.form.SolutionForm;
 import com.tathink.univa.controller.form.SolutionLoginForm;
+import com.tathink.univa.controller.form.UserLoginForm;
 import com.tathink.univa.domain.Answer;
 import com.tathink.univa.domain.AnswerSub;
 import com.tathink.univa.domain.Manager;
@@ -55,8 +56,10 @@ public class SolutionController {
 	@GetMapping("/solution/list")
 	public String SolutionList(@RequestParam(value = "min", defaultValue = "0") int min,
 			@RequestParam(value = "max", defaultValue = "10") int max,
-			@RequestParam(value = "state", defaultValue = "0") int state, Model model) {
-		List<Solution> solutions = sService.findList(min, max, state);
+			@RequestParam(value = "state", defaultValue = "0") int state, 
+			Model model,
+			HttpSession session) {
+		List<Solution> solutions = sService.findList(min, max, state, session);
 		model.addAttribute("solutions", solutions);
 
 		return "solution/list";
@@ -94,10 +97,13 @@ public class SolutionController {
 
 	@GetMapping("/solution/detail")
 	public String SolutionDetail(@RequestParam("id") int id, Model model, HttpSession session) {
-		SolutionLoginForm solutionInfo = (SolutionLoginForm) session.getAttribute("solution_user");
-		Manager userInfo = (Manager) session.getAttribute("user");
-		if ((solutionInfo != null && solutionInfo.getId() == id) || userInfo != null) {
-			Solution solution = sService.findOne(id).get();
+		Solution solution = sService.findOne(id).get();
+		UserLoginForm userInfo = (UserLoginForm) session.getAttribute("user");
+		
+		if (userInfo != null && (userInfo.getId() == id && userInfo.getType() == 0 ) ) {
+			model.addAttribute("solution", solution);
+			return "/solution/detail";
+		} else if ( userInfo.getType() == 1 && solution.getUser().getUsername() == userInfo.getUsername()) {
 			model.addAttribute("solution", solution);
 			return "/solution/detail";
 		} else {
@@ -105,15 +111,16 @@ public class SolutionController {
 		}
 	}
 
-	@PostMapping("/solution/login")
-	@ResponseBody
+//	@PostMapping("/solution/login")
+//	@ResponseBody
 	public Boolean SolutionLoginViaAjax(@RequestBody SolutionLoginForm form, HttpSession session) {
-		if (sService.loginSolutionUser(form.getId(), form.getPassword())) {
-			session.setAttribute("solution_user", form);
-			return true;
-		} else {
-			return false;
-		}
+//		if (sService.loginSolutionUser(form.getId(), form.getPassword())) {
+//			session.setAttribute("solution_user", form);
+//			return true;
+//		} else {
+//			return false;
+//		}
+		return false;
 	}
 
 	@PostMapping("/solution/review")

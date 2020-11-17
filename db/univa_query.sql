@@ -209,3 +209,30 @@ CREATE TABLE IF NOT EXISTS `univa`.`question_chat` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
+
+/* 유저 테이블 생성 */
+CREATE TABLE IF NOT EXISTS `univa`.`user` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nickname` VARCHAR(45) NOT NULL,
+  `username` VARCHAR(45) NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `type` INT NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+
+/* 질문 테이블 nickname, password 제거 */
+ALTER TABLE `question`
+DROP `nickname`;
+ALTER TABLE `question`
+DROP `password`;
+
+/* 질문 테이블에 유저 id 추가 */
+ALTER TABLE `question`
+ADD `user_id` INT UNSIGNED DEFAULT 0;
+
+/* 질문 테이블 제약조건 추가*/
+ALTER TABLE `question`
+ADD CONSTRAINT `fk_question_user1`
+FOREIGN KEY(`user_id`) REFERENCES `univa`.`user`(`id`)
+ON DELETE SET DEFAULT
+ON UPDATE CASCADE;

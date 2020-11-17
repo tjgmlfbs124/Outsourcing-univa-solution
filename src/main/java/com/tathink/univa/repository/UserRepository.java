@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import com.tathink.univa.domain.Manager;
+import com.tathink.univa.domain.User;
 
 public class UserRepository {
 	
@@ -26,9 +27,23 @@ public class UserRepository {
 		return result.stream().findAny();
 	}
 	
-	public Optional<Manager> findById(int id) {
+	public Optional<User> findByUserObj(User user) {
+		TypedQuery<User> mQuery;
+		mQuery = em.createQuery("select u from user u where username = :username AND password = :password", User.class)
+				.setParameter("username", user.getUsername())
+				.setParameter("password", user.getPassword());
+		List<User> result = mQuery.getResultList();
+		return result.stream().findAny();
+	}
+	
+	public Optional<Manager> findByMangerId(int id) {
 		Manager manager = em.find(Manager.class, id);
 		return Optional.ofNullable(manager);
+	}
+	
+	public Optional<User> findByUserId(int id) {
+		User user = em.find(User.class, id);
+		return Optional.ofNullable(user);
 	}
 	
 }

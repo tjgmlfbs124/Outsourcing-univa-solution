@@ -4,6 +4,8 @@ public class UserLoginForm {
 	private String name;
 	private String username;
 	private String password;
+	private int type;
+	private int id;
 	
 	public String getUsername() {
 		return username;
@@ -24,5 +26,19 @@ public class UserLoginForm {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }
