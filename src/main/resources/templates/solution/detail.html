@@ -357,18 +357,14 @@
         console.log("formData : " , formData);
         formData.append("solution_id", solution_id);
         formData.append("writer", writer);
-        // formData.append("file", image_url);
+        formData.append("file", image_url);
         formData.append("content", content);
 
-        var object = {};
-        formData.forEach((value, key) => object[key] = value);
-        var json = JSON.stringify(object);
-
         postAPI("/solution/chat",
-        json,
+        formData,
         function(result){
-          console.log("result : " , result);
-
+          var a = sortBy(result, { prop: "date" });
+          console.log("a : " , a);
         });
       }
 
