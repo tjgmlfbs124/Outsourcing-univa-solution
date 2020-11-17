@@ -1,13 +1,17 @@
 package com.tathink.univa.controller.form;
 
+import java.time.LocalDateTime;
+
 import org.springframework.web.multipart.MultipartFile;
 
-public class ChatJsonForm {
+public class ChatJsonForm implements Comparable{
+	private int id;
 	private int solution_id;
 	private int writer;
 	private String content;
 	private MultipartFile file;
 	private String image_url;
+	private LocalDateTime date;
 	
 	public int getSolution_id() {
 		return solution_id;
@@ -40,5 +44,17 @@ public class ChatJsonForm {
 	}
 	public void setImage_url(String image_url) {
 		this.image_url = image_url;
+	}
+	public LocalDateTime getDate() {
+		return date;
+	}
+	public void setDate(LocalDateTime date) {
+		this.date = date;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }
