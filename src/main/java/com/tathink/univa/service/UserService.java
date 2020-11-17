@@ -20,7 +20,15 @@ public class UserService {
 	}
 	
 	public Manager login(UserLoginForm form, HttpSession session) {
-		Manager manager = new Manager();
+		Manager manager = (Manager) session.getAttribute("user");
+		if(manager != null) {
+			Manager rManager = uRepository.findByManagerObj( manager ).orElse(null);
+			if(rManager != null) {
+				return rManager;
+			}
+		}
+		
+		manager = new Manager();
 		manager.setUsername(form.getUsername());
 		manager.setPassword(form.getPassword());
 		

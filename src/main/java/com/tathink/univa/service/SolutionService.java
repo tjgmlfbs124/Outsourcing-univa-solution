@@ -15,11 +15,13 @@ import com.tathink.univa.controller.form.ReviewForm;
 import com.tathink.univa.controller.form.SolutionForm;
 import com.tathink.univa.domain.Answer;
 import com.tathink.univa.domain.AnswerSub;
+import com.tathink.univa.domain.Manager;
 import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.domain.SolutionChat;
 import com.tathink.univa.domain.SolutionState;
 import com.tathink.univa.repository.SolutionRepository;
+import com.tathink.univa.repository.UserRepository;
 import com.tathink.univa.utils.FileUtil;
 import com.tathink.univa.utils.StringUtil;
 
@@ -27,9 +29,11 @@ import com.tathink.univa.utils.StringUtil;
 public class SolutionService {
 	
 	private final SolutionRepository qRepository;
+	private final UserRepository uRepository;
 	
-	public SolutionService(SolutionRepository qRepository) {
+	public SolutionService(SolutionRepository qRepository, UserRepository uRepository) {
 		this.qRepository = qRepository;
+		this.uRepository = uRepository;
 	}
 	
 	/**질문 등록*/
@@ -173,7 +177,7 @@ public class SolutionService {
 		}
 	}
 	
-	/* 채팅 등록 */
+	/** 채팅 등록 */
 	public Solution SolutionChatSave(ChatJsonForm form) {
 		Solution solution = qRepository.findById(form.getSolution_id()).get();
 		SolutionChat chat = new SolutionChat();
@@ -200,6 +204,7 @@ public class SolutionService {
 		return solution;
 	}
 	
+	/** 질문의 채팅리스트 리턴 */
 	public List<ChatJsonForm> SolutionChatList(int id) {
 		List<ChatJsonForm> chatForms = new ArrayList<ChatJsonForm>();
 		for( SolutionChat chat : this.findOne(id).get().getChats()) {
@@ -215,4 +220,12 @@ public class SolutionService {
 		return chatForms;
 	}
 	
+	/** 내질문 리스트 받기 */
+	public List<Solution> findMyAnswer(int firstResult, int number, int manager_id) {
+		Manager manager = uRepository.findById(manager_id).orElse(null);
+		if(manager == null) {
+			//
+		}
+		return qRepository.findByManager(firstResult, number, manager);
+	}
 }

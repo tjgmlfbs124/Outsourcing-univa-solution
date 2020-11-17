@@ -26,4 +26,9 @@ public class UserRepository {
 		return result.stream().findAny();
 	}
 	
+	public Optional<Manager> findById(int id) {
+		Manager manager = em.find(Manager.class, id);
+		return Optional.ofNullable(manager);
+	}
+	
 }

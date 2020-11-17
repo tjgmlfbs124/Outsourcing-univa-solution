@@ -21,10 +21,25 @@ function postAPI(url, data, successCallback){
   }) // End Ajax Request
 }
 
-/**
-  *  sortBy
-  *   객체단위에 날짜가 있는 배열을 정렬하여 배열로 리턴.
-  */
+function postAPI2(url, data, successCallback){
+  $.ajax({
+      type : 'POST',
+      url : url,
+      dataType : 'json',
+      data : data,
+      contentType : false,
+      processData: false,
+      success : function(result) {
+        // TODO: result
+        successCallback(result);
+      },
+      error: function(request, status, error) {
+        console.log("Error post Api state : " + status);
+        console.log("Error post Api error : " + error);
+      }
+  }) // End Ajax Request
+}
+
 var sortBy = (function () {
   var toString = Object.prototype.toString,
       parse = function (x) { return x; },
