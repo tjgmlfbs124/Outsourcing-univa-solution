@@ -207,7 +207,7 @@ public class SolutionService {
 			formChat.setContent(chat.getContent());
 			//chatForm.add()
 		}
-		return chatForm;
+		return chatForms;
 	}
 	
 }
