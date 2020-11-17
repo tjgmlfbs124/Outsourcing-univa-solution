@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class ChatJsonForm implements Comparable{
+public class ChatJsonForm {
 	private int id;
 	private int solution_id;
 	private int writer;
