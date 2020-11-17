@@ -25,7 +25,7 @@ public class SolutionChatController {
 	@PostMapping("/solution/chat")
 	@ResponseBody
 	public List<ChatJsonForm> SendChat(
-			@RequestBody ChatJsonForm form) {
+			ChatJsonForm form) {
 		Solution solution = sService.SolutionChatSave(form);
 		return sService.SolutionChatList(solution.getId());
 	}

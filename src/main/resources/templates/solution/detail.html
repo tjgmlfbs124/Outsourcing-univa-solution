@@ -314,16 +314,15 @@
         console.log("formData : " , formData);
         formData.append("solution_id", solution_id);
         formData.append("writer", writer);
-        // formData.append("file", image_url);
+        formData.append("file", image_url);
         formData.append("content", content);
 
         var object = {};
         formData.forEach((value, key) => object[key] = value);
         var json = JSON.stringify(object);
 
-
-        postAPI("/solution/chat",
-        JSON.stringify(),
+        postAPI2("/solution/chat",
+        		formData,
         function(result){
           // 날짜순 정렬
           result = sortBy(result, { prop: "date" });
