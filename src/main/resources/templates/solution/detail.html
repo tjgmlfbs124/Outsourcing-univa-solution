@@ -5,6 +5,7 @@
       <nav th:replace="solution/widget/mobile-menu :: m-menu"></nav>
       <header th:replace="solution/widget/pc-menu :: p-menu"></header>
       <main id="tt-pageContent"  class="tt-offset-small">
+        <input type="text" name="grade" style="display:none;" value="0" th:value="${session.user?.username}">
          <div class="container" style="max-width:1600px;">
             <div class="tt-messages-layout">
                <div class="row no-gutters">
@@ -16,7 +17,7 @@
                      </a>
                      <div class="tt-all-avatar">
                         <div class="tt-list-avatar js-init-scroll">
-                           <a  class="tt-item">
+                           <a class="tt-item">
                               <div class="tt-col-avatar">
                                  <svg class="tt-icon">
                                     <use xlink:href="#icon-ava-a"></use>
@@ -27,7 +28,7 @@
                                  <div class="tt-message">답변이 등록되었습니다.<br>이용해주셔서 감사합니다.</div>
                               </div>
                            </a>
-                           <a  class="tt-item">
+                           <a class="tt-item">
                               <div class="tt-col-avatar">
                                  <svg class="tt-icon">
                                     <use xlink:href="#icon-ava-q"></use>
@@ -43,7 +44,7 @@
                                  </div>
                               </div>
                            </a>
-                           <a  class="tt-item">
+                           <a class="tt-item">
                               <div class="tt-col-avatar">
                                  <svg class="tt-icon">
                                     <use xlink:href="#icon-ava-a"></use>
@@ -54,7 +55,7 @@
                                  <div class="tt-message">네 말씀해주세요.</div>
                               </div>
                            </a>
-                           <a  class="tt-item">
+                           <a class="tt-item">
                               <div class="tt-col-avatar">
                                  <svg class="tt-icon">
                                     <use xlink:href="#icon-ava-q"></use>
@@ -65,7 +66,7 @@
                                  <div class="tt-message">애국가 3절은 무엇인가요?</div>
                               </div>
                            </a>
-                           <a  class="tt-item">
+                           <a class="tt-item">
                               <div class="tt-col-avatar">
                                  <svg class="tt-icon">
                                     <use xlink:href="#icon-ava-a"></use>
@@ -88,11 +89,31 @@
                         <div class="pt-editor form-default">
                            <h6 class="pt-title">답변에 대해 궁금한점을 물어보세요.</h6>
                            <div class="form-group">
-                              <textarea name="message" class="form-control" rows="5" placeholder="Lets get started"></textarea>
+                              <textarea name="chat-message" class="form-control" rows="5" placeholder="내용을 입력해주세요."></textarea>
+                           </div>
+                           <div class="row">
+                             <div class="col-md-9">
+                               <div class="form-group">
+                                 <div class="tt-value-wrapper">
+                                     <input type="text" id="chat-image-name"name="title" class="form-control" disabled/>
+                                 </div>
+                               </div>
+                             </div>
+                             <div class="col-md-3">
+                               <div class="form-group">
+                                 <div class="tt-value-wrapper">
+                                   <a class="btn btn-primary" style="cursor:pointer;" onclick="chatImageUpload()">
+
+               											<i class="zmdi zmdi-camera-add" style="cursor:pointer;" onclick="onStar(5);"></i>
+                                   </a>
+                                   <input type="file" id="chat-image-form" style="display:none;"/>
+                                 </div>
+                               </div>
+                             </div>
                            </div>
                            <div class="pt-row">
                               <div class="col-auto">
-                                 <a  class="btn btn-secondary btn-width-lg" style="cursor:pointer; color:#fff;">Reply</a>
+                                 <a class="btn btn-secondary btn-width-lg" onclick="onChat()" style="cursor:pointer; color:#fff;">입력</a>
                               </div>
                            </div>
                         </div>
@@ -281,6 +302,7 @@
               											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(3);"></i>
               											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(4);"></i>
               											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(5);"></i>
+
                                     <span>)</span>
               										</div>
               									</div>
@@ -305,8 +327,10 @@
       <svg th:replace="solution/svg/svg :: svg"></svg>
 
       <script>
+      fileNamePreView(document.getElementById("chat-image-form"));
       imagePreView(document.getElementById("imageFile_01"));
 
+      // 평점 별을 클릭할때 발생하는 이벤트 처리
       function onStar(score){
         $("input[name=score]").val(score);
         var list = $("#star-list").children();
@@ -314,6 +338,29 @@
           if(i < score) list[i].style.color = "#d81159";
           else list[i].style.color = "#666f74";
         }
+      }
+
+      // 채팅 "입력" 버튼을 클릭할때 발생하는 이벤트 처리
+      function onChat(){
+        var user = $("input[name=grade]").val();
+        var solution_id = $("input[name=solution_id]").val();
+        var content = $("input[name=chat-message]").val();
+        var image_url = document.getElementById('chat-image-form').files[0];
+        var writer = 0;
+
+        var formData = new FormData();
+        formData.append("id", solution_id);
+        formData.append("writer", writer);
+        formData.append("image_url", image_url);
+        // 로그인이 된 상태라면 => 관리자라면
+        if(user) writer = 1;
+        else writer = 0;
+        postAPI("/solution/chat",formData),
+        function(result){
+          console.log("result : " , result);
+          if(result) window.location.href="/solution/detail?id="+id
+          else window.alert("정보가 일치하지 않습니다.");
+        });
       }
 
       // n 길이가 width보다 아래일때, n 앞에 0을 붙혀줌
@@ -325,6 +372,11 @@
       // 파일업로드
       function ajaxFileUpload(mIndex) {
         $("#imageFile_" + numberPad(mIndex,2)).click();
+      }
+
+      // 파일업로드
+      function chatImageUpload() {
+        $("#chat-image-form").click();
       }
 
       // 이미지 미리보기 지원하는 함수
@@ -345,6 +397,25 @@
           $(target.id).css("cursor","pointer");
         };
       }
+
+      // 파일명 미리보기 함수
+      function fileNamePreView(target, callback){
+        console.log("target : " , target)
+        var num = (target.id).split("_")[1];
+        var img = new Image();
+        target.onchange = function (e) {
+          e.preventDefault();
+          var file = target.files[0], reader = new FileReader();
+          reader.onload = function (event) {
+            img.src = event.target.result;
+            img.id=target.id;
+          };
+          reader.readAsDataURL(file);
+          $("#chat-image-name").val(file.name);
+        };
+      }
+
+
       function addQuestion(){
         var length = $("#answer-row").children().length;
         $("#answer-row").append(""+
