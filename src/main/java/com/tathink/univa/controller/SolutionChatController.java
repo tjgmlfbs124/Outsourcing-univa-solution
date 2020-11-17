@@ -1,5 +1,7 @@
 package com.tathink.univa.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,12 +24,21 @@ public class SolutionChatController {
 	
 	@PostMapping("/solution/chat")
 	@ResponseBody
-	public Solution SendChat(
+	public List<ChatJsonForm> SendChat(
 			@RequestBody ChatJsonForm form) {
 		Solution solution = sService.SolutionChatSave(form);
-		return solution;
+		return sService.SolutionChatList(solution.getId());
 	}
 	
+	@PostMapping("/solution/chat/refresh")
+	@ResponseBody
+	public List<ChatJsonForm> RefrechChat(
+			@RequestBody ChatJsonForm form) {
+		//Solution solution = sService.findOne(form.getSolution_id()).get();
+		//return solution;
+		List<ChatJsonForm> solutionChats = sService.SolutionChatList(form.getSolution_id());
+		return solutionChats;
+	}
 
 	
 	

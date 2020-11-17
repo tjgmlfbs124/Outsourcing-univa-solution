@@ -204,10 +204,15 @@ public class SolutionService {
 		List<ChatJsonForm> chatForms = new ArrayList<ChatJsonForm>();
 		for( SolutionChat chat : this.findOne(id).get().getChats()) {
 			ChatJsonForm formChat = new ChatJsonForm();
+			formChat.setId(chat.getId());
 			formChat.setContent(chat.getContent());
-			//chatForm.add()
+			formChat.setImage_url(chat.getImage_url());
+			formChat.setSolution_id(chat.getSolution().getId());
+			formChat.setWriter(chat.getWriter());
+			formChat.setDate(chat.getDate());
+			chatForms.add(formChat);
 		}
-		return chatForm;
+		return chatForms;
 	}
 	
 }
