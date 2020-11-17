@@ -191,3 +191,21 @@ ENGINE = InnoDB
 ALTER TABLE `univa`.`question_subject` 
 ADD COLUMN `id` INT UNSIGNED NOT NULL AUTO_INCREMENT FIRST,
 ADD PRIMARY KEY (`id`);
+
+/* 채팅 테이블 생성*/
+CREATE TABLE IF NOT EXISTS `univa`.`question_chat` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `question_id` INT UNSIGNED NOT NULL,
+  `writer` INT NOT NULL,
+  `content` VARCHAR(255) NOT NULL,
+  `date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `image_url` VARCHAR(255) NULL,
+  `is_read` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  INDEX `fk_question_chat_question1_idx` (`question_id` ASC) VISIBLE,
+  CONSTRAINT `fk_question_chat_question1`
+    FOREIGN KEY (`question_id`)
+    REFERENCES `univa`.`question` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
