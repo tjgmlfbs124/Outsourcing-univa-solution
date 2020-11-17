@@ -228,7 +228,7 @@
                                 <div class="col-auto">
                                   <input type="text" name="score" value="1" style="display:none;"/>
                                   <input type="text" name="solution_id" style="display:none;" value="0" th:value="${param.id}">
-                                  <a class="btn btn-secondary btn-width-lg" style="color:#fff;" type="submit" value="리뷰 등록">리뷰등록</a>
+                                  <input class="btn btn-secondary btn-width-lg" style="color:#fff;" type="submit" value="리뷰 등록"/>
                                 </div>
                              </div>
                           </div>
@@ -268,14 +268,16 @@
          </div>
       </main>
       <script th:src="@{/js/bundle.js}"></script>
-      <script th:src="@{/js/ajaxApi.js}"></script>
+      <script th:src="@{/js/utils.js}"></script>
       <svg th:replace="solution/svg/svg :: svg"></svg>
 
       <script>
       fileNamePreView(document.getElementById("chat-image-form"));
       imagePreView(document.getElementById("imageFile_01"));
+      refresh();
 
-      (function () {
+      function refresh(){
+        $("#chat-row").empty();
         postAPI("/solution/chat/refresh",
         JSON.stringify({
           "solution_id" : $("input[name=solution_id]").val()
@@ -286,8 +288,7 @@
           for(var idx=0; idx<result.length; idx++)
             addChatRow(result[idx].writer, result[idx].date, result[idx].content);
         });
-
-      })();
+      }
 
       // 평점 별을 클릭할때 발생하는 이벤트 처리
       function onStar(score){
@@ -311,11 +312,14 @@
         else writer = 0;
 
         var formData = new FormData();
-        console.log("formData : " , formData);
         formData.append("solution_id", solution_id);
         formData.append("writer", writer);
         formData.append("file", image_url);
         formData.append("content", content);
+
+        for (var key of formData.entries()) {
+           console.log(key[0] + ': ' + key[1]);
+         }
 
         var object = {};
         formData.forEach((value, key) => object[key] = value);

@@ -52,8 +52,8 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="col-3 ml-auto show-mobile">
-                                       <div class="tt-value"><span th:text="${list.upload_date}">0000-00-00</span></div>
+                                    <div class="col-3 ml-auto show-mobile" style="margin-right:10px;">
+                                       <div class="tt-value"><span th:text="${#temporals.format(list.upload_date, 'yyyy-MM-dd')}">0000-00-00</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +64,10 @@
                             <div class="tt-col-category tt-col-value-large hide-mobile">
                               <span class="tt-color07 tt-badge" th:if="${list.review != null}">후기등록</span>
                             </div>
-                            <div class="tt-col-value-large hide-mobile"><span th:text="${list.upload_date}">0000-00-00</span></div>
+                            <div class="tt-col-value-large hide-mobile" style="width:120px; text-align:right;">
+                              <a th:text="${#temporals.format(list.upload_date, 'yyyy-MM-dd')}">0000-00-00</a>
+                              <a th:text="${#temporals.format(list.upload_date, 'HH:mm')}" style="text-align:right;">0000-00-00</a>
+                            </div>
                         </div>
 
                         <div class="tt-row-btn">
@@ -81,7 +84,7 @@
     </div>
 </main>
 <script th:src="@{/js/bundle.js}"></script>
-<script th:src="@{/js/ajaxApi.js}"></script>
+<script th:src="@{/js/utils.js}"></script>
 <script>
   function onClickList(id){
     var userid = "[[${session.user?.username}]]";
