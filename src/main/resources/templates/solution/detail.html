@@ -275,6 +275,20 @@
       fileNamePreView(document.getElementById("chat-image-form"));
       imagePreView(document.getElementById("imageFile_01"));
 
+      (function () {
+        postAPI("/solution/chat/refresh",
+        JSON.stringify({
+          "solution_id" : $("input[name=solution_id]").val()
+        }),
+        function(result){
+          // 날짜순 정렬
+          result = sortBy(result, { prop: "date" });
+          for(var idx=0; idx<result.length; idx++)
+            addChatRow(result[idx].writer, result[idx].date, result[idx].content);
+        });
+
+      })();
+
       // 평점 별을 클릭할때 발생하는 이벤트 처리
       function onStar(score){
         $("input[name=score]").val(score);
@@ -304,7 +318,7 @@
         formData.append("content", content);
 
         postAPI("/solution/chat",
-        formData,
+        JSON.stringify(formData),
         function(result){
           // 날짜순 정렬
           result = sortBy(result, { prop: "date" });
@@ -331,6 +345,7 @@
 
       // 이미지 미리보기 지원하는 함수
       function imagePreView(target, callback){
+        if(!target) return;
         var num = (target.id).split("_")[1];
         var img = new Image();
         target.onchange = function (e) {
@@ -350,7 +365,7 @@
 
       // 파일명 미리보기 함수
       function fileNamePreView(target, callback){
-        console.log("target : " , target)
+        if(!target) return;
         var num = (target.id).split("_")[1];
         var img = new Image();
         target.onchange = function (e) {
@@ -413,7 +428,7 @@
              "<div class=\"tt-message\">"+content+"</div>"+
              "<div class=\"tt-message\">"+
                 "<p>"+
-                   "<img class=\"tt-offset-11\" src=\"../images/single-topic-img01.jpg\" alt=\"\" style=\"max-width:200px;\">"+
+                   // "<img class=\"tt-offset-11\" src=\"../images/single-topic-img01.jpg\" alt=\"\" style=\"max-width:200px;\">"+
                 "</p>"+
              "</div>"+
           "</div>"+
