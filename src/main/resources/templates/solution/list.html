@@ -20,6 +20,9 @@
                     <li class="nav-item" onclick="location.href='/solution/list?min=0&max=10&state=1'">
                         <a th:classappend="${#strings.equals(param.state, 1)} ? active" class="nav-link" data-toggle="tab" role="tab"><span>답변대기중</span></a>
                     </li>
+                    <li class="nav-item" onclick="location.href='/solution/list?min=0&max=10&state=5'">
+                        <a th:classappend="${#strings.equals(param.state, 5)} ? active" class="nav-link" data-toggle="tab" role="tab"><span>리뷰완료</span></a>
+                    </li>
                 </ul>
             </div>
             <div class="tab-content">
