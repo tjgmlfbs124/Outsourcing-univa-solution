@@ -22,7 +22,7 @@ public class SpringConfig {
 	
 	@Bean
 	public SolutionService questionService() {
-		return new SolutionService(questionRepository());
+		return new SolutionService(questionRepository(), userRepository());
 	}
 	
 	@Bean

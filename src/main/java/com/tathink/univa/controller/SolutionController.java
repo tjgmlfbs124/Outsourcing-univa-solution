@@ -126,6 +126,7 @@ public class SolutionController {
 
 	@GetMapping("/solution/img")
 	public ResponseEntity<Resource> imageView(@RequestParam("id") String img) throws IOException {
+		System.out.println("s/img?id="+img);
 		Path path = Paths.get("uploads/imgs/" + img);
 		String contentType = Files.probeContentType(path);
 

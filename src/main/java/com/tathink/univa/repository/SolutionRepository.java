@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import com.tathink.univa.domain.Answer;
+import com.tathink.univa.domain.Manager;
 import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.domain.SolutionState;
@@ -54,20 +55,20 @@ public class SolutionRepository {
 		 return mQuery.getResultList();
 	}
 	
-	public List<Solution> findLimitAndState(int lLimit, int hLimit, SolutionState state) {
+	public List<Solution> findLimitAndState(int firstResult, int maxNumber, SolutionState state) {
 		TypedQuery<Solution> mQuery;
 		mQuery = em.createQuery("select q from question q where state = :state order by q.id desc", Solution.class)
 				.setParameter("state", state)
-				.setFirstResult(lLimit)
-				.setMaxResults(hLimit);
+				.setFirstResult(firstResult)
+				.setMaxResults(maxNumber);
 		return mQuery.getResultList();
 	}
 	
-	public List<Solution> findLimit(int lLimit, int hLimit) {
+	public List<Solution> findLimit(int firstResult, int maxNumber) {
 		TypedQuery<Solution> mQuery;
 		mQuery = em.createQuery("select q from question q order by q.id desc", Solution.class)
-				.setFirstResult(lLimit)
-				.setMaxResults(hLimit);
+				.setFirstResult(firstResult)
+				.setMaxResults(maxNumber);
 		return mQuery.getResultList();
 	}
 	
@@ -75,6 +76,15 @@ public class SolutionRepository {
 		TypedQuery<Problem> mQuery;
 		mQuery = em.createQuery("select p from problem p where question_id = :id order by p.number", Problem.class)
 				.setParameter("id", sol);
+		return mQuery.getResultList();
+	}
+
+	public List<Solution> findByManager(int firstResult, int maxNumber, Manager manager) {
+		TypedQuery<Solution> mQuery;
+		mQuery = em.createQuery("select q from question q where manager = :manager order by q.id desc", Solution.class)
+				.setParameter("manager", manager)
+				.setFirstResult(firstResult)
+				.setMaxResults(maxNumber);
 		return mQuery.getResultList();
 	}
 }
