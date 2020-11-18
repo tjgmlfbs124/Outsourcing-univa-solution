@@ -78,7 +78,7 @@
                                           </i>
                                        </div>
                                        <div class="tt-avatar-title">
-                                          <a th:text="${solution.nickname} + '님'">닉네임</a>
+                                          <!-- <a th:text="${solution.nickname} + '님'">닉네임</a> -->
                                        </div>
                                        <a  class="tt-info-time">
                                           <i class="tt-icon">
@@ -236,7 +236,7 @@
 
                         <div th:if="${solution.state.id > 4}">
                             <div class="pt-editor form-default">
-                               <h6 class="pt-title" th:text="${solution.nickname} + '님'" style="float:left; margin-right:10px;">Review</h6>
+                               <h6 class="pt-title" style="float:left; margin-right:10px;">Review</h6>
                                <input type="text" name="score" value="1" style="display:none;"/>
                                <div class="form-group">
               										<div id="star-list" class="star-rating">
@@ -326,13 +326,13 @@
         var json = JSON.stringify(object);
 
         postAPI2("/solution/chat",
-        		formData,
-        function(result){
-          // 날짜순 정렬
-          result = sortBy(result, { prop: "date" });
-          for(var idx=0; idx<result.length; idx++)
-            addChatRow(result[idx].writer, result[idx].date, result[idx].content);
-        });
+      		formData,
+          function(result){
+            // 날짜순 정렬
+            result = sortBy(result, { prop: "date" });
+            for(var idx=0; idx<result.length; idx++)
+              addChatRow(result[idx].writer, result[idx].date, result[idx].content);
+          });
       }
 
       // n 길이가 width보다 아래일때, n 앞에 0을 붙혀줌
