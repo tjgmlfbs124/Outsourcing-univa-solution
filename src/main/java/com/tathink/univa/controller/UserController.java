@@ -60,6 +60,27 @@ public class UserController {
 		userService.logout(session);
 		return "redirect:/solution";
 	}
+	
+	@PostMapping("/solution/user/signup")
+	@ResponseBody
+	public Boolean userJoin(
+			@RequestBody UserLoginForm form,
+			Model model) {
+		if( userService.userSignup(form) == null ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	@PostMapping("/solution/user/identify")
+	@ResponseBody
+	public Boolean userIdentify(
+			@RequestBody UserLoginForm form) {
+		User user = new User();
+		user.setUsername(form.getUsername());
+		return userService.validateDuplicateUser(user); 
+	}
 
 	@GetMapping("/user/test")
 	@ResponseBody

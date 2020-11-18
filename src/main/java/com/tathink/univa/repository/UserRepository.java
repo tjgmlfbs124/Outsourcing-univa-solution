@@ -46,4 +46,15 @@ public class UserRepository {
 		return Optional.ofNullable(user);
 	}
 	
+	public Optional<User> findByUsername(String username) {
+		List<User> result = em.createQuery("select u from user u where u.username = :username", User.class)
+				.setParameter("username", username)
+				.getResultList();
+		return result.stream().findAny();
+	}
+	
+	public User save(User user) {
+		em.persist(user);
+		return user;
+	}
 }

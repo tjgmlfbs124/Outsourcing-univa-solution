@@ -56,11 +56,13 @@ public class UserService {
 		}
 		
 		if(form.getType() == 0) {
-			Solution solution = solutionRepository.findById(form.getId()).get();
+			if(form.getName() == null || form.getPassword() == null) return null;
+			
+			Solution solution = solutionRepository.findById(form.getSol_idx()).orElse(null);
 			if(solution != null) {
 				User solutionUser = solution.getUser();
 				UserLoginForm tempForm = new UserLoginForm();
-				tempForm.setId(solution.getId());
+				tempForm.setSol_idx(solution.getId());
 				tempForm.setName(solutionUser.getNickname());
 				tempForm.setPassword(solutionUser.getPassword());
 				tempForm.setType(0);
@@ -69,7 +71,11 @@ public class UserService {
 			} else {
 				return null;
 			}
-		} else {
+		} else { // 
+			if(form.getName() == null || form.getUsername() == null || form.getPassword() == null) {
+				return null;
+			}
+			
 			User tempUser = new User();
 			tempUser.setUsername(form.getUsername());
 			tempUser.setPassword(form.getPassword());
@@ -84,6 +90,26 @@ public class UserService {
 		}
 	}
 	
+	public User userSignup(UserLoginForm form) {
+		User mUser = new User();
+		mUser.setNickname(form.getName());
+		mUser.setUsername(form.getUsername());
+		mUser.setPassword(form.getPassword());
+		mUser.setType(1);
+		if(validateDuplicateUser(mUser)) {
+			return userRepository.save(mUser);
+		} else {
+			return null;
+		}
+	}
+	
+	public Boolean validateDuplicateUser(User user) {
+		/*userRepository.findByUsername(user.getUsername()).ifPresent(m-> {
+			throw new IllegalStateException("이미 존재하는 회원");
+		});*/
+		System.out.println(!userRepository.findByUsername(user.getUsername()).isPresent());
+		return !userRepository.findByUsername(user.getUsername()).isPresent();
+	}
 	
 	public void logout(HttpSession session) {
 		session.removeAttribute("user");
