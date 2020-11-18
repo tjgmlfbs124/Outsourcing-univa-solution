@@ -154,7 +154,7 @@ public class SolutionService {
 		List<Solution> solutions;
 		
 		UserLoginForm userInfo = (UserLoginForm)session.getAttribute("user");
-		if(userInfo.getType() == 1) {
+		if(userInfo != null && userInfo.getType() == 1) {
 			User tempUser = new User();
 			tempUser.setUsername(userInfo.getUsername());
 			tempUser.setPassword(userInfo.getPassword());

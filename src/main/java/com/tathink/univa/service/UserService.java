@@ -8,22 +8,27 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tathink.univa.controller.form.UserLoginForm;
 import com.tathink.univa.domain.Manager;
+import com.tathink.univa.domain.Solution;
 import com.tathink.univa.domain.User;
+import com.tathink.univa.repository.SolutionRepository;
 import com.tathink.univa.repository.UserRepository;
 
 @Transactional
 public class UserService {
 	
-	private final UserRepository uRepository;
+	private final UserRepository userRepository;
+	private final SolutionRepository solutionRepository;
 	
-	public UserService(UserRepository uRepository) {
-		this.uRepository = uRepository;
+	public UserService(UserRepository uRepository, SolutionRepository solutionRepository) {
+		this.userRepository = uRepository;
+		this.solutionRepository = solutionRepository;
+		
 	}
 	
 	public Manager managerLogin(UserLoginForm form, HttpSession session) {
 		Manager manager = (Manager) session.getAttribute("user");
 		if(manager != null) {
-			Manager rManager = uRepository.findByManagerObj( manager ).orElse(null);
+			Manager rManager = userRepository.findByManagerObj( manager ).orElse(null);
 			if(rManager != null) {
 				return rManager;
 			}
@@ -33,7 +38,7 @@ public class UserService {
 		manager.setUsername(form.getUsername());
 		manager.setPassword(form.getPassword());
 		
-		Manager managerResult = uRepository.findByManagerObj(manager).orElse(null); 
+		Manager managerResult = userRepository.findByManagerObj(manager).orElse(null); 
 		if(managerResult != null) {
 			session.setAttribute("user", managerResult);
 		}
@@ -45,23 +50,32 @@ public class UserService {
 	public User userLogin(UserLoginForm form, HttpSession session) {
 		// 세션 로그인 상태 검사
 		UserLoginForm userForm = (UserLoginForm) session.getAttribute("user");
-		User mUser = new User();
-		mUser.setUsername(form.getUsername());
-		mUser.setPassword(form.getPassword());
 		
 		if(userForm != null) {
-			User rUser = uRepository.findByUserObj(mUser).orElse(null);
-			if(rUser != null) {
-				return rUser;
-			}
+			session.removeAttribute("user");
 		}
 		
-		User userResult = uRepository.findByUserObj(mUser).orElse(null);
-		if(userResult != null) {
-			session.setAttribute("user", form);
+		if(form.getType() == 0) {
+			Solution solution = solutionRepository.findById(form.getId()).get();
+			if(solution != null) {
+				User solutionUser = solution.getUser();
+				UserLoginForm tempForm = new UserLoginForm();
+				tempForm.setId(solution.getId());
+				tempForm.setName(solutionUser.getNickname());
+				tempForm.setPassword(solutionUser.getPassword());
+				tempForm.setType(0);
+				session.setAttribute("user", tempForm);
+				return solutionUser;
+			} else {
+				return null;
+			}
+		} else {
+			User tempUser = new User();
+			tempUser.setUsername(form.getUsername());
+			tempUser.setPassword(form.getPassword());
+			User user = userRepository.findByUserObj(tempUser).orElse(null);
+			return user;
 		}
-		System.out.println(userResult.getId());
-		return userResult;
 	}
 	
 	
