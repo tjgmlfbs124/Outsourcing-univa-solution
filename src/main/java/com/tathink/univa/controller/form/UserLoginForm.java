@@ -1,11 +1,12 @@
 package com.tathink.univa.controller.form;
 
 public class UserLoginForm {
+	private int idx;
 	private String name;
 	private String username;
 	private String password;
 	private int type;
-	private int id;
+	private int sol_idx;
 	
 	public String getUsername() {
 		return username;
@@ -35,10 +36,16 @@ public class UserLoginForm {
 		this.type = type;
 	}
 	
-	public int getId() {
-		return id;
+	public int getSol_idx() {
+		return sol_idx;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setSol_idx(int id) {
+		this.sol_idx = id;
+	}
+	public int getIdx() {
+		return idx;
+	}
+	public void setIdx(int idx) {
+		this.idx = idx;
 	}
 }
