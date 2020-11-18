@@ -26,8 +26,7 @@
                </div>
             </div>
             <div class="mm-backbtn">Back</div>
-         </div>
-      </nav>
+         </div>      </nav>
       <header id="tt-header">
          <div class="container">
             <div class="row tt-row no-gutters">
@@ -122,12 +121,12 @@
                   <div class="tt-col-category tt-col-value-large hide-mobile"><span class="tt-color07 tt-badge">후기등록</span></div>
                   <div class="tt-col-value-large hide-mobile">5 Jan,19</div>
                </div>
-               
-               
+
+
                <div th:each="list : ${solutionlist}">
                		<p th:text="${list.title}">aaa</p>
                </div>
-               
+
                <div class="tt-item" onclick="location.href='/pg/detail'">
                   <div class="tt-col-avatar">
                      <svg class="tt-icon">
@@ -157,7 +156,7 @@
                   <div class="tt-col-category tt-col-value-large hide-mobile"><span class="tt-color04 tt-badge">답변대기</span></div>
                   <div class="tt-col-value-large hide-mobile">5 Jan,19</div>
                </div>
-               
+
                <div class="tt-item" onclick="location.href='/pg/detail'">
                   <div class="tt-col-avatar">
                      <svg class="tt-icon">

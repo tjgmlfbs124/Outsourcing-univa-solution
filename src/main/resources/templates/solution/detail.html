@@ -1,20 +1,27 @@
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+   <link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap.min.css}" href="/css/bootstrap/bootstrap.min.css" crossorigin="anonymous">
+   <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
    <head th:replace="solution/widget/head :: head"></head>
    <body>
       <nav th:replace="solution/widget/mobile-menu :: m-menu"></nav>
       <header th:replace="solution/widget/pc-menu :: p-menu"></header>
       <main id="tt-pageContent"  class="tt-offset-small">
-        <input type="text" name="grade" style="display:none;" value="0" th:value="${session.user?.username}">
-        <input type="text" name="solution_id" style="display:none;" value="0" th:value="${param.id}">
+         <input type="text" name="type" style="display:none;" value="0" th:value="${session.user?.type}">
+         <input type="text" name="solution_id" style="display:none;" value="0" th:value="${param.id}">
          <div class="container" style="max-width:1600px;">
             <div class="tt-messages-layout">
                <div class="row no-gutters">
                   <div class="col-md-3 tt-aside" id="js-aside">
-                     <a  class="tt-title-aside">
+                    <a class="tt-title-aside">
                         <h2 class="tt-title">
-                           Messages
+                            Messages
                         </h2>
+                        <i class="tt-icon">
+                            <svg class="icon">
+                              <use xlink:href="#icon-pencil"></use>
+                            </svg>
+                        </i>
                      </a>
                      <div class="tt-all-avatar">
                         <div class="tt-list-avatar js-init-scroll" id="chat-row">
@@ -36,24 +43,23 @@
                               <textarea name="chat-message" class="form-control" rows="5" placeholder="내용을 입력해주세요."></textarea>
                            </div>
                            <div class="row">
-                             <div class="col-md-9">
-                               <div class="form-group">
-                                 <div class="tt-value-wrapper">
-                                     <input type="text" id="chat-image-name"name="title" class="form-control" disabled/>
+                              <div class="col-md-9">
+                                 <div class="form-group">
+                                    <div class="tt-value-wrapper">
+                                       <input type="text" id="chat-image-name" name="title" class="form-control" disabled/>
+                                    </div>
                                  </div>
-                               </div>
-                             </div>
-                             <div class="col-md-3">
-                               <div class="form-group">
-                                 <div class="tt-value-wrapper">
-                                   <a class="btn btn-primary" style="cursor:pointer;" onclick="chatImageUpload()">
-
-               											<i class="zmdi zmdi-camera-add" style="cursor:pointer;" onclick="onStar(5);"></i>
-                                   </a>
-                                   <input type="file" id="chat-image-form" style="display:none;"/>
+                              </div>
+                              <div class="col-md-3">
+                                 <div class="form-group">
+                                    <div class="tt-value-wrapper">
+                                       <a class="btn btn-primary" style="cursor:pointer;" onclick="chatImageUpload()">
+                                       <i class="zmdi zmdi-camera-add" style="cursor:pointer;" onclick="onStar(5);"></i>
+                                       </a>
+                                       <input type="file" id="chat-image-form" style="display:none;"/>
+                                    </div>
                                  </div>
-                               </div>
-                             </div>
+                              </div>
                            </div>
                            <div class="pt-row">
                               <div class="col-auto">
@@ -78,15 +84,18 @@
                                           </i>
                                        </div>
                                        <div class="tt-avatar-title">
-                                          <!-- <a th:text="${solution.nickname} + '님'">닉네임</a> -->
+                                          <a id="nickname" th:text="${solution.user?.nickname} + '님'">닉네임</a>
                                        </div>
-                                       <a  class="tt-info-time">
+                                       <a class="tt-info-time">
                                           <i class="tt-icon">
                                              <svg>
                                                 <use xlink:href="#icon-time"></use>
                                              </svg>
                                           </i>
-                                          <span th:text="${solution.upload_date}">날짜</span>
+                                          <span th:text="${#temporals.format(solution.upload_date, 'yyyy-MM-dd HH:mm')}">날짜</span>
+                                          <svg class="tt-icon" style="margin-left:20px; width:15px; height:15px; cursor:pointer;" onclick="on(0, null)">
+                                             <use xlink:href="#icon-upload_files"></use>
+                                          </svg>
                                        </a>
                                     </div>
                                     <h3 class="tt-item-title">
@@ -94,6 +103,7 @@
                                     </h3>
                                     <div class="tt-item-tag">
                                        <ul class="tt-list-badge">
+                                          <li><a ><span class="tt-badge">과목이름</span></a></li>
                                           <li><a ><span class="tt-badge">과목이름</span></a></li>
                                        </ul>
                                     </div>
@@ -104,28 +114,51 @@
                                        </p>
                                     </div>
                                  </div>
-                                 <div class="tt-item-description" th:each="problems : ${solution.problem}">
-                                    <p th:text="${problems.text}">문제내용</p>
-                                    <p>
-                                       <img class="tt-offset-11" th:src="'/solution/img?id=' + ${problems.image_url}" alt="">
-                                    </p>
+                                 <div id="questionSlider" class="carousel slide" data-ride="carousel" style="padding:10px 10px 30px 10px;" data-interval="false">
+                                    <a id="screenShot" style="display:none;"></a>
+                                    <ol class="carousel-indicators" style="margin:0px;">
+                                       <li
+                                          data-target="#questionSlider"
+                                          th:data-slide-to=${num.index}
+                                          th:each="problems,num : ${solution.problem}"
+                                          th:class="${num.index} == 0 ? active" >
+                                       </li>
+                                    </ol>
+                                    <div class="carousel-inner">
+                                       <div class="carousel-item"
+                                          style="padding:30px;"
+                                          th:each="problems,num : ${solution.problem}"
+                                          th:classappend="${num.index} == 0 ? active">
+                                          <img class="d-block" th:src="'/solution/img?id=' + ${problems.image_url}" style="max-width:30%; margin-left:3%; float:left;"/>
+                                          <div class="d-block" style="max-width:60%; margin-left:7%; float:left;">
+                                             <p style="word-break:break-all;" th:text="${problems.text}">asdfasd</p>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <a class="carousel-control-prev" href="#questionSlider" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#questionSlider" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                    </a>
                                  </div>
                               </div>
                            </div>
                            <div class="tt-item tt-wrapper-success" th:if="${solution.state.id > 3}">
-                              <div class="tt-single-topic">
+                              <div class="tt-single-topic" style="padding:30px 30px 30px 30px;">
                                  <div class="tt-item-header pt-noborder">
                                     <div class="tt-item-info info-top">
-                                       <div class="tt-avatar-icon">
-                                          <i class="tt-icon">
-                                             <svg>
+                                       <div class="tt-avatar-title" style="padding-left:0px;">
+                                          <i class="tt-icon" style="float:left;">
+                                             <svg style="max-width:30px; height:30px;">
                                                 <use xlink:href="#icon-ava-a"></use>
                                              </svg>
                                           </i>
-                                       </div>
-                                       <div class="tt-avatar-title">
-                                          <a >문제은행</a>
-                                          <span class="tt-color07 tt-badge" th:text="${solution.state.name}">답변상태</span>
+                                          <a style="float:left; font-weight:bold; margin-left:10px; font-size:17px; height:30px; line-height:30px;">
+                                          운영자
+                                          </a>
                                        </div>
                                        <a  class="tt-info-time">
                                           <i class="tt-icon">
@@ -133,37 +166,60 @@
                                                 <use xlink:href="#icon-time"></use>
                                              </svg>
                                           </i>
-                                          <span th:text="${solution.answer.answer_date}">대답 날짜</span>
+                                          <span th:text="${#temporals.format(solution.answer.answer_date, 'yyyy-MM-dd HH:mm')}">대답 날짜</span>
                                        </a>
                                     </div>
                                  </div>
                                  <div class="tt-item-description">
                                     <h6 class="tt-title" th:text="${solution.answer.content}">대답 내용</h6>
                                  </div>
-                                 <div class="tt-item-description" th:each="answers : ${solution.answer.answer_sub}">
-                                    <p th:text="${answers.text}">대답 내용</p>
-                                    <p>
-                                       <img class="tt-offset-11" th:src="'/solution/img?id=' + ${answers.image_ur}" alt="">
-                                    </p>
+                                 <div id="answerSlider" class="carousel slide" data-ride="carousel" style="padding:50px 10px 30px 10px;" data-interval="false">
+                                    <ol class="carousel-indicators" style="margin:0px;">
+                                       <li
+                                          data-target="#answerSlider"
+                                          th:data-slide-to=${num.index}
+                                          th:each="answers,num : ${solution.answer.answer_sub}"
+                                          th:class="${num.index} == 0 ? active" >
+                                       </li>
+                                    </ol>
+                                    <div class="carousel-inner">
+                                       <div class="carousel-item"
+                                          style="padding:30px;"
+                                          th:each="answers,num : ${solution.answer.answer_sub}"
+                                          th:classappend="${num.index} == 0 ? active">
+                                          <img class="d-block" th:src="'/solution/img?id=' + ${answers.image_ur}" style="max-width:30%; margin-left:3%; float:left;"/>
+                                          <div class="d-block" style="max-width:60%; margin-left:7%; float:left;">
+                                             <p style="word-break:break-all;" th:text="${answers.text}">asdfasd</p>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <a class="carousel-control-prev" href="#answerSlider" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#answerSlider" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                    </a>
                                  </div>
                               </div>
                            </div>
                            <h4 class="tt-title-separator">
-                             <span>You’ve reached the end of replies</span>
+                              <span>You’ve reached the end of replies</span>
                            </h4>
                         </div>
                         <form th:if="${session.user?.username != null and solution.state.id < 4}" action="/solution/answer" enctype="multipart/form-data" method="POST">
                            <div class="pt-editor form-default" id="answer-row">
                               <h6 class="pt-title">질문에 대한 답변을 입력해주세요.</h6>
                               <div class="row" style="border-bottom:1px solid #e2e7ea;">
-                                <div class="col-md-12">
+                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="inputTopicTitle">대표 답변</label>
-                                        <div class="tt-value-wrapper">
+                                       <label for="inputTopicTitle">대표 답변</label>
+                                       <div class="tt-value-wrapper">
                                           <textarea name="content" class="form-control" rows="5" placeholder="답변의 대표내용을 입력해주세요."></textarea>
-                                        </div>
+                                       </div>
                                     </div>
-                                </div>
+                                 </div>
                                  <div class="col-md-3">
                                     <ul class="pt-edit-btn">
                                        <li>
@@ -206,60 +262,55 @@
                               </div>
                            </div>
                         </form>
-
                         <form th:if="${session.user?.username == null and solution.state.id == 4}" action="/solution/review" enctype="multipart/form-data" method="POST">
-                          <div class="pt-editor form-default">
-                             <h6 class="pt-title">만족하셨다면 리뷰를 작성해주세요.</h6>
-                             <div class="form-group" style="float:right;">
-                                <h6 class="pt-title" style="float:left;">평점&nbsp&nbsp:&nbsp&nbsp</h6>
-            										<div id="star-list" class="star-rating" style="float:left;">
-            											<i class="zmdi zmdi-star" style="cursor:pointer; color:#d81159;" onclick="onStar(1);"></i>
-            											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(2);"></i>
-            											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(3);"></i>
-            											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(4);"></i>
-            											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(5);"></i>
-            										</div>
-            									</div>
-                             <div class="form-group">
-                                <textarea name="text" class="form-control" rows="5" placeholder="Lets get started"></textarea>
-                             </div>
-                             <div class="pt-row">
-                                <div class="col-auto"></div>
-                                <div class="col-auto">
-                                  <input type="text" name="score" value="1" style="display:none;"/>
-                                  <input type="text" name="solution_id" style="display:none;" value="0" th:value="${param.id}">
-                                  <input class="btn btn-secondary btn-width-lg" style="color:#fff;" type="submit" value="리뷰 등록"/>
-                                </div>
-                             </div>
-                          </div>
+                           <div class="pt-editor form-default">
+                              <h6 class="pt-title">만족하셨다면 리뷰를 작성해주세요.</h6>
+                              <div class="form-group" style="float:right;">
+                                 <h6 class="pt-title" style="float:left;">평점&nbsp&nbsp:&nbsp&nbsp</h6>
+                                 <div id="star-list" class="star-rating" style="float:left;">
+                                    <i class="zmdi zmdi-star" style="cursor:pointer; color:#d81159;" onclick="onStar(1);"></i>
+                                    <i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(2);"></i>
+                                    <i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(3);"></i>
+                                    <i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(4);"></i>
+                                    <i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(5);"></i>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <textarea name="text" class="form-control" rows="5" placeholder="Lets get started"></textarea>
+                              </div>
+                              <div class="pt-row">
+                                 <div class="col-auto"></div>
+                                 <div class="col-auto">
+                                    <input type="text" name="score" value="1" style="display:none;"/>
+                                    <input type="text" name="solution_id" style="display:none;" value="0" th:value="${param.id}">
+                                    <input class="btn btn-secondary btn-width-lg" style="color:#fff;" type="submit" value="리뷰 등록"/>
+                                 </div>
+                              </div>
+                           </div>
                         </form>
-
                         <div th:if="${solution.state.id > 4}">
-                            <div class="pt-editor form-default">
-                               <h6 class="pt-title" style="float:left; margin-right:10px;">Review</h6>
-                               <input type="text" name="score" value="1" style="display:none;"/>
-                               <div class="form-group">
-              										<div id="star-list" class="star-rating">
+                           <div class="pt-editor form-default">
+                              <h6 class="pt-title" style="float:left; margin-right:10px;">Review</h6>
+                              <input type="text" name="score" value="1" style="display:none;"/>
+                              <div class="form-group">
+                                 <div id="star-list" class="star-rating">
                                     <span>(</span>
-              											<i class="zmdi zmdi-star" style="cursor:pointer; color:#d81159;" onclick="onStar(1);"></i>
-              											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(2);"></i>
-              											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(3);"></i>
-              											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(4);"></i>
-              											<i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(5);"></i>
-
+                                    <i class="zmdi zmdi-star" style="cursor:pointer; color:#d81159;" onclick="onStar(1);"></i>
+                                    <i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(2);"></i>
+                                    <i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(3);"></i>
+                                    <i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(4);"></i>
+                                    <i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(5);"></i>
                                     <span>)</span>
-              										</div>
-              									</div>
-                                <div class="form-group">
-                                  <p style="padding:20px;" th:text="${solution.review}">
-
-                                  </p>
-                                </div>
-                               <div class="pt-row">
-                                  <div class="col-auto"></div>
-                                  <div class="col-auto"></div>
-                               </div>
-                            </div>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <p style="padding:20px;" th:text="${solution.review}"></p>
+                              </div>
+                              <div class="pt-row">
+                                 <div class="col-auto"></div>
+                                 <div class="col-auto"></div>
+                              </div>
+                           </div>
                         </div>
                      </div>
                   </div>
@@ -270,192 +321,222 @@
       <script th:src="@{/js/bundle.js}"></script>
       <script th:src="@{/js/utils.js}"></script>
       <svg th:replace="solution/svg/svg :: svg"></svg>
-
       <script>
-      fileNamePreView(document.getElementById("chat-image-form"));
-      imagePreView(document.getElementById("imageFile_01"));
-      refresh();
+         fileNamePreView(document.getElementById("chat-image-form"));
+         imagePreView(document.getElementById("imageFile_01"));
+         refresh();
 
-      function refresh(){
-        $("#chat-row").empty();
-        postAPI("/solution/chat/refresh",
-        JSON.stringify({
-          "solution_id" : $("input[name=solution_id]").val()
-        }),
-        function(result){
-          // 날짜순 정렬
-          result = sortBy(result, { prop: "date" });
-          for(var idx=0; idx<result.length; idx++)
-            addChatRow(result[idx].writer, result[idx].date, result[idx].content);
-        });
-      }
-
-      // 평점 별을 클릭할때 발생하는 이벤트 처리
-      function onStar(score){
-        $("input[name=score]").val(score);
-        var list = $("#star-list").children();
-        for (var i = 0; i < list.length; i++) {
-          if(i < score) list[i].style.color = "#d81159";
-          else list[i].style.color = "#666f74";
-        }
-      }
-
-      // 채팅 "입력" 버튼을 클릭할때 발생하는 이벤트 처리
-      function onChat(){
-        var user = $("input[name=grade]").val();
-        var solution_id = $("input[name=solution_id]").val();
-        var content = $("textarea[name=chat-message]").val();
-        var image_url = document.getElementById('chat-image-form').files[0];
-        var writer = 0;
-        // 로그인이 된 상태라면 => 관리자라면
-        if(user) writer = 1;
-        else writer = 0;
-
-        var formData = new FormData();
-        formData.append("solution_id", solution_id);
-        formData.append("writer", writer);
-        formData.append("file", image_url);
-        formData.append("content", content);
-
-        for (var key of formData.entries()) {
-           console.log(key[0] + ': ' + key[1]);
+         function refresh(){
+           $("#chat-row").empty();
+           postAPI("/solution/chat/refresh",
+           JSON.stringify({
+             "solution_id" : $("input[name=solution_id]").val()
+           }),
+           function(result){
+             // 날짜순 정렬
+             result = sortBy(result, { prop: "date" });
+             for(var idx=0; idx<result.length; idx++)
+               addChatRow(result[idx].writer, result[idx].date, result[idx].content);
+           });
          }
 
-        var object = {};
-        formData.forEach((value, key) => object[key] = value);
-        var json = JSON.stringify(object);
+         // 평점 별을 클릭할때 발생하는 이벤트 처리
+         function onStar(score){
+           $("input[name=score]").val(score);
+           var list = $("#star-list").children();
+           for (var i = 0; i < list.length; i++) {
+             if(i < score) list[i].style.color = "#d81159";
+             else list[i].style.color = "#666f74";
+           }
+         }
 
-        postAPI2("/solution/chat",
-      		formData,
-          function(result){
-            // 날짜순 정렬
-            result = sortBy(result, { prop: "date" });
-            for(var idx=0; idx<result.length; idx++)
-              addChatRow(result[idx].writer, result[idx].date, result[idx].content);
-          });
-      }
+         // 채팅 "입력" 버튼을 클릭할때 발생하는 이벤트 처리
+         function onChat(){
+           var user = $("input[name=type]").val();
+           var solution_id = $("input[name=solution_id]").val();
+           var content = $("textarea[name=chat-message]").val();
+           var image_url = document.getElementById('chat-image-form').files[0];
+           var writer = 0;
+           // 로그인이 된 상태라면 => 관리자라면
+           if(user) writer = 1;
+           else writer = 0;
 
-      // n 길이가 width보다 아래일때, n 앞에 0을 붙혀줌
-      function numberPad(n, width) {
-          n = n + '';
-          return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
-      }
+           var formData = new FormData();
+           formData.append("solution_id", solution_id);
+           formData.append("writer", writer);
+           formData.append("file", image_url);
+           formData.append("content", content);
+           formData.append("type", user);
 
-      // 답변쪽 이미지 파일 업로드
-      function ajaxFileUpload(mIndex) {
-        $("#imageFile_" + numberPad(mIndex,2)).click();
-      }
+           console.log("user : " , user)
 
-      // 채팅쪽 이미지 파일 업로드
-      function chatImageUpload() {
-        $("#chat-image-form").click();
-      }
+           for (var key of formData.entries()) {
+              console.log(key[0] + ': ' + key[1]);
+            }
 
-      // 이미지 미리보기 지원하는 함수
-      function imagePreView(target, callback){
-        if(!target) return;
-        var num = (target.id).split("_")[1];
-        var img = new Image();
-        target.onchange = function (e) {
-          e.preventDefault();
-          var file = target.files[0], reader = new FileReader();
-          reader.onload = function (event) {
-            img.src = event.target.result;
-            img.width = 150;
-            img.height = 220;
-            img.id=target.id;
-            $("#image_"+num).attr("src", img.src);
-          };
-          reader.readAsDataURL(file);
-          $(target.id).css("cursor","pointer");
-        };
-      }
+           var object = {};
+           formData.forEach((value, key) => object[key] = value);
+           var json = JSON.stringify(object);
 
-      // 파일명 미리보기 함수
-      function fileNamePreView(target, callback){
-        if(!target) return;
-        var num = (target.id).split("_")[1];
-        var img = new Image();
-        target.onchange = function (e) {
-          e.preventDefault();
-          var file = target.files[0], reader = new FileReader();
-          reader.onload = function (event) {
-            img.src = event.target.result;
-            img.id=target.id;
-          };
-          reader.readAsDataURL(file);
-          $("#chat-image-name").val(file.name);
-        };
-      }
+           // postAPI2("/solution/chat",
+         		// formData,
+           //   function(result){
+           //     // 날짜순 정렬
+           //     result = sortBy(result, { prop: "date" });
+           //     for(var idx=0; idx<result.length; idx++)
+           //       addChatRow(result[idx].writer, result[idx].date, result[idx].content);
+           //   });
+         }
+
+         // n 길이가 width보다 아래일때, n 앞에 0을 붙혀줌
+         function numberPad(n, width) {
+             n = n + '';
+             return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+         }
+
+         // 답변쪽 이미지 파일 업로드
+         function ajaxFileUpload(mIndex) {
+           $("#imageFile_" + numberPad(mIndex,2)).click();
+         }
+
+         // 채팅쪽 이미지 파일 업로드
+         function chatImageUpload() {
+           $("#chat-image-form").click();
+         }
+
+         // 이미지 미리보기 지원하는 함수
+         function imagePreView(target, callback){
+           if(!target) return;
+           var num = (target.id).split("_")[1];
+           var img = new Image();
+           target.onchange = function (e) {
+             e.preventDefault();
+             var file = target.files[0], reader = new FileReader();
+             reader.onload = function (event) {
+               img.src = event.target.result;
+               img.width = 150;
+               img.height = 220;
+               img.id=target.id;
+               $("#image_"+num).attr("src", img.src);
+             };
+             reader.readAsDataURL(file);
+             $(target.id).css("cursor","pointer");
+           };
+         }
+
+         // 파일명 미리보기 함수
+         function fileNamePreView(target, callback){
+           if(!target) return;
+           var num = (target.id).split("_")[1];
+           var img = new Image();
+           target.onchange = function (e) {
+             e.preventDefault();
+             var file = target.files[0], reader = new FileReader();
+             reader.onload = function (event) {
+               img.src = event.target.result;
+               img.id=target.id;
+             };
+             reader.readAsDataURL(file);
+             $("#chat-image-name").val(file.name);
+           };
+         }
 
 
-      function addQuestion(){
-        var length = $("#answer-row").children().length;
-        $("#answer-row").append(""+
-          "<div class=\"row\" style=\"border-bottom:1px solid #e2e7ea;\">"+
-          "<div class=\"col-md-3\">"+
-              "<ul class=\"pt-edit-btn\">"+
-                  "<li>"+
-                    "<button type=\"button\" class=\"btn-icon\" style=\"cursor:\"><h4>사진</h4></button>"+
-                  "</li>"+
-              "</ul>"+
-              "<div class=\"form-group\">"+
-                  "<a href=\"#\" class=\"tt-button-icon\">"+
-                      "<span class=\"tt-icon\">"+
-                        "<img style=\"max-width:120px; max-height:120px; min-width:120px; min-height:120px;\" id=\"image_"+numberPad(length,2)+"\" onclick=\"ajaxFileUpload('"+length+"')\"></img>"+
-                        "<input type=\"file\" name=\"answerSub[" + (length-1) +"].file\" id=\"imageFile_" + numberPad(length,2) + "\" style=\"display:none;\"></img>"+
-                        "<input type=\"text\" name=\"answerSub[" + (length-1) + "].number\" style=\"display:none;\" value=\"" + (length-1) + "\"/>"+
-                      "</span>"+
-                  "</a>"+
-              "</div>"+
-          "</div>"+
-          "<div class=\"col-md-9\">"+
-              "<div class=\"col-left\">"+
-                  "<ul class=\"pt-edit-btn\">"+
-                      "<li>"+
-                        "<button type=\"button\" class=\"btn-icon\" style=\"cursor:\"><h4>질문내용</h4></button>"+
-                      "</li>"+
-                  "</ul>"+
-              "</div>"+
-              "<textarea name=\"answerSub[" + (length-1) + "].text\" class=\"form-control\" rows=\"5\" placeholder=\"사진에 대한 설명 및 답변을 입력하세요.\"></textarea>"+
-          "</div>"+
-          "</div>");
-          imagePreView(document.getElementById("imageFile_"+numberPad(length,2)));
-      }
-
-      function addChatRow(writer, date, content){
-        $("#chat-row").append(""+
-        "<a class=\"tt-item\">"+
-          "<div class=\"tt-col-avatar\">"+
-             "<svg class=\"tt-icon\">"+
-                writerToicon(writer)+
-             "</svg>"+
-          "</div>"+
-          "<div class=\"tt-col-description\">"+
-             "<h4 class=\"tt-title\"><span>"+writerToname(writer)+"</span> <span class=\"time\">"+date+"</span></h4>"+
-             "<div class=\"tt-message\">"+content+"</div>"+
-             "<div class=\"tt-message\">"+
-                "<p>"+
-                   // "<img class=\"tt-offset-11\" src=\"../images/single-topic-img01.jpg\" alt=\"\" style=\"max-width:200px;\">"+
-                "</p>"+
+         function addQuestion(){
+           var length = $("#answer-row").children().length;
+           $("#answer-row").append(""+
+             "<div class=\"row\" style=\"border-bottom:1px solid #e2e7ea;\">"+
+             "<div class=\"col-md-3\">"+
+                 "<ul class=\"pt-edit-btn\">"+
+                     "<li>"+
+                       "<button type=\"button\" class=\"btn-icon\" style=\"cursor:\"><h4>사진</h4></button>"+
+                     "</li>"+
+                 "</ul>"+
+                 "<div class=\"form-group\">"+
+                     "<a href=\"#\" class=\"tt-button-icon\">"+
+                         "<span class=\"tt-icon\">"+
+                           "<img style=\"max-width:120px; max-height:120px; min-width:120px; min-height:120px;\" id=\"image_"+numberPad(length,2)+"\" onclick=\"ajaxFileUpload('"+length+"')\"></img>"+
+                           "<input type=\"file\" name=\"answerSub[" + (length-1) +"].file\" id=\"imageFile_" + numberPad(length,2) + "\" style=\"display:none;\"></img>"+
+                           "<input type=\"text\" name=\"answerSub[" + (length-1) + "].number\" style=\"display:none;\" value=\"" + (length-1) + "\"/>"+
+                         "</span>"+
+                     "</a>"+
+                 "</div>"+
              "</div>"+
-          "</div>"+
-        "</a>")
-      }
+             "<div class=\"col-md-9\">"+
+                 "<div class=\"col-left\">"+
+                     "<ul class=\"pt-edit-btn\">"+
+                         "<li>"+
+                           "<button type=\"button\" class=\"btn-icon\" style=\"cursor:\"><h4>질문내용</h4></button>"+
+                         "</li>"+
+                     "</ul>"+
+                 "</div>"+
+                 "<textarea name=\"answerSub[" + (length-1) + "].text\" class=\"form-control\" rows=\"5\" placeholder=\"사진에 대한 설명 및 답변을 입력하세요.\"></textarea>"+
+             "</div>"+
+             "</div>");
+           imagePreView(document.getElementById("imageFile_"+numberPad(length,2)));
+         }
 
-      function writerToicon(writer){
-        if(writer == 0)
-          return "<use xlink:href=\"#icon-ava-q\"></use>";
-        else
-          return "<use xlink:href=\"#icon-ava-a\"></use>";
-      }
+         function addChatRow(writer, date, content){
+           $("#chat-row").append(""+
+           "<a class=\"tt-item\">"+
+             "<div class=\"tt-col-avatar\">"+
+                "<svg class=\"tt-icon\">"+
+                   writerToicon(writer)+
+                "</svg>"+
+             "</div>"+
+             "<div class=\"tt-col-description\">"+
+                "<h4 class=\"tt-title\"><span>"+writerToname(writer)+"</span> <span class=\"time\">"+dateTotime(date)+"</span></h4>"+
+                "<div class=\"tt-message\">"+content+"</div>"+
+                "<div class=\"tt-message\">"+
+                   "<p>"+
+                      // "<img class=\"tt-offset-11\" src=\"../images/single-topic-img01.jpg\" alt=\"\" style=\"max-width:200px;\">"+
+                   "</p>"+
+                "</div>"+
+             "</div>"+
+           "</a>");
+           document.getElementById("chat-row").scrollHeight;
+         }
 
-      function writerToname(writer){
-        if(writer == 0 ) return "질문자";
-        else return "관리자";
-      }
+         function writerToicon(writer){
+           if(writer == 0)
+             return "<use xlink:href=\"#icon-ava-q\"></use>";
+           else
+             return "<use xlink:href=\"#icon-ava-a\"></use>";
+         }
 
+         function writerToname(writer){
+           if(writer == 0 ) return "질문자";
+           else return "관리자";
+         }
 
+         function dateTotime(date){
+           var temp = (date.split("T")[1]).split(":");
+           return temp[0]+":"+temp[1];
+         }
+
+         function screenShot(index, div, callback){
+           html2canvas(div).then(function(canvas){
+               var el = document.getElementById("screenShot");
+               el.href = canvas.toDataURL("image/jpeg");
+               el.download=$("#nickname").text()+"_문제_"+index+".jpg";
+               el.click();
+               callback(index, canvas.toDataURL("image/jpeg"));
+           });
+         }
+
+         function on(index, data){
+           var div = $("#questionSlider").children()[2].children;
+           div[index].style.display="block";
+           screenShot(index, div[index], function(idx){
+             if(div.length-1 > idx){
+               index++;
+               on(index);
+             }
+             else{
+               window.location.reload();
+             }
+           })
+         }
       </script>
-</body>
+   </body>
 </html>
