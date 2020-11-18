@@ -17,7 +17,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		HttpSession httpSession = request.getSession();
-		Manager form = (Manager) httpSession.getAttribute("user");
+		UserLoginForm form = (UserLoginForm) httpSession.getAttribute("user");
 		
 		/*if(form == null) {
 			// 로그인 페이지로 리다이렉트?
