@@ -41,13 +41,13 @@
                                     </svg>
                                     <span th:text="${list.title}">질문제목을 불러올수 없습니다.</span>
                                 </a></h6>
+                                <p th:if="${list.state.id == 5}" th:text="'re : ' + ${list.review}" style="margin:0px;">리뷰 글</p>
                                 <div class="row align-items-center no-gutters hide-desktope">
                                     <div class="col-9">
                                         <ul class="tt-list-badge">
                                             <li class="show-mobile">
                                               <a>
-                                                <span class="tt-color07 tt-badge" th:if="${list.state == 4}">답변완료</span>
-                                                <span class="tt-color04 tt-badge" th:unless="${list.state == 4}">풀이대기</span>
+                                                <span th:class="'tt-color0'+${list.state.id} + ' tt-badge'" th:text="${list.state.name}">상태</span>
                                               </a>
                                             </li>
                                         </ul>
@@ -58,11 +58,9 @@
                                 </div>
                             </div>
                             <div class="tt-col-category tt-col-value-large hide-mobile">
-                              <span class="tt-color07 tt-badge" th:if="${list.state == 4}" th:text="${list.state.name}">답변완료</span>
-                              <span class="tt-color04 tt-badge" th:unless="${list.state == 4}" th:text="${list.state.name}">답변대기</span>
-                            </div>
-                            <div class="tt-col-category tt-col-value-large hide-mobile">
-                              <span class="tt-color07 tt-badge" th:if="${list.review != null}">후기등록</span>
+                              <span th:class="'tt-color0'+${list.state.id} + ' tt-badge'" th:text="${list.state.name}">상태</span>
+                              <!-- <span class="tt-color10 tt-badge" th:unless="${list.state.id == 4}" th:text="${list.state.name}"></span> -->
+
                             </div>
                             <div class="tt-col-value-large hide-mobile" style="width:120px; text-align:right;">
                               <a th:text="${#temporals.format(list.upload_date, 'yyyy-MM-dd')}">0000-00-00</a>
