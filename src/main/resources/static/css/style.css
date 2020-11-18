@@ -5799,22 +5799,26 @@ hr + .row-object-inline {
     color: #d7dadc;
     background-color: #d7dadc;
     color: #182730; }
-  .tt-badge.tt-color01 {
-    background-color: #2e3192; }
-  .tt-badge.tt-color02 {
-    background-color: #4436f8; }
-  .tt-badge.tt-color03 {
-    background-color: #3ebafa; }
-  .tt-badge.tt-color04 {
-    background-color: #777da7; }
-  .tt-badge.tt-color05 {
-    background-color: #f26522; }
-  .tt-badge.tt-color06 {
-    background-color: #464646; }
-  .tt-badge.tt-color07 {
-    background-color: #1cbbb4; }
-  .tt-badge.tt-color08 {
+
+
+  .tt-badge.tt-color01 { /* 결제대기 */
+    background-color: #8781bd; }
+  .tt-badge.tt-color02 { /* 풀이대기 */
+    background-color: #8781bd; }
+  .tt-badge.tt-color03 { /* 풀이중 */
+    background-color: #8781bd; }
+  .tt-badge.tt-color04 { /* 답변완료 */
+    background-color: #00746b; }
+  .tt-badge.tt-color05 { /* 리뷰완료 */
+    background-color: #448ccb; }
+  .tt-badge.tt-color06 { /* 이의제기신청 */
     background-color: #f4555b; }
+  .tt-badge.tt-color07 { /* 환불신청 */
+    background-color: #f69679; }
+  .tt-badge.tt-color08 { /* 환불완료 */
+    background-color: #464646; }
+
+
   .tt-badge.tt-color09 {
     background-color: #00746b; }
   .tt-badge.tt-color10 {
