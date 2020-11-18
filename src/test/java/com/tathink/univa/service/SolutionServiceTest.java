@@ -22,16 +22,16 @@ public class SolutionServiceTest {
 	
 	@Test	
 	void 질문등록() {
-		Solution question = new Solution();
-		question.setTitle("제목테스트");
-		question.setNickname("아무개");
-		question.setPassword("pwd");
-		
-		Solution mSolution = qRepository.save(question);
-		
-		//Solution findQuestion = sService.findOne(saveId).get();
-		assertThat(question.getTitle()).isEqualTo(mSolution.getTitle());
-		// System.out.println(findQuestion.getNickname()); // 아무개 출력
+//		Solution question = new Solution();
+//		question.setTitle("제목테스트");
+//		question.setNickname("아무개");
+//		question.setPassword("pwd");
+//		
+//		Solution mSolution = qRepository.save(question);
+//		
+//		//Solution findQuestion = sService.findOne(saveId).get();
+//		assertThat(question.getTitle()).isEqualTo(mSolution.getTitle());
+//		// System.out.println(findQuestion.getNickname()); // 아무개 출력
 	}
 	
 	@Test
@@ -58,11 +58,11 @@ public class SolutionServiceTest {
 	
 	@Test
 	void 최근3번째부터5개까지() {
-		List<Solution> questions = sService.findList(3, 5, 0); // 3, 4, 5, 6, 7 (5 row)
-		//System.out.println(questions.size());
-		for(int i=0; i<questions.size(); i++) {
-			//System.out.println("title: "+questions.get(i).getTitle());
-		}
+//		List<Solution> questions = sService.findList(3, 5, 0); // 3, 4, 5, 6, 7 (5 row)
+//		//System.out.println(questions.size());
+//		for(int i=0; i<questions.size(); i++) {
+//			//System.out.println("title: "+questions.get(i).getTitle());
+//		}
 	}
 	
 	@Test

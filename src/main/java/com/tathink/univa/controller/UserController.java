@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tathink.univa.controller.form.UserLoginForm;
 import com.tathink.univa.domain.Manager;
+import com.tathink.univa.domain.User;
 import com.tathink.univa.service.UserService;
 
 @Controller
@@ -31,23 +32,32 @@ public class UserController {
 		return "/user/login/index";
 	}
 
-	@PostMapping("/solution/user/login")
+	@PostMapping(value = {"/solution/user/login", "/solution/login"})
 	@ResponseBody
 	public Boolean login(
 			@RequestBody UserLoginForm form,
 			HttpSession session,
 			Model model) {
-		Manager manager = userService.login(form, session);
-		if(manager != null) {
-			return true;
+		if(form.getType() == 2) {
+			Manager manager = userService.managerLogin(form, session);
+			if(manager != null) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
-			return false;
+			User user = userService.userLogin(form, session);
+			if(user != null) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 
 	@GetMapping("/solution/user/logout")
 	public String doLogout(HttpSession session, Model model) {
-		session.removeAttribute("user");
+		userService.logout(session);
 		return "redirect:/solution";
 	}
 
