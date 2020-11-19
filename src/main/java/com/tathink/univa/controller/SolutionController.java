@@ -103,10 +103,12 @@ public class SolutionController {
 		Solution solution = sService.findOne(id).get();
 		UserLoginForm userInfo = (UserLoginForm) session.getAttribute("user");
 		
+		System.out.println("sol?:"+solution.getUser().getUsername());
+		System.out.println("unam?:"+userInfo.getUsername());
 		if (userInfo != null && (userInfo.getSol_idx() == id && userInfo.getType() == 0 ) ) {
 			model.addAttribute("solution", solution);
 			return "/solution/detail";
-		} else if ( userInfo.getType() == 1 && solution.getUser().getUsername() == userInfo.getUsername()) {
+		} else if ( userInfo.getType() == 1 && solution.getUser().getUsername().equals(userInfo.getUsername())) {
 			model.addAttribute("solution", solution);
 			return "/solution/detail";
 		} else {
