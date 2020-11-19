@@ -72,7 +72,7 @@ public class UserService {
 				return null;
 			}
 		} else { // 
-			if(form.getName() == null || form.getUsername() == null || form.getPassword() == null) {
+			if(form.getUsername() == null || form.getPassword() == null) {
 				return null;
 			}
 			
