@@ -26,25 +26,20 @@ public class UserService {
 	}
 	
 	public Manager managerLogin(UserLoginForm form, HttpSession session) {
-		Manager manager = (Manager) session.getAttribute("user");
-		if(manager != null) {
-			Manager rManager = userRepository.findByManagerObj( manager ).orElse(null);
-			if(rManager != null) {
-				return rManager;
-			}
+		UserLoginForm userForm = (UserLoginForm) session.getAttribute("user");
+		if(userForm != null) {
+			session.removeAttribute("user");
 		}
-		
-		manager = new Manager();
+		Manager manager = new Manager();
 		manager.setUsername(form.getUsername());
 		manager.setPassword(form.getPassword());
-		
-		Manager managerResult = userRepository.findByManagerObj(manager).orElse(null); 
-		if(managerResult != null) {
-			session.setAttribute("user", managerResult);
+		Manager managerObj = userRepository.findByManagerObj(manager).orElse(null);
+		if(managerObj != null) {
+			session.setAttribute("user", form);
+			return managerObj;
+		} else {
+			return null;
 		}
-		return managerResult;
-		
-		//session.setAttribute("user", value);
 	}
 	
 	public User userLogin(UserLoginForm form, HttpSession session) {
