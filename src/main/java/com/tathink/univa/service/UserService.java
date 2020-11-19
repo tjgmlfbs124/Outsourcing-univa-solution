@@ -56,10 +56,10 @@ public class UserService {
 		}
 		
 		if(form.getType() == 0) {
-			if(form.getName() == null || form.getPassword() == null) return null;
-			
+			if(form.getPassword() == null) return null;
 			Solution solution = solutionRepository.findById(form.getSol_idx()).orElse(null);
 			if(solution != null) {
+				if( !solution.getUser().getPassword().equals(form.getPassword()) ) return null;
 				User solutionUser = solution.getUser();
 				UserLoginForm tempForm = new UserLoginForm();
 				tempForm.setSol_idx(solution.getId());
