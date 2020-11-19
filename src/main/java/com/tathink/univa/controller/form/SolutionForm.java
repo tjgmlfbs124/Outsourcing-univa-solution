@@ -10,6 +10,7 @@ import com.tathink.univa.domain.Problem;
 
 public class SolutionForm {
 	private String title;
+	private String nickname;
 	private String password;
 	private String content;
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -48,5 +49,11 @@ public class SolutionForm {
 	}
 	public void setProblems(List<ProblemForm> problems) {
 		this.problems = problems;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 }

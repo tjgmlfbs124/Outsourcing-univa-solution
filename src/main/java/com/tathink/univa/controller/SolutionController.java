@@ -34,14 +34,17 @@ import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.SolutionSubject;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.service.SolutionService;
+import com.tathink.univa.service.UserService;
 
 @Controller
 public class SolutionController {
 	private final SolutionService sService;
+	private final UserService userService;
 
 	@Autowired
-	public SolutionController(SolutionService qService) {
+	public SolutionController(SolutionService qService, UserService userService) {
 		this.sService = qService;
+		this.userService = userService;
 	}
 
 	@GetMapping("/solution")
@@ -80,8 +83,8 @@ public class SolutionController {
 	}
 
 	@PostMapping("/solution/apply")
-	public String SolutionApply(SolutionForm form) {
-		sService.apply(form);
+	public String SolutionApply(SolutionForm form, HttpSession session) {
+		sService.apply(form, session);
 		System.out.println(form.getTitle());
 
 		return "redirect:/solution/list";

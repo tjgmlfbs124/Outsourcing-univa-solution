@@ -34,14 +34,16 @@ public class SolutionService {
 	
 	private final SolutionRepository qRepository;
 	private final UserRepository uRepository;
+	private final UserService userService;
 	
-	public SolutionService(SolutionRepository qRepository, UserRepository uRepository) {
+	public SolutionService(SolutionRepository qRepository, UserRepository uRepository, UserService userService) {
 		this.qRepository = qRepository;
 		this.uRepository = uRepository;
+		this.userService = userService;
 	}
 	
 	/**질문 등록*/
-	public int apply(SolutionForm form) {
+	public int apply(SolutionForm form, HttpSession session) {
 		
 		Solution solution = new Solution();
 		solution.setTitle(form.getTitle());
@@ -73,8 +75,25 @@ public class SolutionService {
 			
 			solution.addProblem(problem);
 		}
+		UserLoginForm userForm = (UserLoginForm) session.getAttribute("user");
+		if(userForm == null) {
+			userForm = new UserLoginForm();
+			userForm.setName(form.getNickname());
+			userForm.setPassword(form.getPassword());
+			userForm.setType(0);
+			User user = userService.userSignup(userForm);
+			user.setType(0);
+			solution.setUser(user);
+		} else {
+			User user = userService.findOne(userForm.getIdx()).orElse(null);
+			if(user != null) {
+				solution.setUser(user);
+			}
+		}
 		
-		return qRepository.save(solution).getId();
+		int sol_idx = qRepository.save(solution).getId();
+		
+		return sol_idx;
 	}
 	
 	/** 답변 업로드 */

@@ -75,15 +75,15 @@ public class UserService {
 			if(form.getUsername() == null || form.getPassword() == null) {
 				return null;
 			}
-			
 			User tempUser = new User();
 			tempUser.setUsername(form.getUsername());
 			tempUser.setPassword(form.getPassword());
 			User user = userRepository.findByUserObj(tempUser).orElse(null);
 			UserLoginForm tempForm = new UserLoginForm();
-			tempForm.setName(tempUser.getNickname());
-			tempForm.setUsername(tempUser.getUsername());
-			tempForm.setPassword(tempUser.getPassword());
+			tempForm.setName(user.getNickname());
+			tempForm.setUsername(user.getUsername());
+			tempForm.setPassword(user.getPassword());
+			tempForm.setIdx(user.getId());
 			tempForm.setType(1);
 			session.setAttribute("user", tempForm);
 			return user;
@@ -113,5 +113,10 @@ public class UserService {
 	
 	public void logout(HttpSession session) {
 		session.removeAttribute("user");
+	}
+	
+	public Optional<User> findOne(int id) {
+		Optional<User> user = userRepository.findByUserId(id);
+		return user;
 	}
 }

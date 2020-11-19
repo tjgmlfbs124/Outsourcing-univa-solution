@@ -23,8 +23,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			// 로그인 페이지로 리다이렉트?
 			// response.~
 			//throw new Exception("로그인 필요.");
-		}
-		httpSession.setMaxInactiveInterval(60*60);*/
+		}*/
+		httpSession.setMaxInactiveInterval(60*60);
 		return true;
 	}
 	
