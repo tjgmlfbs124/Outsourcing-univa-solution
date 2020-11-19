@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tathink.univa.controller.form.ChatJsonForm;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.domain.SolutionChat;
 import com.tathink.univa.service.SolutionService;
+import com.tathink.univa.utils.FileUtil;
 
 @Controller
 public class SolutionChatController {
@@ -39,7 +42,11 @@ public class SolutionChatController {
 		List<ChatJsonForm> solutionChats = sService.SolutionChatList(form.getSolution_id());
 		return solutionChats;
 	}
-
 	
-	
+	@PostMapping("/solution/img")
+	@ResponseBody
+	public String SendImg(
+			@RequestParam MultipartFile file) {
+		return sService.WriteFile(file);
+	}
 }

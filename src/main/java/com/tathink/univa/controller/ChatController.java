@@ -16,7 +16,7 @@ public class ChatController {
 	@SendTo("/subs/{room_id}")
 	public ChatMessage sendMessage(
 			@Payload ChatMessage chatMessage) {
-		System.out.println("chat.sendMsg: "+chatMessage.getSender());
+//		System.out.println("chat.sendMsg: "+chatMessage.getSender());
 		return chatMessage;
 	}
 	

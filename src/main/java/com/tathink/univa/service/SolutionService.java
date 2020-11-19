@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tathink.univa.controller.form.AnswerForm;
 import com.tathink.univa.controller.form.AnswerSubForm;
@@ -264,5 +265,20 @@ public class SolutionService {
 			//
 		}
 		return qRepository.findByManager(firstResult, number, manager);
+	}
+
+	public String WriteFile(MultipartFile file) {
+		String dirPath = "uploads/imgs/";
+		String randomStr = StringUtil.RandomString(20)+"/";
+		String imageUrl = randomStr+"img"+StringUtil.getExtension(file.getOriginalFilename()).get();
+		String savePath = dirPath+imageUrl;
+		try {
+			File mFile = new File(dirPath+randomStr);
+			mFile.mkdirs();
+		} catch (Exception e) {
+			e.getStackTrace();
+		}
+		FileUtil.FileWrite(file, savePath);
+		return imageUrl;
 	}
 }
