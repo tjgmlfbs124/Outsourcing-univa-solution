@@ -61,6 +61,11 @@ public class UserController {
 		return "redirect:/solution";
 	}
 	
+	@GetMapping("/solution/user/signup")
+	public String userSignupPage() {
+		return "/user/login/singup";
+	}
+	
 	@PostMapping("/solution/user/signup")
 	@ResponseBody
 	public Boolean userJoin(
