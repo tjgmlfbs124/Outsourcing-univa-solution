@@ -35,13 +35,19 @@
                                 </svg>
                             </div>
                             <div class="tt-col-description">
-                                <h6 class="tt-title"><a >
+                                <h6 class="tt-title">
+                                  <a >
                                     <svg class="tt-icon">
                                       <use xlink:href="#icon-locked"></use>
                                     </svg>
                                     <span th:text="${list.title}">질문제목을 불러올수 없습니다.</span>
-                                </a></h6>
+                                  </a>
+                                </h6>
                                 <p th:if="${list.state.id == 5}" th:text="'re : ' + ${list.review}" style="margin:0px;">리뷰 글</p>
+                                <!-- <span class="tt-color21 tt-badge"
+                                        th:if="${list?.isNew? != null}"
+                                        th:text="${list.isNew?} == true ? '새로운 문제풀이' : ''">상태</span>
+                                <span class="tt-color21 tt-badge" th:text="${list.state.name}">상태</span> -->
                                 <div class="row align-items-center no-gutters hide-desktope">
                                     <div class="col-9">
                                         <ul class="tt-list-badge">
@@ -95,6 +101,7 @@
         postAPI("/solution/login", JSON.stringify({
           "sol_idx" : id,
           "password" : prompt,
+          "username" : userid
 
         }), function(result){
           console.log("result : " , result);
