@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+   <head th:replace="solution/widget/head :: head"></head>
+   <body>
+      <!-- tt-mobile menu -->
+      <main id="tt-pageContent" class="tt-offset-none">
+          <div class="container">
+              <div class="tt-loginpages-wrapper">
+                  <div class="tt-loginpages">
+                      <a href="/solution" class="tt-block-title">
+                          <img th:src="@{/images/logo.png}" alt="">
+                          <div class="tt-title">
+                              Univa에 오신것을 환영합니다.
+                          </div>
+                          <div class="tt-description">
+                            간편하게 로그인하고,<br>
+                            간편하게 질문을 등록하세요!
+                          </div>
+                      </a>
+                      <div class="form-default">
+                          <div class="form-group" style="margin-top:50px;">
+                              <label for="loginUserPassword">Nickname</label>
+                              <input type="text" name="name" class="form-control" placeholder="nickname" required>
+                          </div>
+
+                          <div class="form-group">
+                              <label for="loginUserName" style="width:100%;">ID</label>
+                              <input type="text" name="username" class="form-control" placeholder="ID 입력" required style="width:75%; float:left;">
+                              <div class="form-group" style="width:20%; float:right;">
+                                  <a class="btn btn-secondary btn-block" style="margin:0px; color:#fff;" onclick="onCheckID(this)">Check</a>
+                              </div>
+                              <!-- <a class="btn btn-secondary btn-block" style="background-color:#999; width:30%; float:right; margin:0px; color:#fff;">중복검사</a> -->
+                          </div>
+                          <div class="form-group" style="margin-top:50px;">
+                              <label for="loginUserPassword">Password</label>
+                              <input type="password" name="password" class="form-control" placeholder="****" required>
+                          </div>
+                          <div class="row">
+                              <div class="col">
+                                  <div class="form-group">
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <a class="btn btn-secondary btn-block" onclick="onSignup()" style="color:#fff;">Sign up</a>
+                          </div>
+                          <p>이미 회원이신가요?<a href="/solution/user/login" class="tt-underline" style="float:right;">Login</a></p>
+                          <div class="tt-notes">
+                              copyright(c) 2020 All rights reserved by Univa.
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </main>
+      <script th:src="@{/js/bundle.js}"></script>
+      <script th:src="@{/js/utils.js}"></script>
+      <svg th:replace="solution/svg/svg :: svg"></svg>
+   </body>
+
+   <script>
+    var isCheck = false;
+
+    function onCheckID(target){
+      var inputID = $("input[name=username]").val();
+
+      if(inputID == ""){
+        alert("ID를 입력하세요");
+        return;
+      }
+
+      postAPI("/solution/user/identify", JSON.stringify({
+          "username" : inputID
+        }), function(result){
+        if(result){
+          alert("사용 가능한 아이디입니다.");
+          $("input[name=username]").attr("disabled","true");
+          isCheck = true;
+        }
+        else{
+          alert("이미 존재하는 아이디입니다.");
+        }
+      })
+    }
+
+    function onSignup(){
+      if(!isCheck){
+        alert("중복검사를 해주세요");
+        return;
+      }
+
+      var inputID = $("input[name=username]").val();
+      var inputPW = $("input[name=password]").val();
+      var inputName = $("input[name=name]").val();
+      postAPI("/solution/user/signup", JSON.stringify({
+          "username" : inputID,
+          "password" : inputPW,
+          "type":"1",
+          "name" : inputName
+
+        }), function(result){
+        if(result){
+          alert("등록되었습니다. \n로그인을 해주세요");
+          location.href="/solution/user/login";
+        }
+        else{
+          alert("정보에 문제가 발생하였습니다.");
+        }
+      })
+    }
+  </script>
+</html>

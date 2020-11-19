@@ -11,26 +11,30 @@
                 새 문제등록
             </h1>
             <form class="form-default form-create-topic" method="POST" action="/solution/apply" enctype="multipart/form-data">
-                <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label for="inputTopicTitle">등록 닉네임</label>
+              <div class="row" >
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="inputTopicTitle">등록 닉네임</label>
+                      <div class="tt-value-wrapper">
+                          <input type="text" name="nickname" class="form-control" placeholder="닉네임을 입력하세요"
+                                  th:value="${session.user?.username} != null ? ${session.user?.username}"
+                                  th:disabled="${session.user?.username} != null ? 'true'">
+                      </div>
+                      <div class="tt-note">자신의 질문을 검색할때 사용됩니다.</div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="inputTopicTitle">등록 비밀번호</label>
                         <div class="tt-value-wrapper">
-                            <input type="text" name="nickname" class="form-control" placeholder="제목을 입력하세요">
+                            <input type="password" name="password" class="form-control" placeholder="원하는 과목을 입력하세요"
+                                    th:value="${session.user?.username} != null ? ${session.user?.password}"
+                                    th:disabled="${session.user?.username} != null ? 'true'">
                         </div>
-                        <div class="tt-note">자신의 질문을 검색할때 사용됩니다.</div>
-                      </div>
+                        <div class="tt-note">자신의 질문을 조회할때 사용됩니다.</div>
                     </div>
-                    <div class="col-md-4">
-                      <div class="form-group">
-                          <label for="inputTopicTitle">등록 비밀번호</label>
-                          <div class="tt-value-wrapper">
-                              <input type="password" name="password" class="form-control" placeholder="원하는 과목을 입력하세요">
-                          </div>
-                          <div class="tt-note">자신의 질문을 조회할때 사용됩니다.</div>
-                      </div>
-                    </div>
-                </div>
+                  </div>
+              </div>
               <div class="row" style="margin-top:20px;">
                   <div class="col-md-8">
                     <div class="form-group">
