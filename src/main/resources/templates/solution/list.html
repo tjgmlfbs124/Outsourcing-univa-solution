@@ -100,9 +100,7 @@
       if(prompt){
         postAPI("/solution/login", JSON.stringify({
           "sol_idx" : id,
-          "password" : prompt,
-          "username" : userid
-
+          "password" : prompt
         }), function(result){
           console.log("result : " , result);
           if(result) window.location.href="/solution/detail?id="+id
