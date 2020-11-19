@@ -43,20 +43,25 @@ function imagePreView(target, callback){
   };
 }
 
-// 파일명 미리보기 함수
+// // 파일명 미리보기 함수
 function fileNamePreView(target, callback){
   if(!target) return;
   var num = (target.id).split("_")[1];
   var img = new Image();
   target.onchange = function (e) {
     e.preventDefault();
-    var file = target.files[0], reader = new FileReader();
-    reader.onload = function (event) {
-      img.src = event.target.result;
-      img.id=target.id;
-    };
-    reader.readAsDataURL(file);
-    $("#chat-image-name").val(file.name);
+    var image_url = document.getElementById('chat-form').files[0];
+    var formData = new FormData();
+    formData.append("file", image_url);
+    postAPI2("/solution/img",
+    		formData,
+        function(result){
+          result = sortBy(result, { prop: "date" });
+          for(var idx=0; idx<result.length; idx++)
+            addChatRow(result[idx].writer, result[idx].date, result[idx].content);
+        }
+    );
+
   };
 }
 
@@ -95,44 +100,6 @@ function addQuestion(){
   imagePreView(document.getElementById("imageFile_"+numberPad(length,2)));
 }
 
-function addChatRow(writer, date, content){
-  $("#chat-row").append(""+
-  "<a class=\"tt-item\">"+
-    "<div class=\"tt-col-avatar\">"+
-       "<svg class=\"tt-icon\">"+
-          writerToicon(writer)+
-       "</svg>"+
-    "</div>"+
-    "<div class=\"tt-col-description\">"+
-       "<h4 class=\"tt-title\"><span>"+writerToname(writer)+"</span> <span class=\"time\">"+dateTotime(date)+"</span></h4>"+
-       "<div class=\"tt-message\">"+content+"</div>"+
-       "<div class=\"tt-message\">"+
-          "<p>"+
-             // "<img class=\"tt-offset-11\" src=\"../images/single-topic-img01.jpg\" alt=\"\" style=\"max-width:200px;\">"+
-          "</p>"+
-       "</div>"+
-    "</div>"+
-  "</a>");
-  document.getElementById("chat-row").scrollHeight;
-}
-
-function writerToicon(writer){
-  if(writer == 0)
-    return "<use xlink:href=\"#icon-ava-q\"></use>";
-  else
-    return "<use xlink:href=\"#icon-ava-a\"></use>";
-}
-
-function writerToname(writer){
-  if(writer == 0 ) return "질문자";
-  else return "관리자";
-}
-
-function dateTotime(date){
-  var temp = (date.split("T")[1]).split(":");
-  return temp[0]+":"+temp[1];
-}
-
 function screenShot(index, div, callback){
   html2canvas(div).then(function(canvas){
       var el = document.getElementById("screenShot");
@@ -152,7 +119,7 @@ function on(index, data){
       on(index);
     }
     else{
-      window.location.reload();
+      // window.location.reload();
     }
   })
 }

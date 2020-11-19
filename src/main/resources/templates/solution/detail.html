@@ -25,6 +25,16 @@
                      </a>
                      <div class="tt-all-avatar">
                         <div class="tt-list-avatar js-init-scroll" id="chat-row">
+                           <a class="tt-item" id="isConnect-chat-row" style="display:none;">
+                              <div class="tt-col-avatar">
+                                 <svg class="tt-icon">
+                                    <use xlink:href="#icon-ava-s"></use>
+                                 </svg>
+                              </div>
+                              <div class="tt-col-description">
+                                 <div class="tt-message">채팅이 연결되었습니다.</div>
+                              </div>
+                           </a>
                            <a class="tt-item" th:if="${solution.state.id > 3}">
                               <div class="tt-col-avatar">
                                  <svg class="tt-icon">
@@ -36,11 +46,38 @@
                                  <div class="tt-message">답변이 등록되었습니다.<br>이용해주셔서 감사합니다.</div>
                               </div>
                            </a>
+                           <a  class="tt-item">
+                              <div class="tt-col-avatar">
+                                 <svg class="tt-icon">
+                                    <use xlink:href="#icon-ava-q"></use>
+                                 </svg>
+                              </div>
+                              <div class="tt-col-description">
+                                 <h4 class="tt-title"><span>서**</span> <span class="time">23 Oct 11:15</span></h4>
+                                 <div class="tt-message">궁금한게 있는데요</div>
+                              </div>
+                           </a>
+                           <a class="tt-item">
+                                <div class="tt-col-avatar">
+                                    <svg class="tt-icon">
+                                      <use xlink:href="#icon-ava-a"></use>
+                                    </svg>
+                                </div>
+                                <div class="tt-col-description">
+                                  <h4 class="tt-title"><span>운영자</span> <span class="time">Jan 24 11:32</span></h4>
+                                  <div class="tt-message">
+                                  <p>
+                                      <img class="tt-offset-11" src="../images/single-topic-img01.jpg" alt="" style="max-width:200px;">
+                                  </p>
+
+                                  </div>
+                                </div>
+                            </a>
                         </div>
-                        <div class="pt-editor form-default">
+                        <form class="pt-editor form-default" id="chat-form">
                            <h6 class="pt-title">답변에 대해 궁금한점을 물어보세요.</h6>
                            <div class="form-group">
-                              <textarea name="chat-message" class="form-control" rows="5" placeholder="내용을 입력해주세요."></textarea>
+                              <textarea id="chat-message" class="form-control" rows="5" placeholder="내용을 입력해주세요."></textarea>
                            </div>
                            <div class="row">
                               <div class="col-md-9">
@@ -54,7 +91,7 @@
                                  <div class="form-group">
                                     <div class="tt-value-wrapper">
                                        <a class="btn btn-primary" style="cursor:pointer;" onclick="chatImageUpload()">
-                                       <i class="zmdi zmdi-camera-add" style="cursor:pointer;" onclick="onStar(5);"></i>
+                                         <i class="zmdi zmdi-camera-add" style="cursor:pointer;" onclick="onStar(5);"></i>
                                        </a>
                                        <input type="file" id="chat-image-form" style="display:none;"/>
                                     </div>
@@ -63,10 +100,10 @@
                            </div>
                            <div class="pt-row">
                               <div class="col-auto">
-                                 <a class="btn btn-secondary btn-width-lg" onclick="onChat()" style="cursor:pointer; color:#fff;">입력</a>
+                                 <input class="btn btn-secondary btn-width-lg" type="submit" style="cursor:pointer; color:#fff;" value="입력"/>
                               </div>
                            </div>
-                        </div>
+                        </form>
                      </div>
                   </div>
                   <div class="col-md-9">
@@ -208,7 +245,7 @@
                               <span>You’ve reached the end of replies</span>
                            </h4>
                         </div>
-                        <form th:if="${session.user?.username != null and solution.state.id < 4}" action="/solution/answer" enctype="multipart/form-data" method="POST">
+                        <form th:if="${session.user?.username != null and solution.state.id < 4 && session.user?.type == 2}" action="/solution/answer" enctype="multipart/form-data" method="POST">
                            <div class="pt-editor form-default" id="answer-row">
                               <h6 class="pt-title">질문에 대한 답변을 입력해주세요.</h6>
                               <div class="row" style="border-bottom:1px solid #e2e7ea;">
@@ -321,13 +358,16 @@
       <script th:src="@{/js/bundle.js}"></script>
       <script th:src="@{/js/utils.js}"></script>
       <script th:src="@{/js/detail.js}"></script>
-      <script th:src="@{/js/detail_socket.js}"></script>
       <svg th:replace="solution/svg/svg :: svg"></svg>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
       <script>
          fileNamePreView(document.getElementById("chat-image-form"));
          imagePreView(document.getElementById("imageFile_01"));
+         var username = "[[${session.user?.username}]]";
+         var solution_id = "[[${param.id}]]";
+         var type = "[[${session.user?.type}]]";
       </script>
+      <script th:src="@{/js/detail_socket.js}"></script>
    </body>
 </html>
