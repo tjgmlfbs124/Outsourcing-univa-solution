@@ -63,7 +63,7 @@ public class UserController {
 	
 	@GetMapping("/solution/user/signup")
 	public String userSignupPage() {
-		return "/user/login/singup";
+		return "/user/login/signup";
 	}
 	
 	@PostMapping("/solution/user/signup")
