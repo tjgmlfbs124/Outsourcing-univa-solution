@@ -93,8 +93,9 @@
       var prompt = window.prompt('패스워드를 입력하세요. ');
       if(prompt){
         postAPI("/solution/login", JSON.stringify({
-          "id" : id,
-          "password" : prompt
+          "sol_idx" : id,
+          "password" : prompt,
+
         }), function(result){
           console.log("result : " , result);
           if(result) window.location.href="/solution/detail?id="+id

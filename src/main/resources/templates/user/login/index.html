@@ -77,7 +77,7 @@
     function onClickLogin(){
       postAPI("/solution/user/login", JSON.stringify({
         "username" : $("input[name=username]").val(),
-        "password" : $("input[name=password]").val()
+        "password" : $("input[name=password]").val(),
         "type" : $("select[name=type]").val()
       }), function(result){
         if(result) window.location.href="/solution";
