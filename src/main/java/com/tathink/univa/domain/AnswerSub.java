@@ -59,10 +59,10 @@ public class AnswerSub {
 		this.text = text;
 	}
 
-	public String getImage_ur() {
+	public String getImage_url() {
 		return image_url;
 	}
-	public void setImage_ur(String image_ur) {
-		this.image_url = image_ur;
+	public void setImage_url(String image_url) {
+		this.image_url = image_url;
 	}
 }

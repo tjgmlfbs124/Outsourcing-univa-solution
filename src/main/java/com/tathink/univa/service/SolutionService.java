@@ -51,6 +51,7 @@ public class SolutionService {
 		solution.setTitle(form.getTitle());
 		solution.setContent(form.getContent());
 		solution.setLimit_date(form.getLimit_date());
+		solution.setState(qRepository.findStateById(2).get());
 		for (ProblemForm mForm : form.getProblems()) {
 			Problem problem = new Problem();
 			problem.setQuestion_id(solution);
@@ -123,7 +124,7 @@ public class SolutionService {
 					e.getStackTrace();
 				}
 				FileUtil.FileWrite(mForm.getFile(), savePath);
-				answerSub.setImage_ur(imageUrl);
+				answerSub.setImage_url(imageUrl);
 			}
 			answer.addAnsser_sub(answerSub);
 		}
