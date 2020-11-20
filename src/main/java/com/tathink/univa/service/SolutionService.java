@@ -25,6 +25,7 @@ import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.domain.SolutionChat;
 import com.tathink.univa.domain.SolutionState;
+import com.tathink.univa.domain.Subject;
 import com.tathink.univa.domain.User;
 import com.tathink.univa.repository.SolutionRepository;
 import com.tathink.univa.repository.UserRepository;
@@ -162,6 +163,10 @@ public class SolutionService {
 	/** 모든 질문 찾기 */
 	public List<Solution> findAllQuestions() {
 		return qRepository.findAll();
+	}
+	/* 모든 주제 찾기 */
+	public List<Subject> findAllSubject() {
+		return qRepository.findAllSubject();
 	}
 	
 	/** 모든 질문 갯수 찾기 */

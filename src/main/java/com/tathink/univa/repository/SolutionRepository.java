@@ -12,6 +12,7 @@ import com.tathink.univa.domain.Manager;
 import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.domain.SolutionState;
+import com.tathink.univa.domain.Subject;
 import com.tathink.univa.domain.User;
 
 public class SolutionRepository {
@@ -45,6 +46,10 @@ public class SolutionRepository {
 	public List<Solution> findAll() {
 		return em.createQuery("select q from question q", Solution.class).getResultList();
 		//return new ArrayList<Question>();
+	}
+	
+	public List<Subject> findAllSubject() {
+		return em.createQuery("select s from subject s", Subject.class).getResultList();
 	}
 	
 	public List<Solution> findRecently(int amount) {

@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -164,6 +167,22 @@ public class SolutionController {
 			// 이미지가 없을 경우 발생
 		}
 		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+	}
+	
+	@PostMapping("/solution/subjects")
+	@ResponseBody
+	public List<Map<String, String>> SubjectList(Model model) {
+		List<Subject> subs = sService.findAllSubject(); 
+		List<Map<String, String>> maps = new ArrayList<>();
+		
+		for(Subject sub : subs) {
+			//subStrs.add(sub.getName());
+			Map<String, String> map = new HashMap<>();
+			map.put("id", Integer.toString(sub.getId()));
+			map.put("name", sub.getName());
+			maps.add(map);
+		}
+		return maps;
 	}
 
 	@PostMapping("/solution/test")
