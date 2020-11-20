@@ -236,3 +236,7 @@ ADD CONSTRAINT `fk_question_user1`
 FOREIGN KEY(`user_id`) REFERENCES `univa`.`user`(`id`)
 ON DELETE SET DEFAULT
 ON UPDATE CASCADE;
+
+/* 질문_채팅 테이블 type 컬럼 추가 */
+ALTER TABLE `question_chat`
+ADD `type` VARCHAR(45) NOT NULL;

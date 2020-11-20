@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.tathink.univa.controller.form.AnswerForm;
 import com.tathink.univa.controller.form.AnswerSubForm;
 import com.tathink.univa.controller.form.ChatJsonForm;
+import com.tathink.univa.controller.form.ChatMessage;
 import com.tathink.univa.controller.form.ProblemForm;
 import com.tathink.univa.controller.form.ReviewForm;
 import com.tathink.univa.controller.form.SolutionForm;
@@ -215,8 +216,8 @@ public class SolutionService {
 //		}
 //	}
 	
-	/** 채팅 등록 */
-	public Solution SolutionChatSave(ChatJsonForm form) {
+	/** 채팅 등록(legacy) */
+	public Solution SolutionChatSave(int idx, ChatMessage form) {/*
 		Solution solution = qRepository.findById(form.getSolution_id()).get();
 		SolutionChat chat = new SolutionChat();
 		chat.setSolution(solution);
@@ -239,11 +240,25 @@ public class SolutionService {
 		
 		solution.addChat(chat);
 		qRepository.save(solution);
+		return solution;*/
+		Solution solution = qRepository.findById(idx).get();
+		SolutionChat chat = new SolutionChat();
+		chat.setSolution(solution);
+		chat.setWriter(Integer.parseInt(form.getSender()));
+		chat.setContent(form.getContent());
+		chat.setDate(form.getDate());
+		chat.setIs_read(1);
+		chat.setType(form.getType().name());
+		
+		solution.addChat(chat);
+		qRepository.save(solution);
 		return solution;
 	}
 	
+	/* */
+	
 	/** 질문의 채팅리스트 리턴 */
-	public List<ChatJsonForm> SolutionChatList(int id) {
+	/*public List<ChatJsonForm> SolutionChatList(int id) {
 		List<ChatJsonForm> chatForms = new ArrayList<ChatJsonForm>();
 		for( SolutionChat chat : this.findOne(id).get().getChats()) {
 			ChatJsonForm formChat = new ChatJsonForm();
@@ -256,7 +271,7 @@ public class SolutionService {
 			chatForms.add(formChat);
 		}
 		return chatForms;
-	}
+	}*/
 	
 	/** 내질문 리스트 받기 */
 	public List<Solution> findMyAnswer(int firstResult, int number, int manager_id) {
@@ -267,6 +282,7 @@ public class SolutionService {
 		return qRepository.findByManager(firstResult, number, manager);
 	}
 
+	/* 파일 쓰기 */
 	public String WriteFile(MultipartFile file) {
 		String dirPath = "uploads/imgs/";
 		String randomStr = StringUtil.RandomString(20)+"/";

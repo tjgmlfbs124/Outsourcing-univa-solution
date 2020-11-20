@@ -25,6 +25,7 @@ public class SolutionChatController {
 		this.sService = service;
 	}
 	
+	/*
 	@PostMapping("/solution/chat")
 	@ResponseBody
 	public List<ChatJsonForm> SendChat(
@@ -42,6 +43,7 @@ public class SolutionChatController {
 		List<ChatJsonForm> solutionChats = sService.SolutionChatList(form.getSolution_id());
 		return solutionChats;
 	}
+	*/
 	
 	@PostMapping("/solution/img")
 	@ResponseBody

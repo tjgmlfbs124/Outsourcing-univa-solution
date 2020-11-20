@@ -38,7 +38,10 @@ public class SolutionChat {
 	
 	@Column(name="is_read")
 	private int is_read = 0;
-
+	
+	@Column(name="type", nullable=false)
+	private String type;
+	
 	public int getId() {
 		return id;
 	}
@@ -93,6 +96,14 @@ public class SolutionChat {
 
 	public void setIs_read(int is_read) {
 		this.is_read = is_read;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	
