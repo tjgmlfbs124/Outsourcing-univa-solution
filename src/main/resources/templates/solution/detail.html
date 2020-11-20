@@ -25,57 +25,9 @@
                      </a>
                      <div class="tt-all-avatar">
                         <div class="tt-list-avatar js-init-scroll" id="chat-row">
-                           <a class="tt-item" id="isConnect-chat-row" style="display:none;">
-                              <div class="tt-col-avatar">
-                                 <svg class="tt-icon">
-                                    <use xlink:href="#icon-ava-s"></use>
-                                 </svg>
-                              </div>
-                              <div class="tt-col-description">
-                                 <div class="tt-message">채팅이 연결되었습니다.</div>
-                              </div>
-                           </a>
-                           <a class="tt-item" th:if="${solution.state.id > 3}">
-                              <div class="tt-col-avatar">
-                                 <svg class="tt-icon">
-                                    <use xlink:href="#icon-ava-a"></use>
-                                 </svg>
-                              </div>
-                              <div class="tt-col-description">
-                                 <h4 class="tt-title"><span>운영자</span> <span class="time">Oct 23 11:13</span></h4>
-                                 <div class="tt-message">답변이 등록되었습니다.<br>이용해주셔서 감사합니다.</div>
-                              </div>
-                           </a>
-                           <a  class="tt-item">
-                              <div class="tt-col-avatar">
-                                 <svg class="tt-icon">
-                                    <use xlink:href="#icon-ava-q"></use>
-                                 </svg>
-                              </div>
-                              <div class="tt-col-description">
-                                 <h4 class="tt-title"><span>서**</span> <span class="time">23 Oct 11:15</span></h4>
-                                 <div class="tt-message">궁금한게 있는데요</div>
-                              </div>
-                           </a>
-                           <a class="tt-item">
-                                <div class="tt-col-avatar">
-                                    <svg class="tt-icon">
-                                      <use xlink:href="#icon-ava-a"></use>
-                                    </svg>
-                                </div>
-                                <div class="tt-col-description">
-                                  <h4 class="tt-title"><span>운영자</span> <span class="time">Jan 24 11:32</span></h4>
-                                  <div class="tt-message">
-                                  <p>
-                                      <img class="tt-offset-11" src="../images/single-topic-img01.jpg" alt="" style="max-width:200px;">
-                                  </p>
-
-                                  </div>
-                                </div>
-                            </a>
                         </div>
                         <form class="pt-editor form-default" id="chat-form">
-                           <h6 class="pt-title">답변에 대해 궁금한점을 물어보세요.</h6>
+                           <h6 class="pt-title">질문에 대해 궁금한점을 물어보세요.</h6>
                            <div class="form-group">
                               <textarea id="chat-message" class="form-control" rows="5" placeholder="내용을 입력해주세요."></textarea>
                            </div>

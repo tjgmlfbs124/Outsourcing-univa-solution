@@ -46,22 +46,17 @@ function imagePreView(target, callback){
 // // 파일명 미리보기 함수
 function fileNamePreView(target, callback){
   if(!target) return;
-  var num = (target.id).split("_")[1];
-  var img = new Image();
   target.onchange = function (e) {
     e.preventDefault();
-    var image_url = document.getElementById('chat-form').files[0];
+    var image_url = document.getElementById('chat-image-form').files[0];
     var formData = new FormData();
     formData.append("file", image_url);
     postAPI2("/solution/img",
     		formData,
         function(result){
-          result = sortBy(result, { prop: "date" });
-          for(var idx=0; idx<result.length; idx++)
-            addChatRow(result[idx].writer, result[idx].date, result[idx].content);
+          console.log("result : ", result);
         }
     );
-
   };
 }
 

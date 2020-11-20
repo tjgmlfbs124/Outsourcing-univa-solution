@@ -1,10 +1,12 @@
 var chatForm = document.getElementById("chat-form");
 var stompClient = null;
 
-console.log("user : " , username);
-console.log("solution_id : " , solution_id);
-console.log("type : " , type);
+var socket = new SockJS('/solution/ws');
+stompClient = Stomp.over(socket);
+stompClient.connect({}, onConnected, onError);
+
 function connect(event) {
+  console.log("connect");
     if(username) {
         var socket = new SockJS('/solution/ws');
         stompClient = Stomp.over(socket);
@@ -14,7 +16,8 @@ function connect(event) {
 }
 
 function onConnected() {
-    $("#isConnect-chat-row").show();
+    console.log("onConnected");
+    addSystemChatRow("채팅이 연결되었습니다.");
     stompClient.subscribe('/subs/'+solution_id, onMessageReceived);
     //(Object) subscribe(destination, callback, headers = {})
     //명명된 목적지"/topic/public"을 구독합니다.
@@ -37,13 +40,14 @@ function onError(error) {
 
 function sendMessage(event) {
     var messageInput = $("#chat-message").val();
-    console.log("messageInput : " , messageInput);
+    var today = new Date();
 
     if(messageInput && stompClient) {
         var chatMessage = {
             sender: type,
             content: messageInput,
-            type: 'CHAT'
+            type: 'CHAT',
+            date: dateFomatter(today)
         };
         stompClient.send("/app/sendMessage/"+solution_id, {}, JSON.stringify(chatMessage));
     }
@@ -53,7 +57,29 @@ function sendMessage(event) {
 
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
+    var type = message.type;
+    var writer = message.sender;
+    var content = message. content;
+    var date = message.date;
+
     console.log("message : " , message);
+
+    switch(type){
+      case "CHAT" :
+        if(message.writer == 1){
+          icon = "#icon-ava-q";
+          writer = "질문자";
+        }
+        else{
+          icon = "#icon-ava-a";
+          writer = "운영자";
+        }
+
+        addChatRow(icon, writer, content, date)
+        break;
+    }
+    console.log("message : " , message);
+
     if(message.type === 'JOIN') {
 
     }
@@ -65,11 +91,11 @@ function onMessageReceived(payload) {
     }
 }
 
-
 // 시스템 알리미
 function addSystemChatRow(msg){
-  $("chat-row").append(""+
-    "<a class=\"tt-item\" id=\"isConnect-chat-row\" style=\"display:none;\">"+
+  console.log("msg : " + msg);
+  $("#chat-row").append(""+
+    "<a class=\"tt-item\">"+
       "<div class=\"tt-col-avatar\">"+
          "<svg class=\"tt-icon\">"+
             "<use xlink:href=\"#icon-ava-s\"></use>"+
@@ -81,26 +107,9 @@ function addSystemChatRow(msg){
     "</a>"
   );
 }
-
-// 채팅 문장 추가
-function addSystemChatRow(msg){
-  $("chat-row").append(""+
-    "<a class=\"tt-item\" id=\"isConnect-chat-row\" style=\"display:none;\">"+
-      "<div class=\"tt-col-avatar\">"+
-         "<svg class=\"tt-icon\">"+
-            "<use xlink:href=\"#icon-ava-s\"></use>"+
-         "</svg>"+
-      "</div>"+
-      "<div class=\"tt-col-description\">"+
-         "<div class=\"tt-message\">"+msg+"</div>"+
-      "</div>"+
-    "</a>"
-  );
-}
-
 // 채팅 추가
 function addChatRow(icon, sender, msg, date){
-  $("chat-row").append(""+
+  $("#chat-row").append(""+
     "<a class=\"tt-item\">"+
         "<div class=\"tt-col-avatar\">"+
           "<svg class=\"tt-icon\">"+
@@ -160,6 +169,16 @@ function writerToname(writer){
 function dateTotime(date){
   var temp = (date.split("T")[1]).split(":");
   return temp[0]+":"+temp[1];
+}
+
+function dateFomatter(date){
+  var year = date.getFullYear();
+  var month = date.getMonth()+1;
+  var day = date.getDate();
+  var hour = date.getHours();
+  var minute = date.getMinutes();
+  return year+"-"+month+"-"+day+" "+hour+":"+minute;
+
 }
 
 chatForm.addEventListener('submit',sendMessage, true);
