@@ -11,14 +11,11 @@ function connect(event) {
         stompClient = Stomp.over(socket);
         stompClient.connect({}, onConnected, onError);
     }
-
-    
     event.preventDefault();
 }
 
 function onConnected() {
-    console.log("onConnected");
-    addSystemChatRow("채팅이 연결되었습니다.");
+    // addSystemChatRow("채팅이 연결되었습니다.");
     stompClient.subscribe('/subs/'+solution_id, onMessageReceived);
     stompClient.send("/app/addUser/"+solution_id,
         {},
@@ -27,6 +24,7 @@ function onConnected() {
           type: 'JOIN'
         })
     );
+    $("#chat-row").scrollTop($("#chat-row")[0].scrollHeight);
 }
 
 function onError(error) {
@@ -44,6 +42,7 @@ function sendMessage(event) {
         };
         stompClient.send("/app/sendMessage/"+solution_id, {}, JSON.stringify(chatMessage));
     }
+    var messageInput = $("#chat-message").val('');
     event.preventDefault();
 }
 
@@ -82,6 +81,7 @@ function onMessageReceived(payload) {
         addImageRow(icon, writer, content, date)
         break;
     }
+    $("#chat-row").scrollTop($("#chat-row")[0].scrollHeight);
 
     // if(message.type === 'JOIN') {
     //
@@ -122,7 +122,7 @@ function addChatRow(icon, sender, msg, date){
         "<div class=\"tt-col-description\">"+
           "<h4 class=\"tt-title\">"+
             "<span>"+sender+"</span>"+
-            "<span class=\"time\">"+date+"</span>"+
+            "<span class=\"time\">"+dateTotime(date)+"</span>"+
           "</h4>"+
           "<div class=\"tt-message\">"+
             msg +
@@ -145,7 +145,7 @@ function addImageRow(icon, sender, url, date){
       "<div class=\"tt-col-description\">"+
         "<h4 class=\"tt-title\">"+
           "<span>"+sender+"</span>"+
-          "<span class=\"time\">"+date+"</span>"+
+          "<span class=\"time\">"+dateTotime(date)+"</span>"+
         "</h4>"+
         "<div class=\"tt-message\">"+
           "<p>"+
@@ -172,16 +172,6 @@ function writerToname(writer){
 function dateTotime(date){
   var temp = (date.split("T")[1]).split(":");
   return temp[0]+":"+temp[1];
-}
-
-function dateFomatter(date){
-  var year = date.getFullYear();
-  var month = date.getMonth()+1;
-  var day = date.getDate();
-  var hour = date.getHours();
-  var minute = date.getMinutes();
-  return year+"-"+month+"-"+day+" "+hour+":"+minute;
-
 }
 
 chatForm.addEventListener('submit',sendMessage, true);

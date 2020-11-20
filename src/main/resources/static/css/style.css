@@ -7633,7 +7633,7 @@ html.ie.gecko body.modal-open {
   position: relative; }
   @media (min-width: 768px) {
     .tt-all-avatar .tt-list-avatar {
-      height: calc(100vh - 210px); } }
+      height: calc(85vh - 210px); } }
   @media (max-width: 767px) {
     .tt-all-avatar .tt-list-avatar {
       height: calc(100vh - 140px); } }

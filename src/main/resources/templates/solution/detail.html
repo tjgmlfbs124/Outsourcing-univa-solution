@@ -25,34 +25,45 @@
                      </a>
                      <div class="tt-all-avatar">
                         <div class="tt-list-avatar js-init-scroll" id="chat-row">
+                          <a class="tt-item" th:each="chats : ${solution.chats}">
+                            <div class="tt-col-avatar" th:if="${chats.writer == 2}">
+                              <svg class="tt-icon">
+                                <use xlink:href="#icon-ava-a">
+                              </use>
+                              </svg>
+                            </div>
+                            <div class="tt-col-avatar" th:unless="${chats.writer == 2}">
+                              <svg class="tt-icon">
+                                <use xlink:href="#icon-ava-q">
+                              </use>
+                              </svg>
+                            </div>
+                            <div class="tt-col-description">
+                            <h4 class="tt-title">
+                              <span th:text="${chats.writer} == 2 ? '운영자' : '질문자'">작성자</span>
+                              <span class="time" th:text="${#temporals.format(chats.date, 'hh:mm')}">date</span>
+                            </h4>
+                            <div class="tt-message" th:if="${chats.type == 'CHAT'}" th:text="${chats.content}">content</div>
+                            <div class="tt-message" th:unless="${chats.type == 'CHAT'}">
+                              <p>
+                                <img class="tt-offset-11" th:src="'img?id=' + ${chats.content}" alt="" style="max-width:200px;"></img>
+                              </p>
+                            </div>
+                          </div>
+                        </a>
                         </div>
                         <form class="pt-editor form-default" id="chat-form" enctype="multipart/form-data">
                            <h6 class="pt-title">질문에 대해 궁금한점을 물어보세요.</h6>
                            <div class="form-group">
                               <textarea id="chat-message" class="form-control" rows="5" placeholder="내용을 입력해주세요."></textarea>
                            </div>
-                           <div class="row">
-                              <div class="col-md-9">
-                                 <div class="form-group">
-                                    <div class="tt-value-wrapper">
-                                       <input type="text" id="chat-image-name" name="title" class="form-control" disabled/>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div class="col-md-3">
-                                 <div class="form-group">
-                                    <div class="tt-value-wrapper">
-                                       <a class="btn btn-primary" style="cursor:pointer;" onclick="chatImageUpload()">
-                                         <i class="zmdi zmdi-camera-add" style="cursor:pointer;" onclick="onStar(5);"></i>
-                                       </a>
-                                       <input type="file" id="chat-image-form" style="display:none;"/>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
                            <div class="pt-row">
-                              <div class="col-auto">
-                                 <input class="btn btn-secondary btn-width-lg" type="submit" style="cursor:pointer; color:#fff;" value="입력"/>
+                              <div class="col-auto" style="width:100%;" >
+                                <input type="file" id="chat-image-form" style="display:none;"/>
+                                  <a class="btn btn-primary" style="cursor:pointer; float:right;" onclick="chatImageUpload()">
+                                    <i class="zmdi zmdi-camera-add" style="cursor:pointer;" onclick="onStar(5);"></i>
+                                  </a>
+                                <input class="btn btn-secondary btn-width-lg" type="submit" style="cursor:pointer; color:#fff; float:right;" value="입력"/>
                               </div>
                            </div>
                         </form>
@@ -251,7 +262,7 @@
                               </div>
                            </div>
                         </form>
-                        <form th:if="${session.user?.username == null and solution.state.id == 4}" action="/solution/review" enctype="multipart/form-data" method="POST">
+                        <form th:if="${session.user?.type != 2 and solution.state.id == 4}" action="/solution/review" enctype="multipart/form-data" method="POST">
                            <div class="pt-editor form-default">
                               <h6 class="pt-title">만족하셨다면 리뷰를 작성해주세요.</h6>
                               <div class="form-group" style="float:right;">
@@ -284,11 +295,11 @@
                               <div class="form-group">
                                  <div id="star-list" class="star-rating">
                                     <span>(</span>
-                                    <i class="zmdi zmdi-star" style="cursor:pointer; color:#d81159;" onclick="onStar(1);"></i>
-                                    <i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(2);"></i>
-                                    <i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(3);"></i>
-                                    <i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(4);"></i>
-                                    <i class="zmdi zmdi-star" style="cursor:pointer;" onclick="onStar(5);"></i>
+                                    <i class="zmdi zmdi-star" th:style="${solution.score} >= 1 ? 'color:#d81159;'"></i>
+                                    <i class="zmdi zmdi-star" th:style="${solution.score} >= 2 ? 'color:#d81159;'"></i>
+                                    <i class="zmdi zmdi-star" th:style="${solution.score} >= 3 ? 'color:#d81159;'"></i>
+                                    <i class="zmdi zmdi-star" th:style="${solution.score} >= 4 ? 'color:#d81159;'"></i>
+                                    <i class="zmdi zmdi-star" th:style="${solution.score} >= 5 ? 'color:#d81159;' : "></i>
                                     <span>)</span>
                                  </div>
                               </div>
