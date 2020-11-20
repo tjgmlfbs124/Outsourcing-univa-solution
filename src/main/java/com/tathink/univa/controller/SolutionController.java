@@ -48,9 +48,10 @@ public class SolutionController {
 	}
 
 	@GetMapping("/solution")
-	public String SolutionIndex(Model model) {
+	public String SolutionIndex(Model model, HttpSession session) {
 		// model.addAttribute("list")
-		List<Solution> solutions = sService.findRecently(10);
+		//List<Solution> solutions = sService.findRecently(10);
+		List<Solution> solutions = sService.findList(0, 7, 5, session);
 		model.addAttribute("solutions", solutions);
 
 		return "solution/index";
