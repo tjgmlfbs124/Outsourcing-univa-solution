@@ -55,6 +55,7 @@ function fileNamePreView(target, callback){
     		formData,
         function(result){
           console.log("result : ", result);
+
         }
     );
   };

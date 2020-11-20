@@ -46,8 +46,7 @@ function sendMessage(event) {
         var chatMessage = {
             sender: type,
             content: messageInput,
-            type: 'CHAT',
-            date: dateFomatter(today)
+            type: 'CHAT'
         };
         stompClient.send("/app/sendMessage/"+solution_id, {}, JSON.stringify(chatMessage));
     }
