@@ -19,7 +19,6 @@ public class UserLoginForm {
 		return password;
 	}
 	public void setPassword(String password) {
-		System.out.println("password?:"+password);
 		this.password = password;
 	}
 	
@@ -27,7 +26,6 @@ public class UserLoginForm {
 		return name;
 	}
 	public void setName(String name) {
-		System.out.println("name?:"+name);
 		this.name = name;
 	}
 	
@@ -35,7 +33,6 @@ public class UserLoginForm {
 		return type;
 	}
 	public void setType(int type) {
-		System.out.println("type?:"+type);
 		this.type = type;
 	}
 	
@@ -43,14 +40,12 @@ public class UserLoginForm {
 		return sol_idx;
 	}
 	public void setSol_idx(int id) {
-		System.out.println("id?:"+id);
 		this.sol_idx = id;
 	}
 	public int getIdx() {
 		return idx;
 	}
 	public void setIdx(int idx) {
-		System.out.println("idx?:"+idx);
 		this.idx = idx;
 	}
 }

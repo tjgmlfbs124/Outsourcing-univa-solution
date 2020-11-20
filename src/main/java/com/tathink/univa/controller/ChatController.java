@@ -40,7 +40,7 @@ public class ChatController {
 			@DestinationVariable(value = "room_id") String room_id,
 			@Payload ChatMessage chatMessage,
 			SimpMessageHeaderAccessor headerAccessor) {
-		System.out.println("chat.addUser :");
+		//System.out.println("chat.addUser :");
 		headerAccessor.getSessionAttributes().put("sender", chatMessage.getSender());
 		headerAccessor.getSessionAttributes().put("room_id", room_id);
 		chatMessage.setType(MessageType.JOIN);

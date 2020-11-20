@@ -13,10 +13,10 @@ public class User {
 	@Column(columnDefinition = "UNSIGNED INT")
 	private int id;
 	
-	@Column
+	@Column(nullable = false)
 	private String nickname;
 	
-	@Column(nullable = false)
+	@Column
 	private String username;
 	
 	@Column(nullable = false)
