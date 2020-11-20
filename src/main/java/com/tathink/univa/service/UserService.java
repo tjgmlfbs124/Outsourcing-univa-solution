@@ -74,6 +74,7 @@ public class UserService {
 			tempUser.setUsername(form.getUsername());
 			tempUser.setPassword(form.getPassword());
 			User user = userRepository.findByUserObj(tempUser).orElse(null);
+			if(user == null) return null;
 			UserLoginForm tempForm = new UserLoginForm();
 			tempForm.setName(user.getNickname());
 			tempForm.setUsername(user.getUsername());

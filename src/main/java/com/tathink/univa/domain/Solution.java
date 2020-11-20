@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -70,7 +71,7 @@ public class Solution {
 	private Set<SolutionSubject> subjects;
 	
 	@OneToMany(targetEntity=SolutionChat.class, mappedBy = "solution", cascade = CascadeType.PERSIST)
-	private Set<SolutionChat> chats;
+	private List<SolutionChat> chats;
 	
 	@ManyToOne(targetEntity=User.class, fetch=FetchType.EAGER)
 	@JoinColumn(name="user_id")
@@ -187,13 +188,13 @@ public class Solution {
 		this.subjects.add(subject);
 	}
 	
-	public Set<SolutionChat> getChats() {
+	public List<SolutionChat> getChats() {
 		if( this.chats == null) {
-			this.chats = new HashSet<SolutionChat>();
+			this.chats = new ArrayList<SolutionChat>();
 		}
 		return chats;
 	}
-	public void setChats(Set<SolutionChat> chats) {
+	public void setChats(List<SolutionChat> chats) {
 		this.chats = chats;
 	}
 	public void addChat(SolutionChat chat) {
