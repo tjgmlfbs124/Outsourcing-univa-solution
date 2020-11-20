@@ -16,6 +16,9 @@ public class SolutionForm {
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime limit_date;
 	private List<ProblemForm> problems;
+	private int isNew;
+	private int isDetail;
+	private String language;
 	
 	public String getTitle() {
 		return title;
@@ -55,5 +58,23 @@ public class SolutionForm {
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+	public int getIsNew() {
+		return isNew;
+	}
+	public void setIsNew(int isNew) {
+		this.isNew = isNew;
+	}
+	public int getIsDetail() {
+		return isDetail;
+	}
+	public void setIsDetail(int isDetail) {
+		this.isDetail = isDetail;
+	}
+	public String getLanguage() {
+		return language;
+	}
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 }

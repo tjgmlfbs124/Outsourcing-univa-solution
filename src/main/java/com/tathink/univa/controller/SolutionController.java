@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +33,7 @@ import com.tathink.univa.domain.AnswerSub;
 import com.tathink.univa.domain.Manager;
 import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.SolutionSubject;
+import com.tathink.univa.domain.Subject;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.service.SolutionService;
 import com.tathink.univa.service.UserService;
@@ -55,6 +57,11 @@ public class SolutionController {
 		model.addAttribute("solutions", solutions);
 
 		return "solution/index";
+	}
+	@GetMapping("/solution/help/{path}")
+	public String helpPage(
+			@PathVariable(value="path") String path) {
+		return "solution/help/"+path;
 	}
 
 	@GetMapping("/solution/list")
@@ -86,8 +93,7 @@ public class SolutionController {
 	@PostMapping("/solution/apply")
 	public String SolutionApply(SolutionForm form, HttpSession session) {
 		sService.apply(form, session);
-		System.out.println(form.getTitle());
-
+		
 		return "redirect:/solution/list";
 	}
 
@@ -146,8 +152,14 @@ public class SolutionController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_TYPE, contentType);
-
-		Resource resource = new InputStreamResource(Files.newInputStream(path));
+		
+		Resource resource = null;
+		try {
+			resource = new InputStreamResource(Files.newInputStream(path));
+		} catch (Exception e) {
+			e.getStackTrace();
+			// 이미지가 없을 경우 발생
+		}
 		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}
 

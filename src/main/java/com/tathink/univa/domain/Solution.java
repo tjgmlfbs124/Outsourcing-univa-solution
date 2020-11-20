@@ -77,6 +77,15 @@ public class Solution {
 	@JoinColumn(name="user_id")
 	private User user;
 	
+	@Column(name="isNew")
+	private int isNew;
+	
+	@Column(name="isDetail")
+	private int isDetail;
+	
+	@Column(name="language")
+	private String language;
+	
 	public int getId() {
 		return id;
 	}
@@ -205,6 +214,24 @@ public class Solution {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public int getIsNew() {
+		return isNew;
+	}
+	public void setIsNew(int isNew) {
+		this.isNew = isNew;
+	}
+	public int getIsDetail() {
+		return isDetail;
+	}
+	public void setIsDetail(int isDetail) {
+		this.isDetail = isDetail;
+	}
+	public String getLanguage() {
+		return language;
+	}
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 	
 }

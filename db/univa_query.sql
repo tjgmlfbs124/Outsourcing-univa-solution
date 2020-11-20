@@ -240,3 +240,21 @@ ON UPDATE CASCADE;
 /* 질문_채팅 테이블 type 컬럼 추가 */
 ALTER TABLE `question_chat`
 ADD `type` VARCHAR(45) NOT NULL;
+
+/* 상위 카테고리 제약 설정 */
+ALTER TABLE `subject`
+ADD `parent_id` int unsigned NULL;
+
+ALTER TABLE `subject` 
+ADD CONSTRAINT `fk_subject_parent1`
+FOREIGN KEY(`parent_id`) REFERENCES `subject`(`id`)
+ON DELETE SET NULL
+ON UPDATE CASCADE;
+
+/* 질문 컬럼 추가 */
+ALTER TABLE `question`
+ADD (
+  `isNew` INT NULL DEFAULT 0,
+  `isDetail` INT NULL DEFAULT 0,
+  `language` VARCHAR(45) NULL
+)

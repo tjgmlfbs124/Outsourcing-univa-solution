@@ -52,6 +52,9 @@ public class SolutionService {
 		solution.setContent(form.getContent());
 		solution.setLimit_date(form.getLimit_date());
 		solution.setState(qRepository.findStateById(2).get());
+		solution.setIsNew(form.getIsNew());
+		solution.setIsDetail(form.getIsDetail());
+		solution.setLanguage(form.getLanguage());
 		for (ProblemForm mForm : form.getProblems()) {
 			Problem problem = new Problem();
 			problem.setQuestion_id(solution);
