@@ -6,12 +6,13 @@ stompClient = Stomp.over(socket);
 stompClient.connect({}, onConnected, onError);
 
 function connect(event) {
-  console.log("connect");
     if(username) {
         var socket = new SockJS('/solution/ws');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, onConnected, onError);
     }
+
+    
     event.preventDefault();
 }
 
@@ -19,28 +20,21 @@ function onConnected() {
     console.log("onConnected");
     addSystemChatRow("채팅이 연결되었습니다.");
     stompClient.subscribe('/subs/'+solution_id, onMessageReceived);
-    //(Object) subscribe(destination, callback, headers = {})
-    //명명된 목적지"/topic/public"을 구독합니다.
-
-
     stompClient.send("/app/addUser/"+solution_id,
         {},
         JSON.stringify({
           sender: type,
           type: 'JOIN'
         })
-    )
-
+    );
 }
 
 function onError(error) {
 
 }
 
-
 function sendMessage(event) {
     var messageInput = $("#chat-message").val();
-    var today = new Date();
 
     if(messageInput && stompClient) {
         var chatMessage = {
@@ -53,6 +47,16 @@ function sendMessage(event) {
     event.preventDefault();
 }
 
+function sendImage(url) {
+    if(url && stompClient) {
+        var chatMessage = {
+            sender: type,
+            content: url,
+            type: 'IMG'
+        };
+        stompClient.send("/app/sendMessage/"+solution_id, {}, JSON.stringify(chatMessage));
+    }
+}
 
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
@@ -61,33 +65,33 @@ function onMessageReceived(payload) {
     var content = message. content;
     var date = message.date;
 
-    console.log("message : " , message);
+    if(writer == "2"){
+      icon = "#icon-ava-a";
+      writer = "운영자";
+    }
+    else{
+    icon = "#icon-ava-q";
+    writer = "질문자";
+    }
 
     switch(type){
       case "CHAT" :
-        if(message.writer == 1){
-          icon = "#icon-ava-q";
-          writer = "질문자";
-        }
-        else{
-          icon = "#icon-ava-a";
-          writer = "운영자";
-        }
-
         addChatRow(icon, writer, content, date)
         break;
+      case "IMG" :
+        addImageRow(icon, writer, content, date)
+        break;
     }
-    console.log("message : " , message);
 
-    if(message.type === 'JOIN') {
-
-    }
-    else if (message.type === 'LEAVE') {
-
-    }
-    else {
-
-    }
+    // if(message.type === 'JOIN') {
+    //
+    // }
+    // else if (message.type === 'LEAVE') {
+    //
+    // }
+    // else {
+    //
+    // }
 }
 
 // 시스템 알리미
@@ -145,7 +149,7 @@ function addImageRow(icon, sender, url, date){
         "</h4>"+
         "<div class=\"tt-message\">"+
           "<p>"+
-            "<img class=\"tt-offset-11\" src=\""+url+"\" alt=\"\" style=\"max-width:200px;\">"+
+            "<img class=\"tt-offset-11\" src=\"" + "img?id=" +url+"\" alt=\"\" style=\"max-width:200px;\">"+
           "</p>"+
         "</div>"+
       "</div>"+

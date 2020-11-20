@@ -25,7 +25,7 @@ function postAPI2(url, data, successCallback){
   $.ajax({
       type : 'POST',
       url : url,
-      dataType : 'json',
+      dataType : 'text',
       data : data,
       contentType : false,
       processData: false,

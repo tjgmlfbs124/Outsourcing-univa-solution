@@ -48,14 +48,14 @@ function fileNamePreView(target, callback){
   if(!target) return;
   target.onchange = function (e) {
     e.preventDefault();
-    var image_url = document.getElementById('chat-image-form').files[0];
     var formData = new FormData();
+    var image_url = document.getElementById('chat-image-form').files[0];
     formData.append("file", image_url);
+
     postAPI2("/solution/img",
     		formData,
         function(result){
-          console.log("result : ", result);
-
+          sendImage(result);
         }
     );
   };
