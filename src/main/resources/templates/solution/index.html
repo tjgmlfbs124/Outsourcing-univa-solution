@@ -19,9 +19,7 @@
                <h1 class="tt-title-border" style="text-align:left;">
                   최근 등록된 문제
                </h1>
-
-               <!-- 질문리스트 row-->
-               <div th:each="list : ${solutions}" class="tt-item"  th:onclick="location.href='/pg/'" style="cursor:pointer;">  <!--  ' + ${list.id} + ' -->
+               <div th:each="list : ${solutions}" class="tt-item"  th:onclick="onClickList([[${list.id}]]);" style="cursor:pointer;">
                   <div class="tt-col-avatar">
                      <svg class="tt-icon">
                         <use xlink:href="#icon-ava-q"></use>
@@ -66,9 +64,23 @@
       <svg th:replace="solution/svg/svg :: svg"></svg>
    </body>
    <script>
-     function convertDate(date){
-       console.log("date : ",  date);
-
+     function onClickList(id){
+       var userid = "[[${session.user?.username}]]";
+       if(userid){
+         window.location.href="/solution/detail?id="+id;
+       }
+       else{
+         var prompt = window.prompt('패스워드를 입력하세요. ');
+         if(prompt){
+           postAPI("/solution/login", JSON.stringify({
+             "sol_idx" : id,
+             "password" : prompt
+           }), function(result){
+             if(result) window.location.href="/solution/detail?id="+id
+             else window.alert("정보가 일치하지 않습니다.");
+           })
+         }
+       }
      }
    </script>
 </html>

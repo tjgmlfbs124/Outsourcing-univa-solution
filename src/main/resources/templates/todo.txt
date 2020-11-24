@@ -12,12 +12,12 @@
 
 
 서버 수정요청
-1. 결제버튼 눌렀을때 : 상태 결제대기->풀이대기로 바꿀것 (default : state 2)
+1. 결제버튼 눌렀을때 : 상태 결제대기->풀이대기로 바꿀것 (default : state 2) (해결)
 2. 유저회원가입쪽 만들기(완료)
-3. /solution 페이지 밑부분의 리스트에 리뷰가 있는 문제만 리턴할것 (state == 5), 최대 7개만
+3. /solution 페이지 밑부분의 리스트에 리뷰가 있는 문제만 리턴할것 (state == 5), 최대 7개만 (해결)
 4. manager, user 테이블 합치는 방향으로 type에서 manager, user, 비회원 구분 (언젠가..)
-5. 게시물 안의 내용중 줄바꿈기능 (줄바꿈이 \r\n  이나 \n으로 오는지 확인할것)
-6. answers.image_ur -> answer.image_url로 수정
+5. 게시물 안의 내용중 줄바꿈기능 (줄바꿈이 \r\n  이나 \n으로 오는지 확인할것) (해결)
+6. answers.image_ur -> answer.image_url로 수정 (해결)
 7. 문제등록페이지에서 문제등록이 안됨 (에러뜸)
 8. Question 테이블에서 isNew, isDetail, language 추가할것
 9. 서브젝트 1차, 2차 분류 필요

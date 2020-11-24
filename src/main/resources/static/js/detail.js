@@ -61,7 +61,6 @@ function fileNamePreView(target, callback){
   };
 }
 
-
 function addQuestion(){
   var length = $("#answer-row").children().length;
   $("#answer-row").append(""+

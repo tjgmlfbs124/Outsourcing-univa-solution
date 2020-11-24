@@ -26,24 +26,29 @@
                      <div class="tt-all-avatar">
                         <div class="tt-list-avatar js-init-scroll" id="chat-row">
                           <a class="tt-item" th:each="chats : ${solution.chats}">
+
                             <div class="tt-col-avatar" th:if="${chats.writer == 2}">
                               <svg class="tt-icon">
                                 <use xlink:href="#icon-ava-a">
                               </use>
                               </svg>
                             </div>
+
                             <div class="tt-col-avatar" th:unless="${chats.writer == 2}">
                               <svg class="tt-icon">
                                 <use xlink:href="#icon-ava-q">
                               </use>
                               </svg>
                             </div>
+
                             <div class="tt-col-description">
                             <h4 class="tt-title">
                               <span th:text="${chats.writer} == 2 ? '운영자' : '질문자'">작성자</span>
                               <span class="time" th:text="${#temporals.format(chats.date, 'hh:mm')}">date</span>
                             </h4>
-                            <div class="tt-message" th:if="${chats.type == 'CHAT'}" th:text="${chats.content}">content</div>
+                            <div class="tt-message" th:if="${chats.type == 'CHAT'}" >
+                              <p th:utext="${#strings.replace( #strings.escapeXml( chats.content ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></p>
+                            </div>
                             <div class="tt-message" th:unless="${chats.type == 'CHAT'}">
                               <p>
                                 <img class="tt-offset-11" th:src="'img?id=' + ${chats.content}" alt="" style="max-width:200px;"></img>
@@ -104,14 +109,11 @@
                                     <div class="tt-item-tag">
                                        <ul class="tt-list-badge">
                                           <li><a ><span class="tt-badge">과목이름</span></a></li>
-                                          <li><a ><span class="tt-badge">과목이름</span></a></li>
+                                          <li><a ><span class="tt-badge">과목이름333</span></a></li>
                                        </ul>
                                     </div>
-                                    <div class="tt-item-description" th:text="${solution.content}">
-                                       <p th:text="${problems.text}">문제내용</p>
-                                       <p>
-                                          <img class="tt-offset-11" th:src="'/solution/img?id=' + ${problems.image_url}" alt="">
-                                       </p>
+                                    <div class="tt-item-description" >
+                                      <p th:utext="${#strings.replace( #strings.escapeXml( solution.content ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}">문제내용</p>
                                     </div>
                                  </div>
                                  <div id="questionSlider" class="carousel slide" data-ride="carousel" style="padding:10px 10px 30px 10px;" data-interval="false">
@@ -129,9 +131,10 @@
                                           style="padding:30px;"
                                           th:each="problems,num : ${solution.problem}"
                                           th:classappend="${num.index} == 0 ? active">
-                                          <img class="d-block" th:src="'/solution/img?id=' + ${problems.image_url}" style="max-width:30%; margin-left:3%; float:left;"/>
+                                          <img class="d-block" th:src="'/solution/img?id=' + ${problems.image_url}" style="max-width:30%; margin-left:3%; float:left;  max-height:300px;"/>
                                           <div class="d-block" style="max-width:60%; margin-left:7%; float:left;">
-                                             <p style="word-break:break-all;" th:text="${problems.text}">asdfasd</p>
+                                            <!-- <p style="word-break:break-all;" th:text="${problems.text}">asdfasd</p> -->
+                                             <p style="word-break:break-all;" th:utext="${#strings.replace( #strings.escapeXml( problems.text ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}">asdfasd</p>
                                           </div>
                                        </div>
                                     </div>
@@ -187,9 +190,9 @@
                                           style="padding:30px;"
                                           th:each="answers,num : ${solution.answer.answer_sub}"
                                           th:classappend="${num.index} == 0 ? active">
-                                          <img class="d-block" th:src="'/solution/img?id=' + ${answers.image_ur}" style="max-width:30%; margin-left:3%; float:left;"/>
+                                          <img class="d-block" th:src="'/solution/img?id=' + ${answers.image_url}" style="max-width:30%; margin-left:3%; float:left; max-height:300px;"/>
                                           <div class="d-block" style="max-width:60%; margin-left:7%; float:left;">
-                                             <p style="word-break:break-all;" th:text="${answers.text}">asdfasd</p>
+                                            <p style="word-break:break-all;" th:utext="${#strings.replace( #strings.escapeXml( answers.text ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}">asdfasd</p>
                                           </div>
                                        </div>
                                     </div>
@@ -299,7 +302,7 @@
                                     <i class="zmdi zmdi-star" th:style="${solution.score} >= 2 ? 'color:#d81159;'"></i>
                                     <i class="zmdi zmdi-star" th:style="${solution.score} >= 3 ? 'color:#d81159;'"></i>
                                     <i class="zmdi zmdi-star" th:style="${solution.score} >= 4 ? 'color:#d81159;'"></i>
-                                    <i class="zmdi zmdi-star" th:style="${solution.score} >= 5 ? 'color:#d81159;' : "></i>
+                                    <i class="zmdi zmdi-star" th:style="${solution.score} >= 5 ? 'color:#d81159;'"></i>
                                     <span>)</span>
                                  </div>
                               </div>

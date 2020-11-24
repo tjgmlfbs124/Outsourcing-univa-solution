@@ -17,12 +17,11 @@ function connect(event) {
 function onConnected() {
     // addSystemChatRow("채팅이 연결되었습니다.");
     stompClient.subscribe('/subs/'+solution_id, onMessageReceived);
-    stompClient.send("/app/addUser/"+solution_id,
-        {},
-        JSON.stringify({
-          sender: type,
-          type: 'JOIN'
-        })
+    stompClient.send("/app/addUser/"+solution_id,{},
+      JSON.stringify({
+        sender: type,
+        type: 'JOIN'
+      })
     );
     $("#chat-row").scrollTop($("#chat-row")[0].scrollHeight);
 }
@@ -69,8 +68,8 @@ function onMessageReceived(payload) {
       writer = "운영자";
     }
     else{
-    icon = "#icon-ava-q";
-    writer = "질문자";
+      icon = "#icon-ava-q";
+      writer = "질문자";
     }
 
     switch(type){
@@ -166,7 +165,7 @@ function writerToicon(writer){
 
 function writerToname(writer){
   if(writer == 0 ) return "질문자";
-  else return "관리자";
+  else return "운영자";
 }
 
 function dateTotime(date){

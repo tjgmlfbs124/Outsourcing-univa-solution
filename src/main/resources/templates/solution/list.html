@@ -14,11 +14,11 @@
                     <li class="nav-item show" onclick="location.href='/solution/list?min=0&max=10&state=0'">
                         <a th:classappend="${#strings.equals(param.state, 0)} ? active" class="nav-link" data-toggle="tab" role="tab"><span>전체</span></a>
                     </li>
+                    <li class="nav-item" onclick="location.href='/solution/list?min=0&max=10&state=2'">
+                        <a th:classappend="${#strings.equals(param.state, 2)} ? active" class="nav-link" data-toggle="tab" role="tab"><span>답변대기중</span></a>
+                    </li>
                     <li class="nav-item" onclick="location.href='/solution/list?min=0&max=10&state=4'">
                         <a th:classappend="${#strings.equals(param.state, 4)} ? active" class="nav-link" data-toggle="tab" role="tab"><span>답변완료</span></a>
-                    </li>
-                    <li class="nav-item" onclick="location.href='/solution/list?min=0&max=10&state=1'">
-                        <a th:classappend="${#strings.equals(param.state, 1)} ? active" class="nav-link" data-toggle="tab" role="tab"><span>답변대기중</span></a>
                     </li>
                     <li class="nav-item" onclick="location.href='/solution/list?min=0&max=10&state=5'">
                         <a th:classappend="${#strings.equals(param.state, 5)} ? active" class="nav-link" data-toggle="tab" role="tab"><span>리뷰완료</span></a>
@@ -26,7 +26,7 @@
                 </ul>
             </div>
             <div class="tab-content">
-                <div class="tab-pane tt-indent-none  show active" role="tabpanel" >
+                <div class="tab-pane tt-indent-none show active" role="tabpanel" >
                    <div class="tt-topic-list">
                         <div class="tt-item" th:onclick="onClickList([[${list.id}]]);" th:each="list : ${solutions}">
                             <div class="tt-col-avatar">
@@ -102,7 +102,6 @@
           "sol_idx" : id,
           "password" : prompt
         }), function(result){
-          console.log("result : " , result);
           if(result) window.location.href="/solution/detail?id="+id
           else window.alert("정보가 일치하지 않습니다.");
         })

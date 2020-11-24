@@ -47,16 +47,34 @@
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
-                        <label for="inputTopicTitle">질문 과목</label>
+                        <label for="inputTopicTitle">대표 과목</label>
                         <div class="tt-value-wrapper">
-                            <input type="text" name="subject" class="form-control" placeholder="원하는 과목을 입력하세요">
-                            <span class="tt-value-input">99</span>
+                            <input type="text" name="title" class="form-control" placeholder="과목을 선택하세요" onclick="showSubject()" readonly>
                         </div>
-                        <div class="tt-note">등록 가능한 과목이름이 자동완성됩니다.</div>
                     </div>
                   </div>
               </div>
-                <div class="row">
+              <div class="row" id="subjectList" style="margin:30px 0px 30px 0px; display:none;">
+                  <div class="col-md-12">
+                    <div class="tt-wrapper-inner">
+                        <div class="tt-list-avatar">
+                            <div class="row" id="subject-list">
+                              <div class="col-6 col-md-4 col-lg-3" th:each="subjectList,num : ${subject_list}" >
+                                <div class="checkbox-group">
+                                  <input type="checkbox" th:id="'subjectBox' + ${num.index}">
+                                  <label th:for="'subjectBox' + ${num.index}">
+                                      <span class="check"></span>
+                                      <span class="box"></span>
+                                      <span class="tt-text" th:text="${subjectList.name}"></span>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+                <div class="row" style="margin-top:20px;">
                   <div class="col-md-12">
                       <div class="form-group">
                           <label for="inputTopicTitle">대표 질문내용</label>
@@ -232,7 +250,8 @@
                     </div>
                      <div class="row">
                         <div class="col-auto ml-md-auto">
-                            <input type="submit" class="btn btn-secondary btn-width-lg" style="color:#fff; cursor:pointer;" value="결제하기"/>
+                            <a class="btn btn-secondary btn-width-lg" style="color:#fff; cursor:pointer;" onclick="submit()">결제하기</a>
+                            <input id="submit" type="submit" class="btn btn-secondary btn-width-lg" style="color:#fff; cursor:pointer; display:none;"/>
                         </div>
                     </div>
                 </div>
@@ -245,6 +264,16 @@
 <script>
   // 미리보기 이미지등록
   imagePreView(document.getElementById("imageFile_01"));
+
+  function submit(){
+    var list = $("#subject-list").children();
+    for(var idx=0; idx<list.length; idx++){
+      var isChecked = $("#subjectBox"+idx).val();
+      console.log($("#subjectBox"+idx))
+      console.log("isChecked : " , isChecked);
+    }
+    $("#submit").click();
+  }
 
   // n 길이가 width보다 아래일때, n 앞에 0을 붙혀줌
   function numberPad(n, width) {
@@ -274,6 +303,14 @@
 			reader.readAsDataURL(file);
 			$(target.id).css("cursor","pointer");
     };
+  }
+
+  function showSubject(){
+    if( $("#subjectList").is(":visible") ){
+        $("#subjectList").slideUp();
+    }else{
+        $("#subjectList").slideDown();
+    }
   }
 
   // 질문 row 추가
