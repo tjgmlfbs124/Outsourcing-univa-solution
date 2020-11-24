@@ -168,6 +168,10 @@ public class SolutionService {
 	public List<Subject> findAllSubject() {
 		return qRepository.findAllSubject();
 	}
+	/* 모든 주제 이름순*/
+	public List<Subject> findAllSubjectOrderByName() {
+		return qRepository.findAllSubjectOrderByName();
+	}
 	
 	public List<Subject> findBySubjectName(String name) {
 		return qRepository.findBySubjectName(name);

@@ -88,8 +88,8 @@ public class SolutionController {
 	}
 
 	@GetMapping("/solution/apply")
-	public String SolutionApplyPage() {
-
+	public String SolutionApplyPage(Model model) {
+		model.addAttribute("subject_list", sService.findAllSubjectOrderByName());
 		return "solution/apply";
 	}
 
