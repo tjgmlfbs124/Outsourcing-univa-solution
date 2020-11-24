@@ -85,12 +85,16 @@ public class SolutionService {
 			solution.addProblem(problem);
 		}
 		
-		for(SubjectForm subjForm : form.getSubjects()) {
-			Subject subject = qRepository.findSubjectById(subjForm.getSubject_id()).get();
-			SolutionSubject mSubject = new SolutionSubject();
-			mSubject.setSolution(solution);
-			mSubject.setSubject(subject);
-			solution.addSubject(mSubject);
+		if(form.getSubjects() != null) {
+			for(SubjectForm subjForm : form.getSubjects()) {
+				Subject subject = qRepository.findSubjectById(subjForm.getSubject_id()).get();
+				if(subject != null) {
+					SolutionSubject mSubject = new SolutionSubject();
+					mSubject.setSolution(solution);
+					mSubject.setSubject(subject);
+					solution.addSubject(mSubject);
+				}
+			}
 		}
 		
 		UserLoginForm userForm = (UserLoginForm) session.getAttribute("user");

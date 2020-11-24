@@ -18,8 +18,8 @@ public class SolutionForm {
 	private LocalDateTime limit_date;
 	private List<ProblemForm> problems;
 	private List<SubjectForm> subjects;
-	private int isNew;
-	private int isDetail;
+	private int is_new;
+	private int is_detail;
 	private String language;
 	
 	public String getTitle() {
@@ -62,16 +62,16 @@ public class SolutionForm {
 		this.nickname = nickname;
 	}
 	public int getIsNew() {
-		return isNew;
+		return is_new;
 	}
 	public void setIsNew(int isNew) {
-		this.isNew = isNew;
+		this.is_new = isNew;
 	}
 	public int getIsDetail() {
-		return isDetail;
+		return is_detail;
 	}
 	public void setIsDetail(int isDetail) {
-		this.isDetail = isDetail;
+		this.is_detail = isDetail;
 	}
 	public String getLanguage() {
 		return language;
