@@ -48,6 +48,11 @@ public class SolutionRepository {
 		//return new ArrayList<Question>();
 	}
 	
+	public Optional<Subject> findSubjectById(int id){
+		Subject subject = em.find(Subject.class, id);
+		return Optional.ofNullable(subject);
+	}
+	
 	public List<Subject> findAllSubject() {
 		return em.createQuery("select s from subject s", Subject.class).getResultList();
 	}

@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.tathink.univa.domain.Problem;
+import com.tathink.univa.domain.Subject;
 
 public class SolutionForm {
 	private String title;
@@ -16,6 +17,7 @@ public class SolutionForm {
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime limit_date;
 	private List<ProblemForm> problems;
+	private List<SubjectForm> subjects;
 	private int isNew;
 	private int isDetail;
 	private String language;
@@ -76,5 +78,11 @@ public class SolutionForm {
 	}
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+	public List<SubjectForm> getSubjects() {
+		return subjects;
+	}
+	public void setSubjects(List<SubjectForm> subjects) {
+		this.subjects = subjects;
 	}
 }

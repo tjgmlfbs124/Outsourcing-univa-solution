@@ -202,10 +202,10 @@ public class SolutionController {
 	@PostMapping("/solution/test")
 	@ResponseBody
 	public String SolutionTest(Model model) {
-		Solution solution = sService.findOne(190).get();
-		for (SolutionSubject data : solution.getSubjects()) {
-			System.out.println("name: " + data.getSubject().getName());
-		}
+//		Solution solution = sService.findOne(190).get();
+//		for (SolutionSubject data : solution.getSubjects()) {
+//			System.out.println("name: " + data.getSubject().getName());
+//		}
 
 		/*
 		 * 답변의 보조답변들 출력 List<AnswerSub> answers =

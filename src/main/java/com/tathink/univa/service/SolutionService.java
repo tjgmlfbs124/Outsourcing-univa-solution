@@ -17,6 +17,7 @@ import com.tathink.univa.controller.form.ChatMessage;
 import com.tathink.univa.controller.form.ProblemForm;
 import com.tathink.univa.controller.form.ReviewForm;
 import com.tathink.univa.controller.form.SolutionForm;
+import com.tathink.univa.controller.form.SubjectForm;
 import com.tathink.univa.controller.form.UserLoginForm;
 import com.tathink.univa.domain.Answer;
 import com.tathink.univa.domain.AnswerSub;
@@ -25,6 +26,7 @@ import com.tathink.univa.domain.Problem;
 import com.tathink.univa.domain.Solution;
 import com.tathink.univa.domain.SolutionChat;
 import com.tathink.univa.domain.SolutionState;
+import com.tathink.univa.domain.SolutionSubject;
 import com.tathink.univa.domain.Subject;
 import com.tathink.univa.domain.User;
 import com.tathink.univa.repository.SolutionRepository;
@@ -82,6 +84,15 @@ public class SolutionService {
 			
 			solution.addProblem(problem);
 		}
+		
+		for(SubjectForm subjForm : form.getSubjects()) {
+			Subject subject = qRepository.findSubjectById(subjForm.getSubject_id()).get();
+			SolutionSubject mSubject = new SolutionSubject();
+			mSubject.setSolution(solution);
+			mSubject.setSubject(subject);
+			solution.addSubject(mSubject);
+		}
+		
 		UserLoginForm userForm = (UserLoginForm) session.getAttribute("user");
 		if(userForm == null) {
 			userForm = new UserLoginForm();
