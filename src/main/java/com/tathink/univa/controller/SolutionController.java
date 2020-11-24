@@ -169,7 +169,7 @@ public class SolutionController {
 		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}
 	
-	@PostMapping("/solution/subjects")
+	@PostMapping("/solution/subject/list")
 	@ResponseBody
 	public List<Map<String, String>> SubjectList(Model model) {
 		List<Subject> subs = sService.findAllSubject(); 
@@ -177,6 +177,20 @@ public class SolutionController {
 		
 		for(Subject sub : subs) {
 			//subStrs.add(sub.getName());
+			Map<String, String> map = new HashMap<>();
+			map.put("id", Integer.toString(sub.getId()));
+			map.put("name", sub.getName());
+			maps.add(map);
+		}
+		return maps;
+	}
+	
+	@PostMapping("/solution/subject/name")
+	@ResponseBody
+	public List<Map<String, String>> SubjectFindByName(@RequestParam String name) {
+		List<Subject> subs = sService.findBySubjectName(name);
+		List<Map<String, String>> maps = new ArrayList<>();
+		for(Subject sub : subs) {
 			Map<String, String> map = new HashMap<>();
 			map.put("id", Integer.toString(sub.getId()));
 			map.put("name", sub.getName());

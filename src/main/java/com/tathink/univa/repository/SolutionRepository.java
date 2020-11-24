@@ -52,6 +52,16 @@ public class SolutionRepository {
 		return em.createQuery("select s from subject s", Subject.class).getResultList();
 	}
 	
+	public List<Subject> findBySubjectName(String name) {
+		name = "%"+name+"%";
+		return em.createQuery("SELECT s FROM subject s WHERE s.name LIKE :name", Subject.class)
+				.setParameter("name", name)
+				.getResultList();
+				
+//		return em.createQuery("SELECT s FROM subject s WHERE s.name LIKE %컴%", Subject.class)
+//				.getResultList();
+	}
+	
 	public List<Solution> findRecently(int amount) {
 		 TypedQuery<Solution> mQuery = em.createQuery(
 				 "select q from question q order by q.id desc", Solution.class);

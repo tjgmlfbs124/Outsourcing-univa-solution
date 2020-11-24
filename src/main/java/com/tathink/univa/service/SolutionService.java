@@ -169,6 +169,10 @@ public class SolutionService {
 		return qRepository.findAllSubject();
 	}
 	
+	public List<Subject> findBySubjectName(String name) {
+		return qRepository.findBySubjectName(name);
+	}
+	
 	/** 모든 질문 갯수 찾기 */
 	public int length() {
 		return findAllQuestions().size();
