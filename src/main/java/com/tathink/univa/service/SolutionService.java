@@ -63,10 +63,10 @@ public class SolutionService {
 			problem.setQuestion_id(solution);
 			problem.setNumber(mForm.getNumber());
 			problem.setText(mForm.getText());
-			if(mForm.getFile() == null) {
-				//System.out.println("file is null");
+			if(mForm.getFile().isEmpty()) {
+				System.out.println("file is empty");
 			}
-			if(mForm.getFile() != null) {
+			if(!mForm.getFile().isEmpty()) {
 				String dirPath = "uploads/imgs/";
 				String randomStr = StringUtil.RandomString(20)+"/";
 				String imageUrl = randomStr+"img"+StringUtil.getExtension(mForm.getFile().getOriginalFilename()).get();
