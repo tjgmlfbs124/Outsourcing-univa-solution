@@ -11,7 +11,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		// TODO Auto-generated method stub
 		registry.addInterceptor(new LoginInterceptor())
 									.excludePathPatterns("/css/**", "/external/**", "/favicon/**", "/images/**", "/js/**","/scss/**","/widget/**")
 									.excludePathPatterns("/user/login", "/solution/**", "/css/**")

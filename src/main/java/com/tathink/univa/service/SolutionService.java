@@ -183,6 +183,9 @@ public class SolutionService {
 	public List<Subject> findAllSubjectOrderByName() {
 		return qRepository.findAllSubjectOrderByName();
 	}
+	public Optional<Subject> findSubjectOne(int id) {
+		return qRepository.findSubjectById(id);
+	}
 	
 	public List<Subject> findBySubjectName(String name) {
 		return qRepository.findBySubjectName(name);

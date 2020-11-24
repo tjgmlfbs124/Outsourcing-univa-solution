@@ -38,7 +38,7 @@ public class SolutionAnswerController {
 			@RequestParam("id") int id,
 			HttpSession session,
 			Model model) {
-		//TODO 보여줄 페이지
+		//TODO 나의 답변 보여줄 페이지
 		return "??";	
 	}
 }

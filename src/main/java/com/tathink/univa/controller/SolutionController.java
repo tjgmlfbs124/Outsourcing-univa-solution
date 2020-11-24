@@ -198,6 +198,20 @@ public class SolutionController {
 		}
 		return maps;
 	}
+	
+	/*TODO 해당 주제의 질문 찾기  */
+	@PostMapping("/solution/list/subject")
+	@ResponseBody
+	public String SolutionFindBySubject(@RequestParam int subject_id) {
+		Subject subject = sService.findSubjectOne(subject_id).orElse(null);
+		if(subject != null) {
+			//System.out.println(subject.getSoluions().toString());
+			for(SolutionSubject sol : subject.getSoluions()) {
+				System.out.println(Integer.toString(sol.getSolution().getId()));
+			}
+		}
+		return "hello?";
+	}
 
 	@PostMapping("/solution/test")
 	@ResponseBody
