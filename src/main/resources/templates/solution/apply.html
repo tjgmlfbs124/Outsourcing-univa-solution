@@ -61,7 +61,7 @@
                             <div class="row" id="subject-list">
                               <div class="col-6 col-md-4 col-lg-3" th:each="subjectList,num : ${subject_list}" >
                                 <div class="checkbox-group">
-                                  <input type="checkbox" th:id="'subjectBox' + ${num.index}">
+                                  <input type="checkbox" th:id="'subjectBox' + ${num.index}" th:data-id="${subjectList.id}">
                                   <label th:for="'subjectBox' + ${num.index}">
                                       <span class="check"></span>
                                       <span class="box"></span>
@@ -184,16 +184,16 @@
                         <div class="col-md-5">
                           <h5 class="pt-title">추가옵션</h5>
                           <div class="checkbox-group">
-                            <input type="checkbox" id="searcCheckBox01" name="isNew">
-                            <label for="searcCheckBox01">
+                            <input type="checkbox" id="isNewCheckBox" name="isNew">
+                            <label for="isNewCheckBox">
                                 <span class="check"></span>
                                 <span class="box"></span>
                                 <span class="tt-text">새로운 문제풀이</span>
                             </label>
                           </div>
                             <div class="checkbox-group">
-                              <input type="checkbox" id="searcCheckBox02" name="isDetail">
-                              <label for="searcCheckBox02">
+                              <input type="checkbox" id="isDetailCheckBox" name="isDetail">
+                              <label for="isDetailCheckBox">
                                   <span class="check"></span>
                                   <span class="box"></span>
                                   <span class="tt-text">풀이 상세설명</span>
@@ -266,11 +266,20 @@
   imagePreView(document.getElementById("imageFile_01"));
 
   function submit(){
+    var subjectForIndex = 0 ;
+    // 새로운 문제풀이, 상세설명이 체크되면 on으로 들어옴 >> 0 or 1로 대체
+    $("#isNewCheckBox").val($("#isNewCheckBox").is(":checked") == true ? 1 : 0);
+    $("#isDetailCheckBox").val($("#isDetailCheckBox").is(":checked")  == true ? 1 : 0);
+
+    // 과목 체크된 항목들을 input 태그로 생성 (post form으로 과목 id를 보내기위해)
     var list = $("#subject-list").children();
     for(var idx=0; idx<list.length; idx++){
-      var isChecked = $("#subjectBox"+idx).val();
-      console.log($("#subjectBox"+idx))
-      console.log("isChecked : " , isChecked);
+      var isChecked = $("#subjectBox"+idx).is(":checked");
+      if(isChecked){
+        var id = $("#subjectBox"+idx).data("id");
+        $("#subject-list").append("<input type=\"text\" name=\"subjects["+subjectForIndex+"].subject_id\" value=\""+id+"\" style=\"display:none;\"/>");
+        subjectForIndex++;
+      }
     }
     $("#submit").click();
   }
