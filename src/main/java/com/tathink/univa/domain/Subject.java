@@ -12,7 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.DynamicInsert;
+
 @Entity(name = "subject")
+@DynamicInsert
 public class Subject {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

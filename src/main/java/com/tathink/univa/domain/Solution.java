@@ -67,7 +67,7 @@ public class Solution {
 	@OneToOne(targetEntity=Answer.class, mappedBy="question", cascade = CascadeType.PERSIST)
 	private Answer answer;
 	
-	@OneToMany(mappedBy = "solution") // 오브젝트의 프로퍼티 명!
+	@OneToMany(targetEntity=SolutionSubject.class, mappedBy = "solution", cascade = CascadeType.PERSIST) // 오브젝트의 프로퍼티 명!
 	private Set<SolutionSubject> subjects;
 	
 	@OneToMany(targetEntity=SolutionChat.class, mappedBy = "solution", cascade = CascadeType.PERSIST)
@@ -194,7 +194,8 @@ public class Solution {
 		this.subjects = subjects;
 	}
 	public void addSubject(SolutionSubject subject) {
-		this.subjects.add(subject);
+		Set<SolutionSubject> mSubjects = getSubjects();
+		mSubjects.add(subject);
 	}
 	
 	public List<SolutionChat> getChats() {
