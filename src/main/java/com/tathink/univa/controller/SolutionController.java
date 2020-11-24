@@ -97,7 +97,7 @@ public class SolutionController {
 	public String SolutionApply(SolutionForm form, HttpSession session) {
 		sService.apply(form, session);
 		
-		return "redirect:/solution/list";
+		return "redirect:/solution/list?state=0"; // TODO 민맥스상태값 추가하기
 	}
 
 	@GetMapping("/solution/all")
