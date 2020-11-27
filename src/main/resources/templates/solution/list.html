@@ -43,11 +43,7 @@
                                     <span th:text="${list.title}">질문제목을 불러올수 없습니다.</span>
                                   </a>
                                 </h6>
-                                <p th:if="${list.state.id == 5}" th:text="'re : ' + ${list.review}" style="margin:0px;">리뷰 글</p>
-                                <!-- <span class="tt-color21 tt-badge"
-                                        th:if="${list?.isNew? != null}"
-                                        th:text="${list.isNew?} == true ? '새로운 문제풀이' : ''">상태</span>
-                                <span class="tt-color21 tt-badge" th:text="${list.state.name}">상태</span> -->
+                                <span class="tt-color09 tt-badge" th:each="subject : ${list.subjects}" th:text="${subject.subject.name}" style="margin-right:10px;"></span>
                                 <div class="row align-items-center no-gutters hide-desktope">
                                     <div class="col-9">
                                         <ul class="tt-list-badge">
@@ -64,9 +60,11 @@
                                 </div>
                             </div>
                             <div class="tt-col-category tt-col-value-large hide-mobile">
+                              <span class="tt-color21 tt-badge" th:if="${list.isNew != 0}">새 문제</span>
+                              <span class="tt-color21 tt-badge" th:if="${list.isDetail != 0}">상세풀이</span>
+                            </div>
+                            <div class="tt-col-category tt-col-value-large hide-mobile">
                               <span th:class="'tt-color0'+${list.state.id} + ' tt-badge'" th:text="${list.state.name}">상태</span>
-                              <!-- <span class="tt-color10 tt-badge" th:unless="${list.state.id == 4}" th:text="${list.state.name}"></span> -->
-
                             </div>
                             <div class="tt-col-value-large hide-mobile" style="width:120px; text-align:right;">
                               <a th:text="${#temporals.format(list.upload_date, 'yyyy-MM-dd')}">0000-00-00</a>
