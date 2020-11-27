@@ -29,7 +29,7 @@ public class UserController {
 
 	@GetMapping("/solution/user/login")
 	public String loginPage() {
-		return "/user/login/index";
+		return "user/login/index";
 	}
 
 	@PostMapping(value = {"/solution/user/login", "/solution/login"})
@@ -63,7 +63,7 @@ public class UserController {
 	
 	@GetMapping("/solution/user/signup")
 	public String userSignupPage() {
-		return "/user/login/signup";
+		return "user/login/signup";
 	}
 	
 	@PostMapping("/solution/user/signup")

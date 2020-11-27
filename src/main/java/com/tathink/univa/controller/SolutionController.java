@@ -51,6 +51,11 @@ public class SolutionController {
 		this.sService = qService;
 		this.userService = userService;
 	}
+	
+	@GetMapping("/")
+	public String IndexPage() {
+		return "redirect:/solution";
+	}
 
 	@GetMapping("/solution")
 	public String SolutionIndex(Model model, HttpSession session) {
@@ -97,7 +102,7 @@ public class SolutionController {
 	public String SolutionApply(SolutionForm form, HttpSession session) {
 		sService.apply(form, session);
 		
-		return "redirect:/solution/list?state=0"; // TODO 민맥스상태값 추가하기
+		return "redirect:/solution/list?state=0";
 	}
 
 	@GetMapping("/solution/all")
@@ -116,13 +121,13 @@ public class SolutionController {
 		if(userInfo != null) {			
 			if (userInfo.getSol_idx() == id && userInfo.getType() == 0 ) {
 				model.addAttribute("solution", solution);
-				return "/solution/detail";
+				return "solution/detail";
 			} else if ( userInfo.getType() == 1 && solution.getUser().getUsername().equals(userInfo.getUsername())) {
 				model.addAttribute("solution", solution);
-				return "/solution/detail";
+				return "solution/detail";
 			} else if( userInfo.getType() == 2) {
 				model.addAttribute("solution", solution);
-				return "/solution/detail";
+				return "solution/detail";
 			}
 			return "redirect:/solution/";
 		} else {
