@@ -132,6 +132,7 @@ public class SolutionService {
 			
 			//answerSub.setImage_ur(image_url);
 			if(mForm.getFile() != null) {
+			if(mForm.getFile() != null && mForm.getFile().getSize() > 0) {
 				String dirPath = "uploads/imgs/";
 				String randomStr = StringUtil.RandomString(20)+"/";
 				String imageUrl = randomStr+"img"+StringUtil.getExtension(mForm.getFile().getOriginalFilename()).get();
