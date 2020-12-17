@@ -62,6 +62,7 @@
                             <div class="tt-col-category tt-col-value-large hide-mobile">
                               <span class="tt-color21 tt-badge" th:if="${list.isNew != 0}">새 문제</span>
                               <span class="tt-color21 tt-badge" th:if="${list.isDetail != 0}">상세풀이</span>
+                              <span class="tt-color21 tt-badge" th:text="${list.language}">상세풀이</span>
                             </div>
                             <div class="tt-col-category tt-col-value-large hide-mobile">
                               <span th:class="'tt-color0'+${list.state.id} + ' tt-badge'" th:text="${list.state.name}">상태</span>
@@ -73,11 +74,25 @@
                         </div>
 
                         <div class="tt-row-btn">
-                            <button type="button" class="btn-icon js-topiclist-showmore">
-                                <svg class="tt-icon">
-                                  <use xlink:href="#icon-load_lore_icon"></use>
-                                </svg>
-                            </button>
+                          <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                              <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                  <span aria-hidden="true">&laquo;</span>
+                                  <span class="sr-only">Previous</span>
+                                </a>
+                              </li>
+                              <li class="page-item"><a class="page-link" href="#">1</a></li>
+                              <li class="page-item"><a class="page-link" href="#">2</a></li>
+                              <li class="page-item"><a class="page-link" href="#">3</a></li>
+                              <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                  <span aria-hidden="true">&raquo;</span>
+                                  <span class="sr-only">Next</span>
+                                </a>
+                              </li>
+                            </ul>
+                          </nav>
                         </div>
                     </div>
                 </div>
@@ -103,6 +118,9 @@
           if(result) window.location.href="/solution/detail?id="+id
           else window.alert("정보가 일치하지 않습니다.");
         })
+      }
+      else{
+        window.alert("비밀번호는 필수입니다.");
       }
     }
   }

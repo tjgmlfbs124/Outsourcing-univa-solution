@@ -42,7 +42,7 @@
                           <div class="form-group">
                               <a class="btn btn-secondary btn-block" onclick="onClickLogin()" style="color:#fff;">Log in</a>
                           </div>
-                          <p>간편로그인</p>
+                          <!-- <p>간편로그인</p>
                           <div class="row">
                               <div class="col">
                                   <div class="form-group">
@@ -58,8 +58,8 @@
                                       </a>
                                   </div>
                               </div>
-                          </div>
-                          <p>비밀번호를 잊으셨나요?<a href="#" class="tt-underline" style="float:right;">비밀번호 찾기</a></p>
+                          </div> -->
+                          <!-- <p>비밀번호를 잊으셨나요?<a href="#" class="tt-underline" style="float:right;">비밀번호 찾기</a></p> -->
                           <div class="tt-notes">
                               copyright(c) 2020 All rights reserved by Univa.
                           </div>
@@ -74,6 +74,14 @@
    </body>
 
    <script>
+    $(document).keypress(function (event) {
+
+      var keycode = (event.keyCode ? event.keyCode : event.which);
+      if (keycode == '13') {
+        onClickLogin();
+      }
+    });
+
     function onClickLogin(){
       postAPI("/solution/user/login", JSON.stringify({
         "username" : $("input[name=username]").val(),

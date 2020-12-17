@@ -118,3 +118,8 @@ function on(index, data){
     }
   })
 }
+
+// 사진 클릭시 새창이동
+function newWindowImage(url){
+  window.open('/solution/img?id=' + url, '_black');
+}

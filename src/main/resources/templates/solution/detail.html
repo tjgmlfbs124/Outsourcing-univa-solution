@@ -12,6 +12,8 @@
          <div class="container" style="max-width:1600px;">
             <div class="tt-messages-layout">
                <div class="row no-gutters">
+
+                 <!-- 채팅 Layout -->
                   <div class="col-md-3 tt-aside" id="js-aside">
                     <a class="tt-title-aside">
                         <h2 class="tt-title">
@@ -27,36 +29,35 @@
                         <div class="tt-list-avatar js-init-scroll" id="chat-row">
                           <a class="tt-item" th:each="chats : ${solution.chats}">
 
-                            <div class="tt-col-avatar" th:if="${chats.writer == 2}">
+                            <!-- 프로필 -->
+                            <div class="tt-col-avatar" >
                               <svg class="tt-icon">
-                                <use xlink:href="#icon-ava-a">
+                                <use th:xlink:href="${chats.writer} == 2 ? '#icon-ava-a' : '#icon-ava-q'">
                               </use>
                               </svg>
                             </div>
 
-                            <div class="tt-col-avatar" th:unless="${chats.writer == 2}">
-                              <svg class="tt-icon">
-                                <use xlink:href="#icon-ava-q">
-                              </use>
-                              </svg>
-                            </div>
-
+                            <!-- 닉네임 or 직책 -->
                             <div class="tt-col-description">
                             <h4 class="tt-title">
-                              <span th:text="${chats.writer} == 2 ? '운영자' : '질문자'">작성자</span>
+                              <span th:text="${chats.writer} == 2 ? '운영자' : '질문자(' + ${solution.user?.nickname} + ')'">작성자</span>
                               <span class="time" th:text="${#temporals.format(chats.date, 'hh:mm')}">date</span>
                             </h4>
+
+                            <!-- 채팅 내용-->
                             <div class="tt-message" th:if="${chats.type == 'CHAT'}" >
                               <p th:utext="${#strings.replace( #strings.escapeXml( chats.content ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></p>
                             </div>
-                            <div class="tt-message" th:unless="${chats.type == 'CHAT'}">
-                              <p>
-                                <img class="tt-offset-11" th:src="'img?id=' + ${chats.content}" alt="" style="max-width:200px;"></img>
+                            <div class="tt-message" th:unless="${chats.type == 'CHAT'}" th:onclick="newWindowImage([[${chats.content}]])">
+                              <p >
+                                <img class="tt-offset-11" th:src="'img?id=' + ${chats.content}" alt="" style="max-width:200px; max-height:300px; width:auto; height:auto;" th:data-src="'img?id=' + ${chats.content}" ></img>
                               </p>
                             </div>
                           </div>
                         </a>
                         </div>
+
+                        <!-- 채팅 쓰기 -->
                         <form class="pt-editor form-default" id="chat-form" enctype="multipart/form-data">
                            <h6 class="pt-title">질문에 대해 궁금한점을 물어보세요.</h6>
                            <div class="form-group">
@@ -72,6 +73,7 @@
                               </div>
                            </div>
                         </form>
+
                      </div>
                   </div>
                   <div class="col-md-9">
@@ -80,6 +82,8 @@
                            <div class="tt-item">
                               <div class="tt-single-topic">
                                  <div class="tt-item-header">
+
+                                   <!-- 게시물정보 -->
                                     <div class="tt-item-info info-top">
                                        <div class="tt-avatar-icon">
                                           <i class="tt-icon">
@@ -103,19 +107,26 @@
                                           </svg>
                                        </a>
                                     </div>
+
+                                    <!-- 질문제목 -->
                                     <h3 class="tt-item-title">
                                        <a th:text="${solution.title}">질문제목</a>
                                     </h3>
+
+                                    <!-- 과목 태그리스트 -->
                                     <div class="tt-item-tag">
-                                       <ul class="tt-list-badge">
-                                          <li><a ><span class="tt-badge">과목이름</span></a></li>
-                                          <li><a ><span class="tt-badge">과목이름333</span></a></li>
+                                       <ul class="tt-list-badge" th:if="${#lists.size(solution.subjects)} > 0">
+                                          <li th:each="list : ${solution.subjects}"><a><span class="tt-badge" th:text="${list.subject.name}"></span></a></li>
                                        </ul>
                                     </div>
+
+                                    <!-- 질문 내용-->
                                     <div class="tt-item-description" >
                                       <p th:utext="${#strings.replace( #strings.escapeXml( solution.content ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}">문제내용</p>
                                     </div>
                                  </div>
+
+                                 <!-- 질문 내용 + 사진 슬라이드 -->
                                  <div id="questionSlider" class="carousel slide" data-ride="carousel" style="padding:10px 10px 30px 10px;" data-interval="false">
                                     <a id="screenShot" style="display:none;"></a>
                                     <ol class="carousel-indicators" style="margin:0px;">
@@ -131,10 +142,14 @@
                                           style="padding:30px;"
                                           th:each="problems,num : ${solution.problem}"
                                           th:classappend="${num.index} == 0 ? active">
-                                          <img class="d-block" th:src="'/solution/img?id=' + ${problems.image_url}" style="max-width:30%; margin-left:3%; float:left;  max-height:300px;"/>
+                                          <img class="d-block"
+                                                style="max-width:30%; margin-left:3%; float:left;  max-height:300px; cursor:pointer;"
+                                                th:src="${problems.image_url} != null  ? '/solution/img?id=' + ${problems.image_url} : '/images/img-thumb.jpg'"
+                                                th:onclick="newWindowImage([[${problems.image_url}]])"/>
                                           <div class="d-block" style="max-width:60%; margin-left:7%; float:left;">
-                                            <!-- <p style="word-break:break-all;" th:text="${problems.text}">asdfasd</p> -->
-                                             <p style="word-break:break-all;" th:utext="${#strings.replace( #strings.escapeXml( problems.text ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}">asdfasd</p>
+                                             <p style="word-break:break-all;"
+                                                th:utext="${problems.text} == '' ? '사진에 대한 설명이 없습니다.' : ${#strings.replace( #strings.escapeXml( problems.text ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"
+                                                ></p>
                                           </div>
                                        </div>
                                     </div>
@@ -147,6 +162,7 @@
                                     <span class="sr-only">Next</span>
                                     </a>
                                  </div>
+
                               </div>
                            </div>
                            <div class="tt-item tt-wrapper-success" th:if="${solution.state.id > 3}">
@@ -190,9 +206,9 @@
                                           style="padding:30px;"
                                           th:each="answers,num : ${solution.answer.answer_sub}"
                                           th:classappend="${num.index} == 0 ? active">
-                                          <img class="d-block" th:src="'/solution/img?id=' + ${answers.image_url}" style="max-width:30%; margin-left:3%; float:left; max-height:300px;"/>
+                                          <img class="d-block" th:src="${answers.image_url} != null  ? '/solution/img?id=' + ${answers.image_url} : '/images/img-thumb.jpg'"style="max-width:30%; margin-left:3%; float:left; max-height:300px; cursor:pointer;" th:onclick="newWindowImage([[${answers.image_url}]])"/>
                                           <div class="d-block" style="max-width:60%; margin-left:7%; float:left;">
-                                            <p style="word-break:break-all;" th:utext="${#strings.replace( #strings.escapeXml( answers.text ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}">asdfasd</p>
+                                            <p style="word-break:break-all;" th:utext="${answers.text} == '' ? '사진에 대한 설명이 없습니다.' : ${#strings.replace( #strings.escapeXml( answers.text ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}">asdfasd</p>
                                           </div>
                                        </div>
                                     </div>
@@ -234,10 +250,10 @@
                                     <div class="form-group">
                                        <a class="tt-button-icon" style="cursor:pointer;">
                                        <span class="tt-icon">
-                                       <img style="max-width:120px; max-height:120px; min-width:120px; min-height:120px;" id="image_01" onclick="ajaxFileUpload('1')">
-                                       <input type="file" name="answerSub[0].file" id="imageFile_01" style="display:none;">
-                                       <input type="text" name="answerSub[0].number" style="display:none;" value="0">
-                                       <input type="text" name="solution_id" style="display:none;" value="0" th:value="${param.id}">
+                                         <img style="max-width:120px; max-height:120px; min-width:120px; min-height:120px;" id="image_01" onclick="ajaxFileUpload('1')">
+                                         <input type="file" name="answerSub[0].file" id="imageFile_01" style="display:none;">
+                                         <input type="text" name="answerSub[0].number" style="display:none;" value="0">
+                                         <input type="text" name="solution_id" style="display:none;" value="0" th:value="${param.id}">
                                        </span>
                                        </a>
                                     </div>

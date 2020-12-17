@@ -18,7 +18,7 @@
                       <div class="tt-value-wrapper">
                           <input type="text" name="nickname" class="form-control" placeholder="닉네임을 입력하세요"
                                   th:value="${session.user?.username} != null ? ${session.user?.username}"
-                                  th:disabled="${session.user?.username} != null ? 'true'">
+                                  th:disabled="${session.user?.username} != null ? 'true'" required>
                       </div>
                       <div class="tt-note">자신의 질문을 검색할때 사용됩니다.</div>
                     </div>
@@ -27,9 +27,9 @@
                     <div class="form-group">
                         <label for="inputTopicTitle">등록 비밀번호</label>
                         <div class="tt-value-wrapper">
-                            <input type="password" name="password" class="form-control" placeholder="원하는 과목을 입력하세요"
+                            <input type="password" name="password" class="form-control" placeholder="비밀번호를 입력하세요"
                                     th:value="${session.user?.username} != null ? ${session.user?.password}"
-                                    th:disabled="${session.user?.username} != null ? 'true'">
+                                    th:disabled="${session.user?.username} != null ? 'true'" required>
                         </div>
                         <div class="tt-note">자신의 질문을 조회할때 사용됩니다.</div>
                     </div>
@@ -40,8 +40,7 @@
                     <div class="form-group">
                       <label for="inputTopicTitle">대표 질문제목</label>
                       <div class="tt-value-wrapper">
-                          <input type="text" name="title" class="form-control" placeholder="제목을 입력하세요">
-                          <span class="tt-value-input">99</span>
+                          <input type="text" name="title" class="form-control" placeholder="제목을 입력하세요" required>
                       </div>
                     </div>
                   </div>
@@ -201,51 +200,50 @@
                             </div>
                             <div class="form-group">
                                 <select class="form-control" name="language">
-                                    <option value="default">풀이 언어</option>
-                                    <option value="korean">한국어</option>
-                                    <option value="english">English</option>
+                                    <option value="Default">풀이 언어</option>
+                                    <option value="KO">한국어</option>
+                                    <option value="EN">English</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-7">
                             <h5 class="pt-title">마감일</h5>
                             <div class="form-group" style="float:left;">
-                                <select class="form-control" name="year">
-                                    <option value="Select">2020</option>
-                                    <option value="Value 01">2021</option>
-                                    <option value="Value 02">2021</option>
-                                    <option value="Value 02">2022</option>
-                                    <option value="Value 02">2023</option>
+                                <select class="form-control" id="select-year">
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
                                 </select>
                             </div>
                             <div class="form-group" style="float:left; margin:0px 20px 0px 20px;">
-                                <select class="form-control" name="month">
-                                    <option value="Select">01</option>
-                                    <option value="Value 01">02</option>
-                                    <option value="Value 02">03</option>
-                                    <option value="Value 02">04</option>
-                                    <option value="Value 02">05</option>
-                                    <option value="Value 02">06</option>
-                                    <option value="Value 02">07</option>
-                                    <option value="Value 02">08</option>
-                                    <option value="Value 02">09</option>
-                                    <option value="Value 02">10</option>
-                                    <option value="Value 02">11</option>
-                                    <option value="Value 02">12</option>
+                                <select class="form-control" id="select-month">
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
                                 </select>
                             </div>
                             <div class="form-group" style="float:left;">
-                                <select class="form-control" name="day">
-                                    <option value="Select">01</option><option value="Value 01">02</option><option value="Value 01">03</option><option value="Value 01">04</option>
-                                    <option value="Value 01">05</option><option value="Value 01">06</option><option value="Value 01">07</option><option value="Value 01">08</option>
-                                    <option value="Value 01">09</option><option value="Value 01">10</option><option value="Value 01">11</option><option value="Value 01">12</option>
-                                    <option value="Value 01">13</option><option value="Value 01">14</option><option value="Value 01">15</option><option value="Value 01">16</option>
-                                    <option value="Value 01">17</option><option value="Value 01">18</option><option value="Value 01">19</option><option value="Value 01">20</option>
-                                    <option value="Value 01">21</option><option value="Value 01">22</option><option value="Value 01">23</option><option value="Value 01">24</option>
-                                    <option value="Value 01">25</option><option value="Value 01">26</option><option value="Value 01">27</option><option value="Value 01">28</option>
-                                    <option value="Value 01">29</option><option value="Value 01">30</option><option value="Value 01">31</option>
+                                <select class="form-control" id="select-day">
+                                    <option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option>
+                                    <option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                                    <option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option>
+                                    <option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option>
+                                    <option value="25">25</option><option value="26">26</option><option value="27">270</option><option value="28">28</option><option value="29">29</option><option value="30">30</option>
+                                    <option value="31">31</option>
                                 </select>
                             </div>
+                            <input type="text" name="limit_date" style="display:none;"/>
                         </div>
                     </div>
                      <div class="row">
@@ -264,6 +262,8 @@
 <script>
   // 미리보기 이미지등록
   imagePreView(document.getElementById("imageFile_01"));
+  selectLimitDate();
+
 
   function submit(){
     var subjectForIndex = 0 ;
@@ -321,6 +321,17 @@
         $("#subjectList").slideDown();
     }
   }
+
+  function selectLimitDate(){
+    var year =  $("#select-year").val();
+    var month =  $("#select-month").val();
+    var day =  $("#select-day").val();
+    $("input[name=limit_date]").val(year + "-" + month + "-" + day + "T" + "23:59:59");
+  }
+
+  $('select').change(function() {
+    selectLimitDate();
+  })
 
   // 질문 row 추가
   function addQuestion(){
