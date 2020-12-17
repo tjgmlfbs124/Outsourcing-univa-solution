@@ -58,6 +58,7 @@ public class UserService {
 				User solutionUser = solution.getUser();
 				UserLoginForm tempForm = new UserLoginForm();
 				tempForm.setSol_idx(solution.getId());
+				tempForm.setIdx(solutionUser.getId());
 				tempForm.setName(solutionUser.getNickname());
 				tempForm.setPassword(solutionUser.getPassword());
 				tempForm.setType(0);

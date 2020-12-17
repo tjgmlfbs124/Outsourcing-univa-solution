@@ -93,8 +93,13 @@ public class SolutionController {
 	}
 
 	@GetMapping("/solution/apply")
-	public String SolutionApplyPage(Model model) {
+	public String SolutionApplyPage(Model model, HttpSession session) {
 		model.addAttribute("subject_list", sService.findAllSubjectOrderByName());
+		UserLoginForm userForm = (UserLoginForm) session.getAttribute("user");
+		
+		if (userForm.getType() == 0) {
+			userService.logout(session);
+		}
 		return "solution/apply";
 	}
 
