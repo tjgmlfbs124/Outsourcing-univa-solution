@@ -97,7 +97,7 @@ public class SolutionController {
 		model.addAttribute("subject_list", sService.findAllSubjectOrderByName());
 		UserLoginForm userForm = (UserLoginForm) session.getAttribute("user");
 		
-		if (userForm.getType() == 0) {
+		if (userForm != null && userForm.getType() == 0) {
 			userService.logout(session);
 		}
 		return "solution/apply";
