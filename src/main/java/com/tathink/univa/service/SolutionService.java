@@ -131,7 +131,6 @@ public class SolutionService {
 			answerSub.setText(mForm.getText());
 			
 			//answerSub.setImage_ur(image_url);
-			if(mForm.getFile() != null) {
 			if(mForm.getFile() != null && mForm.getFile().getSize() > 0) {
 				String dirPath = "uploads/imgs/";
 				String randomStr = StringUtil.RandomString(20)+"/";
