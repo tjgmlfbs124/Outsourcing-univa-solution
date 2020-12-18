@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+   <head th:replace="solution/widget/head :: head"></head>
+<body>
+  <!-- tt-mobile menu -->
+  <nav th:replace="solution/widget/mobile-menu :: m-menu"></nav>
+  <header th:replace="solution/widget/pc-menu :: p-menu"></header>
+
+  <main id="tt-pageContent" class="tt-offset-small">
+      <div class="container">
+          <div class="tt-tab-wrapper" style="cursor:pointer;">
+              <div class="tt-wrapper-inner">
+                  <ul class="nav nav-tabs pt-tabs-default" role="tablist" id="tab-list">
+                      <li class="nav-item show" onclick="loadTab(this, 'intro');">
+                          <a class="nav-link active" data-toggle="tab" role="tab"><span>소개</span></a>
+                      </li>
+                      <li class="nav-item" onclick="loadTab(this, 'terms');">
+                          <a class="nav-link" data-toggle="tab" role="tab"><span>이용약관</span></a>
+                      </li>
+                      <li class="nav-item" onclick="loadTab(this, 'use');">
+                          <a class="nav-link" data-toggle="tab" role="tab"><span>이용방법</span></a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+          <div class="tab-content" id="tab-content" style="margin-top:10px;">
+
+          </div>
+      </div>
+    </main>
+</body>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script>
+  $("#tab-content").load("/solution/help/intro");
+
+  function loadTab(target, page){
+    $("#tab-content").load("/solution/help/" + page);
+    removeClass();
+    (target.children[0]).classList.add("active");
+  }
+
+  function removeClass(){
+    var lists = $("#tab-list").children();
+    for(var idx=0; idx<lists.length; idx++){
+      (lists[idx].children[0]).classList.remove("active");
+    }
+  }
+
+</script>
+</html>

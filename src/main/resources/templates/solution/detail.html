@@ -142,10 +142,13 @@
                                           style="padding:30px;"
                                           th:each="problems,num : ${solution.problem}"
                                           th:classappend="${num.index} == 0 ? active">
+                                          <!-- 질문 사진 -->
                                           <img class="d-block"
                                                 style="max-width:30%; margin-left:3%; float:left;  max-height:300px; cursor:pointer;"
                                                 th:src="${problems.image_url} != null  ? '/solution/img?id=' + ${problems.image_url} : '/images/img-thumb.jpg'"
                                                 th:onclick="newWindowImage([[${problems.image_url}]])"/>
+
+                                          <!-- 사진에 대한 설명 -->
                                           <div class="d-block" style="max-width:60%; margin-left:7%; float:left;">
                                              <p style="word-break:break-all;"
                                                 th:utext="${problems.text} == '' ? '사진에 대한 설명이 없습니다.' : ${#strings.replace( #strings.escapeXml( problems.text ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"
@@ -153,10 +156,13 @@
                                           </div>
                                        </div>
                                     </div>
+                                    <!-- 슬라이더 왼쪽 화살표 -->
                                     <a class="carousel-control-prev" href="#questionSlider" role="button" data-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span class="sr-only">Previous</span>
                                     </a>
+
+                                    <!-- 슬라이더 오른쪽 화살표 -->
                                     <a class="carousel-control-next" href="#questionSlider" role="button" data-slide="next">
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                     <span class="sr-only">Next</span>
@@ -165,9 +171,14 @@
 
                               </div>
                            </div>
+
+
+                           <!-- 운영자 답변 -->
                            <div class="tt-item tt-wrapper-success" th:if="${solution.state.id > 3}">
                               <div class="tt-single-topic" style="padding:30px 30px 30px 30px;">
                                  <div class="tt-item-header pt-noborder">
+
+                                   <!-- 운영자 정보, 등록날짜-->
                                     <div class="tt-item-info info-top">
                                        <div class="tt-avatar-title" style="padding-left:0px;">
                                           <i class="tt-icon" style="float:left;">
@@ -189,9 +200,13 @@
                                        </a>
                                     </div>
                                  </div>
+
+                                 <!-- 대표 답변 내용 -->
                                  <div class="tt-item-description">
-                                    <h6 class="tt-title" th:text="${solution.answer.content}">대답 내용</h6>
+                                    <h6 class="tt-title" th:text="${solution.answer.content}"></h6>
                                  </div>
+
+                                 <!-- 답변 내용 (슬라이드) -->
                                  <div id="answerSlider" class="carousel slide" data-ride="carousel" style="padding:50px 10px 30px 10px;" data-interval="false">
                                     <ol class="carousel-indicators" style="margin:0px;">
                                        <li
@@ -206,7 +221,11 @@
                                           style="padding:30px;"
                                           th:each="answers,num : ${solution.answer.answer_sub}"
                                           th:classappend="${num.index} == 0 ? active">
+
+                                          <!-- 슬라이드 > 사진 -->
                                           <img class="d-block" th:src="${answers.image_url} != null  ? '/solution/img?id=' + ${answers.image_url} : '/images/img-thumb.jpg'"style="max-width:30%; margin-left:3%; float:left; max-height:300px; cursor:pointer;" th:onclick="newWindowImage([[${answers.image_url}]])"/>
+
+                                          <!-- 슬라이드 > 사진에 대한 설명 -->
                                           <div class="d-block" style="max-width:60%; margin-left:7%; float:left;">
                                             <p style="word-break:break-all;" th:utext="${answers.text} == '' ? '사진에 대한 설명이 없습니다.' : ${#strings.replace( #strings.escapeXml( answers.text ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}">asdfasd</p>
                                           </div>
@@ -227,6 +246,8 @@
                               <span>You’ve reached the end of replies</span>
                            </h4>
                         </div>
+
+                        <!-- 운영자 답변달기 폼  (접속한자가 운영자일때, 질문상태가 답변완료 이전일때만 나타남)-->
                         <form th:if="${session.user?.username != null and solution.state.id < 4 && session.user?.type == 2}" action="/solution/answer" enctype="multipart/form-data" method="POST">
                            <div class="pt-editor form-default" id="answer-row">
                               <h6 class="pt-title">질문에 대한 답변을 입력해주세요.</h6>
@@ -281,6 +302,8 @@
                               </div>
                            </div>
                         </form>
+
+                        <!-- 리뷰 및 별점 작성 폼 (질문자 전용, 답변이 달렸을때만 나타남) -->
                         <form th:if="${session.user?.type != 2 and solution.state.id == 4}" action="/solution/review" enctype="multipart/form-data" method="POST">
                            <div class="pt-editor form-default">
                               <h6 class="pt-title">만족하셨다면 리뷰를 작성해주세요.</h6>
@@ -307,6 +330,8 @@
                               </div>
                            </div>
                         </form>
+
+                        <!-- 리뷰 및 별점 (리뷰 및 별점이 작성된 상태에서만 나타남) -->
                         <div th:if="${solution.state.id > 4}">
                            <div class="pt-editor form-default">
                               <h6 class="pt-title" style="float:left; margin-right:10px;">Review</h6>

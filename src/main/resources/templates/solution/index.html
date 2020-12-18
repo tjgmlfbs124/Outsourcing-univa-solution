@@ -19,6 +19,8 @@
                <h1 class="tt-title-border" style="text-align:left;">
                   최근 등록된 문제
                </h1>
+
+               <!-- 최근 등록된 문제 리스트-->
                <div th:each="list : ${solutions}" class="tt-item"  th:onclick="onClickList([[${list.id}]]);" style="cursor:pointer;">
                   <div class="tt-col-avatar">
                      <svg class="tt-icon">
@@ -28,10 +30,10 @@
                   <div class="tt-col-description">
                      <h6 class="tt-title">
                         <a>
-                          <span th:text="${list.title}">질문제목을 불러올수 없습니다.</span>
+                          <span th:text="${list.title}"></span>
                         </a>
                      </h6>
-                     <p th:text="'re : ' + ${list.review}">리뷰 글</p>
+                     <p th:text="'re : ' + ${list.review}"></p>
                      <div class="row align-items-center no-gutters hide-desktope">
                         <div class="col-9">
                            <ul class="tt-list-badge">
@@ -44,7 +46,6 @@
                         </div>
                         <div class="col-3 ml-auto show-mobile" style="margin-right:30px;">
                           <div class="tt-value"><span th:text="${#temporals.format(list.upload_date, 'yyyy-MM-dd')}">0000-00-00</span></div>
-                          <!-- <div class="tt-value"><span th:text="${list.upload_date}">0000-00-00</span></div> -->
                         </div>
                      </div>
                   </div>
@@ -55,6 +56,7 @@
                     <span th:text="${#temporals.format(list.upload_date, 'yyyy-MM-dd')}">0000-00-00</span>
                   </div>
                </div>
+
             </div>
          </div>
          </div>

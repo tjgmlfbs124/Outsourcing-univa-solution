@@ -9,6 +9,8 @@
 <main id="tt-pageContent" class="tt-offset-small">
     <div class="container">
         <div class="tt-tab-wrapper" style="cursor:pointer;">
+
+          <!-- 상단 탭 -->
             <div class="tt-wrapper-inner">
                 <ul class="nav nav-tabs pt-tabs-default" role="tablist">
                     <li class="nav-item show" onclick="location.href='/solution/list?min=0&max=10&state=0'">
@@ -25,9 +27,13 @@
                     </li>
                 </ul>
             </div>
+
+            <!-- 하단 리스트 -->
             <div class="tab-content">
                 <div class="tab-pane tt-indent-none show active" role="tabpanel" >
                    <div class="tt-topic-list">
+
+                      <!-- 각 리스트배열  -->
                         <div class="tt-item" th:onclick="onClickList([[${list.id}]]);" th:each="list : ${solutions}">
                             <div class="tt-col-avatar">
                                 <svg class="tt-icon">
@@ -35,15 +41,21 @@
                                 </svg>
                             </div>
                             <div class="tt-col-description">
+
+                                <!-- 제목-->
                                 <h6 class="tt-title">
                                   <a >
                                     <svg class="tt-icon">
                                       <use xlink:href="#icon-locked"></use>
                                     </svg>
-                                    <span th:text="${list.title}">질문제목을 불러올수 없습니다.</span>
+                                    <span th:text="${list.title}">.</span>
                                   </a>
                                 </h6>
+
+                                <!-- 과목 -->
                                 <span class="tt-color09 tt-badge" th:each="subject : ${list.subjects}" th:text="${subject.subject.name}" style="margin-right:10px;"></span>
+
+                                <!-- 질문 상태, 날짜 -->
                                 <div class="row align-items-center no-gutters hide-desktope">
                                     <div class="col-9">
                                         <ul class="tt-list-badge">
@@ -59,6 +71,8 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- 새문제, 상세풀이, 언어 -->
                             <div class="tt-col-category tt-col-value-large hide-mobile">
                               <span class="tt-color21 tt-badge" th:if="${list.isNew != 0}">새 문제</span>
                               <span class="tt-color21 tt-badge" th:if="${list.isDetail != 0}">상세풀이</span>
@@ -72,6 +86,8 @@
                               <a th:text="${#temporals.format(list.upload_date, 'HH:mm')}" style="text-align:right;">0000-00-00</a>
                             </div>
                         </div>
+
+
 
                         <div class="tt-row-btn">
                           <nav aria-label="Page navigation example">
